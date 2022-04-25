@@ -1,0 +1,47 @@
+section{
+    display: flex;
+    align-items: center;
+    gap: 5%;
+}
+
+main div{
+    padding: 0 0 0 3%;
+}
+
+main{
+    padding: 4% 8%;
+    box-sizing: border-box;
+}
+
+p, h2{
+    margin-bottom: 3%;
+}
+
+blockquote{
+    margin-left: 15%;
+}
+
+
+@media only screen and (max-width: 912px){
+
+    #oprojeto {
+        flex-direction: column-reverse;
+    }
+    
+    
+    #comosurgiu {
+        flex-direction: column;
+    }
+
+    div{
+        padding: 5% 0;
+    }
+
+ 
+
+
+
+
+
+
+}

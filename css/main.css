@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+
+  }
+
+body{
+    background-color: #F6F5FA;
+    font-family:'Poppins', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1rem;
+    line-height: 1.6rem;
+}
+
+.container{
+    background: #EDF0FF;
+    display: flex;
+}
+
+/* ----Text---- */
+p{
+    color: #251650;
+}
+
+span {
+    font-weight: 700;
+}
+
+h1{
+    font-size: 3.6rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 3.8rem;
+    text-transform: uppercase;
+}
+
+h2{
+    font-size: 17px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #7C68F0;
+    letter-spacing: .15rem;
+}
+
+h3{
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.2rem;
+
+}
+
+figcaption{
+    text-align: center;
+    font-size: 10px;
+}
+
+/* ----Button---- */
+
+.button{
+    background-color: #5C45ED;
+    border: none;
+    font-family:'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #FFFFFF;
+    padding: .8rem 2rem;
+    margin: 3% 3% 0 3%;
+    letter-spacing: .1rem;
+    border-radius: 6px;
+}
+
+.button:hover{
+    background-color: #4534B2;
+    color: #BB86FC;
+}
+
+
+/* ----Footer---- */
+
+footer{
+    background-color: #fff;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 3% 10%;
+}
+
+#logo img{
+    height: 42px;
+}
+
+.socialmedia{ 
+    display: block;
+
+}
+
+.socialmedia p {
+    margin:0 20px 0 0;
+}
+
+.socialmedia img{
+    width:20px;
+    padding: 4px 6px 0 0;
+}
+
+#link{
+    color:#251650;
+    font-weight: 700;
+    padding: 0 2% 0 0;
+}
+
+#link:hover{
+    color: #5C45ED;
+}
+
+@media only screen and (max-width: 912px) {
+    body{
+        font-size: 0.7rem;
+    }
+   footer {
+      display:block; 
+      padding: 10%;
+   } 
+
+   footer div{ 
+       padding: 2% 0;
+   }
+
+    .socialmedia a{
+        padding: 0 2% 0 0;
+ } 
+
+ .socialmedia p {
+    margin:0 0 8px 0;
+}
+
+
+
+h1{
+    font-size: 2.2rem;
+    line-height: 2.4rem;
+}
+}

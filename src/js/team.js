@@ -14,7 +14,7 @@ function handleTeamResponse(response) {
                 image.src = `data:image/png;base64, ${teamMember.photo}`;
             }
             else {
-                image.src = 'images/teamcardimg.png';
+                image.src = 'src/images/teamcardimg.png';
             }
 
             const name = createCardContent('nome', teamMember.name);

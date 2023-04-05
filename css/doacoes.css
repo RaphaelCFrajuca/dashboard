@@ -1,0 +1,58 @@
+section{
+    margin: 5% 10%;
+}
+
+#querocontribuir, #bannergooders{
+display: flex;
+justify-content:space-between;
+gap: 5%;
+align-items: center;
+}
+
+
+#querocontribuir p,  #bannergooders{ 
+    margin: 2% 0;
+}
+
+#querocontribuir, #bannergooders{ 
+    padding: 4%;
+    border-radius: 6px;
+}
+
+
+#buttongooders {
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.1rem;
+   }
+
+#buttongooders img{
+ height: 24px;
+}
+
+@media only screen and (max-width: 912px){
+    #querocontribuir, #bannergooders{
+        flex-direction: column;
+    }
+
+    section{
+        margin: 0 5% 5% 5%;
+    }
+
+   p, div{
+        padding:3% 0;
+    }
+
+    #bannergooders{
+        padding: 8%;
+    }
+
+   #buttongooders{
+        max-width: 40%;
+        margin: 3% 3% 0 3%;
+    }
+
+
+
+
+}

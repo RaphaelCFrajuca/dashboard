@@ -1,0 +1,56 @@
+section{
+    padding: 5% 10% 0 10%
+}
+
+section p:not(.teamcard p){
+    padding: 1% 30% 2% 0;
+}
+
+.team {
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap:4%;
+}
+
+.teamcard {
+    padding: 16% 0 0 0;
+}
+
+.teamcard img {
+    max-width: 100%;
+    box-sizing: border-box;
+    width: auto;
+    max-height: 20em;
+}
+
+.pronomes{
+    color:#5B3CF1;
+    font-size:.8rem;
+    font-weight: 500;
+}
+
+.nome{
+    font-size:0.9rem;
+    font-weight: 700;
+}
+
+.cargo{
+    font-size:.8rem;
+}
+
+
+@media only screen and (max-width: 912px) {
+    section{
+        padding: 10% 10% 0 10%
+    }
+    
+    
+    section p:not(.teamcard p){
+        padding: 2% 0;
+    }
+
+    .team {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 6%;
+    }
+}

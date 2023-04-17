@@ -22,6 +22,8 @@
 
 <!-- Ao menos um dos campos devem possuir marcações. -->
 
+test
+
 #### Testes Unitários:
 
 - [ ] Cobertura global de ao menos 80%

@@ -1,4 +1,4 @@
-### O que foi feito? 
+### O que foi feito?
 
 <!-- Descreva a futura versão após o merge -->
 

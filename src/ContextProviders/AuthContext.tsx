@@ -11,8 +11,8 @@ import getRefreshToken from '../services/GetRefreshToken';
 export interface AuthContextType {
   accessToken: string | null;
   refreshToken: string | null;
-  setAccessToken: (token: string | null) => void;
-  setRefreshToken: (token: string | null) => void;
+  setAccessToken: (token: string) => void;
+  setRefreshToken: (token: string) => void;
   handleLogout: () => void;
 }
 interface JwtPayload {
@@ -37,26 +37,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [accessToken, setAccessToken] = useState<string | null>(
-    localStorage.getItem('access_token')
+    localStorage.getItem('access_token') as string
   );
   const [refreshToken, setRefreshToken] = useState<string | null>(
     localStorage.getItem('refresh_token')
   );
 
-  const handleSetAccessToken = (token: string | null) => {
-    if (refreshToken === null) {
-      return;
-    }
+  const handleSetAccessToken = (token: string) => {
     setAccessToken(token);
-    localStorage.setItem('access_token', token || '');
+    localStorage.setItem('access_token', token);
   };
 
-  const handleSetRefreshToken = (token: string | null) => {
-    if (refreshToken === null) {
-      return;
-    }
+  const handleSetRefreshToken = (token: string) => {
     setRefreshToken(token);
-    localStorage.setItem('refresh_token', token || '');
+    localStorage.setItem('refresh_token', token);
   };
 
   const handleLogout = () => {
@@ -68,11 +62,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   useEffect(() => {
+    const fetchRefresh = async () => {
+      const response: string = await getRefreshToken(refreshToken as string);
+      return response;
+    };
     const now = Date.now() / 1000;
     if (accessToken === null || refreshToken === null) {
       if (window.location.pathname !== '/login')
         window.location.href = '/login';
-    } else if (accessToken !== refreshToken) {
+    } else if (accessToken != refreshToken) {
       const decodedToken: JwtPayload = jwt_decode(accessToken);
       if (decodedToken.exp - now < 5 * 60) {
         handleSetAccessToken(refreshToken);
@@ -83,14 +81,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       const decodedRefreshToken: JwtPayload = jwt_decode(refreshToken);
       if (decodedRefreshToken.exp < now) {
         handleLogout();
-      } else if (decodedRefreshToken.exp - now < 9999 * 60) {
-        const newRefreshToken = async () => {
-          const response = await getRefreshToken(refreshToken);
-          return response;
-        };
-        if (typeof newRefreshToken === 'string') {
-          handleSetRefreshToken(newRefreshToken);
-        }
+      } else if (decodedRefreshToken.exp - now < 15 * 60) {
+        const newRefreshToken = fetchRefresh();
+        newRefreshToken.then((res) => {
+          if (typeof res === 'string') {
+            handleSetRefreshToken(res);
+          }
+        });
       }
     }
   }, [accessToken, refreshToken]);

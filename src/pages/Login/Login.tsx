@@ -1,4 +1,4 @@
-import { login } from '../../services/Authentication/authentication';
+import { login } from '../../services/login/login-service';
 import { useForm } from 'react-hook-form';
 
 import * as Styled from './Login.styles';

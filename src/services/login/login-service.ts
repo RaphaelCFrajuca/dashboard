@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export interface AuthenticateResponse {
+export interface LoginResponse {
   refresh_token: string;
   token_jwt: string;
   token_type: string;
@@ -22,23 +22,10 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-export async function login(
-  params: LoginParams
-): Promise<AuthenticateResponse> {
-  const response = await axios.post<AuthenticateResponse>(
+export async function login(params: LoginParams): Promise<LoginResponse> {
+  const response = await axios.post<LoginResponse>(
     `${baseUrl}/is-it-safe/auth/dashboard/login`,
     params,
-    { headers }
-  );
-  return response.data;
-}
-
-export async function refreshToken(
-  refreshToken: string
-): Promise<AuthenticateResponse> {
-  const response = await axios.post<AuthenticateResponse>(
-    `${baseUrl}/dashboard/refreshtoken`,
-    refreshToken,
     { headers }
   );
   return response.data;

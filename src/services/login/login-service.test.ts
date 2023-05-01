@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { login, LoginParams, AuthenticateResponse } from './authentication';
+import { login, LoginParams, LoginResponse } from './login-service';
 
 jest.mock('axios');
 
@@ -7,15 +7,15 @@ describe('login', () => {
   const requestMock = axios.post as jest.MockedFunction<typeof axios.post>;
   const baseUrl = 'https://is-it-safe-api-v2.herokuapp.com';
 
-  const mockResponse: AuthenticateResponse = {
-    refresh_token: '',
-    token_jwt: '',
-    token_type: '',
+  const mockResponse: LoginResponse = {
+    refresh_token: 'mockRefreshToken',
+    token_jwt: 'mockTokenJWT',
+    token_type: 'Bearer',
     user: {
-      email: '',
-      id: 0,
-      name: '',
-      role: '',
+      email: 'test@test.com',
+      id: 1,
+      name: 'Test User',
+      role: 'admin',
     },
   };
 
@@ -30,7 +30,11 @@ describe('login', () => {
     const response = await login(mockParams);
 
     expect(axios.post).toHaveBeenCalledTimes(1);
-    expect(axios.post).toHaveBeenCalledWith(`${baseUrl}/login`, mockParams);
+    expect(axios.post).toHaveBeenCalledWith(
+      `${baseUrl}/is-it-safe/auth/dashboard/login`,
+      mockParams,
+      { headers: { 'Content-Type': 'application/json' } }
+    );
     expect(response).toEqual(mockResponse);
   });
 

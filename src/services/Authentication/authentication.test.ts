@@ -21,7 +21,7 @@ describe('login', () => {
 
   it('should send a POST request to the login endpoint with the provided params', async () => {
     const mockParams: LoginParams = {
-      email: 'test@example.com',
+      username: 'test@example.com',
       password: 'password',
     };
 
@@ -36,7 +36,7 @@ describe('login', () => {
 
   it('should throw an error if the login request fails', async () => {
     const mockParams: LoginParams = {
-      email: 'test@example.com',
+      username: 'test@example.com',
       password: 'password',
     };
 

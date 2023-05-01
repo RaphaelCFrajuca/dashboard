@@ -13,18 +13,22 @@ export interface AuthenticateResponse {
 }
 
 export interface LoginParams {
-  email: string;
+  username: string;
   password: string;
 }
 
 const baseUrl = 'https://is-it-safe-api-v2.herokuapp.com';
+const headers = {
+  'Content-Type': 'application/json',
+};
 
 export async function login(
   params: LoginParams
 ): Promise<AuthenticateResponse> {
   const response = await axios.post<AuthenticateResponse>(
-    `${baseUrl}/dashboard/login`,
-    params
+    `${baseUrl}/is-it-safe/auth/dashboard/login`,
+    params,
+    { headers }
   );
   return response.data;
 }
@@ -34,7 +38,8 @@ export async function refreshToken(
 ): Promise<AuthenticateResponse> {
   const response = await axios.post<AuthenticateResponse>(
     `${baseUrl}/dashboard/refreshtoken`,
-    refreshToken
+    refreshToken,
+    { headers }
   );
   return response.data;
 }

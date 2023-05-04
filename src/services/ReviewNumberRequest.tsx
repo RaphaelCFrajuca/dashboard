@@ -11,7 +11,9 @@ export const reviewNumberRequest = async (token: string | null) => {
       }
     )
     .then((res) => res.data)
-    .catch((err: AxiosError) => err);
+    .catch((err: AxiosError) => {
+      throw new Error(err.message);
+    });
 
   return reviews;
 };

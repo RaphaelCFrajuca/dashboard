@@ -20,7 +20,7 @@ export default async function getRefreshToken(
       }
     })
     .catch((error) => {
-      throw new Error(error);
+      throw new Error(error.message);
     });
   if (newRefreshToken === undefined) {
     throw new Error('newRefreshToken is undefined');

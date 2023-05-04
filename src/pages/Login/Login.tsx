@@ -29,6 +29,7 @@ export const Login = () => {
       <Styled.Form onSubmit={handleSubmit(doLogin)}>
         <Styled.Label>Email</Styled.Label>
         <Styled.Input
+          data-testid="email"
           type="text"
           {...register('username', {
             required: 'Preencha o email',
@@ -46,6 +47,7 @@ export const Login = () => {
         )}
         <Styled.Label>Password</Styled.Label>
         <Styled.Input
+          data-testid="password"
           type="password"
           {...register('password', {
             required: true,

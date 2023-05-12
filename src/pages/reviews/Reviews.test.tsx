@@ -1,8 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import Reviews from './Reviews';
-import { AuthContext, AuthContextType } from '../ContextProviders/AuthContext';
-import { reviewNumberRequest } from '../services/ReviewNumberRequest';
+import {
+  AuthContext,
+  AuthContextType,
+} from '../../ContextProviders/AuthContext';
+import { reviewNumberRequest } from '../../services/review-number/review-number-service';
 
 const queryClient = new QueryClient();
 
@@ -14,7 +17,7 @@ const mockAuthContext: AuthContextType = {
   handleLogout: jest.fn(),
 };
 
-jest.mock('../services/ReviewNumberRequest', () => ({
+jest.mock('../../services/review-number/review-number-service.ts', () => ({
   reviewNumberRequest: jest.fn(() => Promise.resolve(10)),
 }));
 

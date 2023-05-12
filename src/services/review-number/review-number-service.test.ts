@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { reviewNumberRequest } from './ReviewNumberRequest';
+import { reviewNumberRequest } from './review-number-service';
 
 jest.mock('axios'); // Mock axios module
 

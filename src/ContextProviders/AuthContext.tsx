@@ -7,7 +7,10 @@ import React, {
   useEffect,
 } from 'react';
 import jwt_decode from 'jwt-decode';
-import getRefreshToken from '../services/GetRefreshToken';
+import {
+  refreshToken as getRefreshToken,
+  RefreshTokenResponse,
+} from '../services/refresh-token/refresh-token-service';
 export interface AuthContextType {
   accessToken: string | null;
   refreshToken: string | null;
@@ -63,8 +66,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     const fetchRefresh = async () => {
-      const response: string = await getRefreshToken(refreshToken as string);
-      return response;
+      const response: RefreshTokenResponse = await getRefreshToken(
+        refreshToken as string
+      );
+      return response.refresh_token;
     };
     const now = Date.now() / 1000;
     if (accessToken === null || refreshToken === null) {

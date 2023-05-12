@@ -1,10 +1,10 @@
 import React from 'react';
 import { act, renderHook, waitFor } from '@testing-library/react';
-import getRefreshToken from '../services/GetRefreshToken';
+import { refreshToken as getRefreshToken } from '../services/refresh-token/refresh-token-service';
 import jwt_decode from 'jwt-decode';
 import { useAuth, AuthContext } from './AuthContext';
 
-jest.mock('../services/GetRefreshToken');
+jest.mock('../services/refresh-token/refresh-token-service');
 jest.mock('jwt-decode');
 
 const now = Date.now() / 1000;

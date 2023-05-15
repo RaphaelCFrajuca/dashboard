@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const URL = 'https://is-it-safe-api-v2.herokuapp.com/is-it-safe/dashboard/user';
 const jwtToken =
-  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE2ODE3NDQwMTIsImV4cCI6MTY4MTc0NDkxMn0.HV5rEE88g4brK33LkDzQpkIMEBy5dYJHv6mctCXijN-nG4e8iZxTgwYWbCCQiFGPSVx64wdDA62zIxPTUuO4zQ';
+  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJpYXQiOjE2ODQxNzU2NjEsImV4cCI6MTY4NDE3NjU2MX0.LAjNkLJgkGbF9V8b-4HPO5Nv2ht-jUzvIST6VzMxRGBIF_g6S_TiK_dYiysMKhHyLeeLuqDz586CISQ_wJXUuw';
 type SexualOrientation = {
   name: string;
   count: number;

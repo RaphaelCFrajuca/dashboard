@@ -6,18 +6,12 @@ const Home = () => {
 
   useEffect(() => {
     const response = fetchUsersBySexualOrientation();
-    response.then((res) => setUsersByOrientation(res));
+    response.then((res) => console.log(res));
   }, []);
 
   return (
     <>
       <div>home</div>
-      {usersByOrientation?.map((el) => (
-        <div key={el.name}>
-          <p>{el.name}</p>
-          <p>{el.count}</p>
-        </div>
-      ))}
     </>
   );
 };

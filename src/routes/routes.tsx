@@ -1,13 +1,10 @@
 import { ReactNode } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 // import { useUser } from '../providers/UserProvider';
-
 import { Home } from '../pages/Home';
-
 interface ChildrenTypes {
 	children: ReactNode;
 }
-
 // const Private = ({ children }: ChildrenTypes): JSX.Element => {
 // 	const { user } = useUser();
 // 	if (!user) {
@@ -20,7 +17,6 @@ interface ChildrenTypes {
 // 		</div>
 // 	);
 // };
-
 const Public = ({ children }: ChildrenTypes): JSX.Element => {
 	return <>{children}</>;
 };
@@ -44,3 +40,4 @@ export const Router = () => {
 		</Routes>
 	);
 };
+console.log('Hellow');

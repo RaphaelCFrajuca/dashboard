@@ -13,6 +13,7 @@ const GetNumberOfUsers = async ({ authKey }: GetNumberOfUsersProps) => {
 			const resp = response as GetNumberOfUsersResult;
 			return createPayload.success(resp);
 		})
+
 		.catch((e) => createPayload.error(e, e.status, e.message));
 };
 

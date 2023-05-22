@@ -22,7 +22,7 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-export async function login(params: LoginParams): Promise<LoginResponse> {
+export async function doLogin(params: LoginParams): Promise<LoginResponse> {
   const response = await axios.post<LoginResponse>(
     `${baseUrl}/is-it-safe/auth/dashboard/login`,
     params,

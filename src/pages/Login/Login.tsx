@@ -1,5 +1,7 @@
-import { login } from '../../services/login/login-service';
 import { useForm } from 'react-hook-form';
+
+import { LoginResponse, doLogin } from '../../services/login/login-service';
+import { useAuth } from '../../context/auth/AuthProvider';
 
 import * as Styled from './Login.styles';
 
@@ -15,18 +17,26 @@ export const Login = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const doLogin = (formData: FormValues) => {
+  const { setAccessToken, setRefreshToken } = useAuth();
+
+  const getLogin = async (formData: FormValues) => {
     const userData = {
       username: formData.username,
       password: formData.password,
     };
 
-    login(userData);
+    const response: LoginResponse = await doLogin(userData);
+
+    if (response.refresh_token) {
+      localStorage.setItem('refresh_token', response.refresh_token);
+      setAccessToken(response.token_jwt);
+      setRefreshToken(response.refresh_token);
+    }
   };
 
   return (
     <Styled.Container>
-      <Styled.Form onSubmit={handleSubmit(doLogin)}>
+      <Styled.Form onSubmit={handleSubmit(getLogin)}>
         <Styled.Label>Email</Styled.Label>
         <Styled.Input
           data-testid="email"

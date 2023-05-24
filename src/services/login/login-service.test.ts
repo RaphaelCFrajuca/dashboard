@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { login, LoginParams, LoginResponse } from './login-service';
+import { doLogin, LoginParams, LoginResponse } from './login-service';
 
 jest.mock('axios');
 
@@ -27,7 +27,7 @@ describe('login', () => {
 
     requestMock.mockResolvedValueOnce({ data: mockResponse });
 
-    const response = await login(mockParams);
+    const response = await doLogin(mockParams);
 
     expect(axios.post).toHaveBeenCalledTimes(1);
     expect(axios.post).toHaveBeenCalledWith(
@@ -46,6 +46,6 @@ describe('login', () => {
 
     requestMock.mockRejectedValueOnce(new Error('Login failed'));
 
-    await expect(login(mockParams)).rejects.toThrow('Login failed');
+    await expect(doLogin(mockParams)).rejects.toThrow('Login failed');
   });
 });

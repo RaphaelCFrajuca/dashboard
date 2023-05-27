@@ -4,7 +4,7 @@ import Reviews from './Reviews';
 import {
   AuthContext,
   AuthContextType,
-} from '../../ContextProviders/AuthContext';
+} from '../../providers/AuthContext/AuthContext';
 import { reviewNumberRequest } from '../../services/review-number/review-number-service';
 
 const queryClient = new QueryClient();

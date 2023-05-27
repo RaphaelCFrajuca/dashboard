@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AuthContext } from '../../ContextProviders/AuthContext';
+import { AuthContext } from '../../providers/AuthContext/AuthContext';
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 import { reviewNumberRequest } from '../../services/review-number/review-number-service';

@@ -10,7 +10,8 @@ import jwt_decode from 'jwt-decode';
 import {
   refreshToken as getRefreshToken,
   RefreshTokenResponse,
-} from '../services/refresh-token/refresh-token-service';
+} from '../../services/refresh-token/refresh-token-service';
+import { login } from '../../services/login/login-service';
 export interface AuthContextType {
   accessToken: string | null;
   refreshToken: string | null;
@@ -96,6 +97,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       }
     }
   }, [accessToken, refreshToken]);
+
+  // TODO: remover depois que terminar
+  useEffect(() => {
+    login({
+      username: 'admin@gmail.com',
+      password: '123456',
+    }).then((response) => {
+      const { token_jwt, refresh_token } = response;
+      setAccessToken(token_jwt);
+      setRefreshToken(refresh_token);
+    });
+  }, []);
 
   const contextValues = useMemo(
     () => ({

@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { refreshToken as getRefreshToken } from '../services/refresh-token/refresh-token-service';
+import { refreshToken as getRefreshToken } from '../../services/refresh-token/refresh-token-service';
 import jwt_decode from 'jwt-decode';
 import { useAuth, AuthContext } from './AuthContext';
 
@@ -74,7 +74,7 @@ describe('AuthContext', () => {
   });
 
   it('does not call setRefreshToken if refresh token and access token are equal', async () => {
-    (jwt_decode as jest.Mock).mockReturnValueOnce({ exp: now + 20 * 60 })
+    (jwt_decode as jest.Mock).mockReturnValueOnce({ exp: now + 20 * 60 });
     const authContextValue = getAuthContextValue();
     authContextValue.accessToken = authContextValue.refreshToken;
     renderHook(() => useAuth(), {
@@ -113,14 +113,14 @@ describe('AuthContext', () => {
             {children}
           </AuthContext.Provider>
         ),
-      });;
+      });
 
       waitFor(() =>
         expect(authContextValue.handleSetAccessToken).toHaveBeenCalledWith(
           refreshToken
         )
       );
-  });
+    });
   });
 
   it('calls handleSetRefreshToken with new token if refresh token is about to expire', async () => {

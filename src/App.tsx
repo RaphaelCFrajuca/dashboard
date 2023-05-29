@@ -5,6 +5,7 @@ import Home from './pages/Home/Home';
 import { Login } from './pages/Login/Login';
 import queryClient from './services/client/query';
 import { AuthProvider } from './context/auth/AuthProvider';
+import Location from './pages/Location/Location';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/location" element={<Location />} />
         </Routes>
       </AuthProvider>
     </QueryClientProvider>

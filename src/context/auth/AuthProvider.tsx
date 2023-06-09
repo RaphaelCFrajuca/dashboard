@@ -82,36 +82,30 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   useEffect(() => {
-    const fetchRefresh = async () => {
-      const response: RefreshTokenResponse = await getRefreshToken(
-        refreshToken
-      );
-      return response.refresh_token;
+    const tokenHandler = async () => {
+      const now = Date.now() / 1000;
+
+      if (!!accessToken && accessToken !== refreshToken) {
+        const decodedToken: JwtPayload = jwtDecode(accessToken);
+        if (decodedToken.exp - now < 5 * 60) {
+          handleSetAccessToken(refreshToken);
+        }
+        return;
+      }
+
+      if (refreshToken) {
+        const decodedRefreshToken: JwtPayload = jwtDecode(refreshToken);
+
+        if (decodedRefreshToken.exp < now) {
+          handleLogout();
+        } else if (decodedRefreshToken.exp - now < 15 * 60) {
+          await getRefreshToken(refreshToken).then((res) => {
+            handleSetRefreshToken(res.refresh_token);
+          });
+        }
+      }
     };
-
-    const now = Date.now() / 1000;
-
-    if (!!accessToken && accessToken !== refreshToken) {
-      const decodedToken: JwtPayload = jwtDecode(accessToken);
-      if (decodedToken.exp - now < 5 * 60) {
-        handleSetAccessToken(refreshToken);
-      }
-      return;
-    }
-
-    if (refreshToken) {
-      const decodedRefreshToken: JwtPayload = jwtDecode(refreshToken);
-
-      if (decodedRefreshToken.exp < now) {
-        handleLogout();
-      } else if (decodedRefreshToken.exp - now < 15 * 60) {
-        fetchRefresh().then((res) => {
-          if (typeof res === 'string') {
-            handleSetRefreshToken(res);
-          }
-        });
-      }
-    }
+    tokenHandler().catch(() => {});
   }, [accessToken, refreshToken, handleSetAccessToken, handleLogout]);
 
   const contextValues = useMemo(

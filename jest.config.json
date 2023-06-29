@@ -1,7 +1,11 @@
 {
   "testEnvironment": "jsdom",
+  "moduleNameMapper": {
+    "^.+\\.svg$": "<rootDir>/src/__mocks__/svg.js"
+  },
   "transform": {
     "^.+\\.tsx?$": "ts-jest"
   },
-  "setupFilesAfterEnv": ["@testing-library/jest-dom/extend-expect"]
+  "setupFilesAfterEnv": ["@testing-library/jest-dom/extend-expect"],
+  "rootDir": "./"
 }

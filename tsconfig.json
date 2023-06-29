@@ -15,8 +15,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["vite-plugin-svgr/client"]
+    "types": ["vite-plugin-svgr/client", "jest", "@testing-library/jest-dom"]
   },
-  "include": ["src", "src/context/sidebarContext/.tsx"],
+  "include": ["src", "src/context/sidebarContext/.tsx", "svgTransform.cjs"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -28,10 +28,11 @@ const Header = () => {
       <h1>Dashboard</h1>
       <Style.UserContainer>
         <p>olá {username}</p>
-        <Down color={'#241B5E'} />
+        <Down color={'#241B5E'}></Down>
         <Style.UserPhoto src={profilePhoto} alt="user" />
       </Style.UserContainer>
     </Style.HeaderContainer>
+
   );
 };
 

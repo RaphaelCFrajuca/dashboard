@@ -32,7 +32,6 @@ const Header = () => {
         <Style.UserPhoto src={profilePhoto} alt="user" />
       </Style.UserContainer>
     </Style.HeaderContainer>
-
   );
 };
 

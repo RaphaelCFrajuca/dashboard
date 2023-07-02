@@ -21,6 +21,7 @@ export const SidebarContainer = styled.div<Pick<Props, 'isSidebarExpanded'>>`
     left: ${(props) => (props.isSidebarExpanded ? '14.6vw' : '4vw')};
     display: flex;
     align-items: center;
+    justify-content: center;
     color: white;
     font-weight: 100;
     font-size: 20px;

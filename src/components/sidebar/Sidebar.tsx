@@ -25,27 +25,45 @@ const Sidebar = () => {
             position={maskPosition ? maskPosition : 0}
             isSidebarExpanded={isSidebarExpanded}
           ></Style.SidebarMask>
-          <Style.SidebarMenuItem isSidebarExpanded={isSidebarExpanded}>
+          <Style.SidebarMenuItem
+            isSidebarExpanded={isSidebarExpanded}
+            onClick={() => window.location.assign('/')}
+          >
             <Home />
             <div>Home</div>
           </Style.SidebarMenuItem>
-          <Style.SidebarMenuItem isSidebarExpanded={isSidebarExpanded}>
+          <Style.SidebarMenuItem
+            isSidebarExpanded={isSidebarExpanded}
+            onClick={() => window.location.assign('/lugares')}
+          >
             <Places />
             <div>Lugares</div>
           </Style.SidebarMenuItem>
-          <Style.SidebarMenuItem isSidebarExpanded={isSidebarExpanded}>
+          <Style.SidebarMenuItem
+            isSidebarExpanded={isSidebarExpanded}
+            onClick={() => window.location.assign('/reviews')}
+          >
             <Reviews />
             <div>Reviews</div>
           </Style.SidebarMenuItem>
-          <Style.SidebarMenuItem isSidebarExpanded={isSidebarExpanded}>
+          <Style.SidebarMenuItem
+            isSidebarExpanded={isSidebarExpanded}
+            onClick={() => window.location.assign('/usuarios')}
+          >
             <Users />
             <div>Usuarios</div>
           </Style.SidebarMenuItem>
-          <Style.SidebarMenuItem isSidebarExpanded={isSidebarExpanded}>
+          <Style.SidebarMenuItem
+            isSidebarExpanded={isSidebarExpanded}
+            onClick={() => window.location.assign('/projeto')}
+          >
             <Project />
             <div>Projeto</div>
           </Style.SidebarMenuItem>
-          <Style.SidebarMenuItem isSidebarExpanded={isSidebarExpanded}>
+          <Style.SidebarMenuItem
+            isSidebarExpanded={isSidebarExpanded}
+            onClick={() => window.location.assign('/voluntarios')}
+          >
             <Volunteers />
             <div>Voluntários</div>
           </Style.SidebarMenuItem>

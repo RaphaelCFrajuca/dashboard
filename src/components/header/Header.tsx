@@ -6,7 +6,7 @@ import { useEffect, useContext, useState } from 'react';
 import { ReactComponent as Down } from '../../assets/Icons/Downicons.svg';
 
 const Header = () => {
-  const { accessToken } = useAuth();;
+  const { accessToken } = useAuth();
   const [username, setUsernmae] = useState<string>('user');
   const [profilePhoto, setProfilePhoto] = useState<string>(
     'src/assets/profile.png'
@@ -21,7 +21,7 @@ const Header = () => {
     }
   }, [user]);
   return (
-    <Style.HeaderContainer >
+    <Style.HeaderContainer>
       <h1>Dashboard</h1>
       <Style.UserContainer>
         <p>olá {username}</p>

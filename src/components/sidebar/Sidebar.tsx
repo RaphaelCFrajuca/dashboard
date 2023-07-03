@@ -9,43 +9,57 @@ import { ReactComponent as Volunteers } from '../../assets/Icons/Volunteers.svg'
 import { useState } from 'react';
 import { useEffect } from 'react';
 const Sidebar = () => {
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(Boolean( localStorage.getItem("isSidebarExpanded") ));
-  const [maskPosition, setMaskPosition] = useState<number>( localStorage.getItem("setMaskPosition")=== null? 0 : Number(localStorage.getItem("setMaskPosition")));
-  
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(
+    Boolean(localStorage.getItem('isSidebarExpanded'))
+  );
+  const [maskPosition, setMaskPosition] = useState<number>(
+    localStorage.getItem('setMaskPosition') === null
+      ? 0
+      : Number(localStorage.getItem('setMaskPosition'))
+  );
 
   useEffect(() => {
-  
-  const url = window.location.href;
-  const lastIndex = url.lastIndexOf('/');
-  const page = url.slice(lastIndex + 1)
+    const url = window.location.href;
+    const lastIndex = url.lastIndexOf('/');
+    const page = url.slice(lastIndex + 1);
     switch (page) {
       case '':
         setMaskPosition(0);
         break;
       case 'lugares':
-        isSidebarExpanded? localStorage.setItem("setMaskPosition","69"):localStorage.setItem("setMaskPosition","50");
-        isSidebarExpanded? setMaskPosition(69): setMaskPosition(50);
-        
+        isSidebarExpanded
+          ? localStorage.setItem('setMaskPosition', '69')
+          : localStorage.setItem('setMaskPosition', '50');
+        isSidebarExpanded ? setMaskPosition(69) : setMaskPosition(50);
+
         break;
       case 'reviews':
-        isSidebarExpanded? localStorage.setItem("setMaskPosition","138"):localStorage.setItem("setMaskPosition","100");
-        isSidebarExpanded? setMaskPosition(138): setMaskPosition(100);;
-        
+        isSidebarExpanded
+          ? localStorage.setItem('setMaskPosition', '138')
+          : localStorage.setItem('setMaskPosition', '100');
+        isSidebarExpanded ? setMaskPosition(138) : setMaskPosition(100);
+
         break;
       case 'usuarios':
-        isSidebarExpanded? localStorage.setItem("setMaskPosition","207"):localStorage.setItem("setMaskPosition","150");
-        isSidebarExpanded? setMaskPosition(207): setMaskPosition(150);;
-        
+        isSidebarExpanded
+          ? localStorage.setItem('setMaskPosition', '207')
+          : localStorage.setItem('setMaskPosition', '150');
+        isSidebarExpanded ? setMaskPosition(207) : setMaskPosition(150);
+
         break;
       case 'projeto':
-        isSidebarExpanded? localStorage.setItem("setMaskPosition","276"):localStorage.setItem("setMaskPosition","200");
-        isSidebarExpanded? setMaskPosition(276): setMaskPosition(200);;
-        
+        isSidebarExpanded
+          ? localStorage.setItem('setMaskPosition', '276')
+          : localStorage.setItem('setMaskPosition', '200');
+        isSidebarExpanded ? setMaskPosition(276) : setMaskPosition(200);
+
         break;
       case 'voluntarios':
-        isSidebarExpanded? localStorage.setItem("setMaskPosition","345"):localStorage.setItem("setMaskPosition","250");
-        isSidebarExpanded? setMaskPosition(345): setMaskPosition(250);;
-        
+        isSidebarExpanded
+          ? localStorage.setItem('setMaskPosition', '345')
+          : localStorage.setItem('setMaskPosition', '250');
+        isSidebarExpanded ? setMaskPosition(345) : setMaskPosition(250);
+
         break;
       default:
         setMaskPosition(0);
@@ -54,11 +68,11 @@ const Sidebar = () => {
   }, [window.location.href, isSidebarExpanded]);
 
   const toggleSidebar = () => {
-    isSidebarExpanded? localStorage.setItem("isSidebarExpanded",""):localStorage.setItem("isSidebarExpanded","true");
+    isSidebarExpanded
+      ? localStorage.setItem('isSidebarExpanded', '')
+      : localStorage.setItem('isSidebarExpanded', 'true');
     setIsSidebarExpanded(!isSidebarExpanded);
-    ;
   };
-
 
   return (
     <>

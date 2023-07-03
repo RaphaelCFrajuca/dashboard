@@ -13,7 +13,8 @@ const Home = () => {
     <>
       <Style.PageContainer>
         <Sidebar></Sidebar>
-        <Header></Header>
+        <Style.HeaderContentContainer>
+        <Header/>
         <Style.Content>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce non
@@ -76,6 +77,7 @@ const Home = () => {
             id et lacus.
           </p>
         </Style.Content>
+        </Style.HeaderContentContainer>
       </Style.PageContainer>
     </>
   );

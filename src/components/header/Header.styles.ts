@@ -1,12 +1,10 @@
 import styled from 'styled-components';
 
-interface Props {
-  isSidebarExpanded: boolean;
-}
 
-export const HeaderContainer = styled.header<Props>`
-  width: ${(props) => (props.isSidebarExpanded ? '83vw' : '94.7vw ')};
-  position: fixed;
+
+export const HeaderContainer = styled.header`
+  width: 100%;
+  position: absolute;
   top: 0;
   right: 0;
   height: 116px;

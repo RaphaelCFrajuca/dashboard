@@ -6,6 +6,7 @@ import queryClient from './services/client/query';
 import { AuthProvider } from './context/auth/AuthProvider';
 import { SidebarProvider } from './context/sidebarContext/SidebarContextProvider';
 
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>

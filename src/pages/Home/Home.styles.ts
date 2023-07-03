@@ -18,3 +18,10 @@ export const Content = styled.div`
   background-color: #faf9ff;
   overflow-y: scroll;
 `;
+export const HeaderContentContainer = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #faf9ff;
+  overflow-y: scroll;
+  position: relative;
+`;

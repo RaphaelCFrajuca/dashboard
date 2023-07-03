@@ -1,19 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import { AuthProvider } from './providers/AuthContext/AuthContext';
-import { QueryClientProvider } from 'react-query';
-import queryClient from './services/queryClient/queryClient';
-import { DashboardProvider } from './providers/Dashboard/Dashboard';
+import { GlobalStyle } from './styles/global';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <DashboardProvider>
-          <App />
-        </DashboardProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+    <BrowserRouter>
+      <App />
+      <GlobalStyle />
+    </BrowserRouter>
   </React.StrictMode>
 );

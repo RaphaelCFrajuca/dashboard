@@ -1,12 +1,11 @@
-import { useContext } from 'react';
-import { AuthContext } from '../../providers/AuthContext/AuthContext';
-import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
+
+import { useAuth } from '../../context/auth/AuthProvider';
 import { reviewNumberRequest } from '../../services/review-number/review-number-service';
 
 const Reviews = () => {
-  const { accessToken } = useContext(AuthContext);
-  const { data: reviews } = useQuery<number, AxiosError>(
+  const { accessToken } = useAuth();
+  const { data: reviews } = useQuery<number>(
     'reviews',
     () => reviewNumberRequest(accessToken),
     {

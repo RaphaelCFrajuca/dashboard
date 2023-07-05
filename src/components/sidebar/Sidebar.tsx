@@ -20,10 +20,11 @@ const Sidebar = () => {
 
   useEffect(() => {
     const url = window.location.href;
-    const lastIndex = url.lastIndexOf('/');
+    const lastIndex =  window.location.href.lastIndexOf('/');
     const page = url.slice(lastIndex + 1);
     switch (page) {
       case '':
+        localStorage.setItem('setMaskPosition', '0')
         setMaskPosition(0);
         break;
       case 'lugares':
@@ -77,7 +78,7 @@ const Sidebar = () => {
   return (
     <>
       <Style.SidebarContainer isSidebarExpanded={isSidebarExpanded}>
-        <button onClick={toggleSidebar}>
+        <button id="toggle"  onClick={toggleSidebar}>
           <DoubleArrow />{' '}
         </button>
         <Style.Logo isSidebarExpanded={isSidebarExpanded}>

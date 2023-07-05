@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { AuthProvider } from '../../context/auth/AuthProvider';
-import { SidebarProvider } from '../../context/sidebarContext/SidebarContextProvider';
 import Header from './Header';
 import { getLoggedUser } from '../../services/get-logged-user/get-logged-user-service';
 
@@ -38,9 +37,7 @@ describe('Header', () => {
     render(
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <SidebarProvider>
             <Header />
-          </SidebarProvider>
         </AuthProvider>
       </QueryClientProvider>
     );
@@ -65,9 +62,7 @@ describe('Header', () => {
     render(
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <SidebarProvider>
             <Header />
-          </SidebarProvider>
         </AuthProvider>
       </QueryClientProvider>
     );

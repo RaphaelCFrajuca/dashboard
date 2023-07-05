@@ -15,8 +15,8 @@ import {
 import jwtDecode from 'jwt-decode';
 
 export interface AuthContextType {
-  accessToken: string;
-  refreshToken: string;
+  accessToken: string | null;
+  refreshToken: string | null;
   setAccessToken: (token: string) => void;
   setRefreshToken: (token: string) => void;
   handleLogout: () => void;
@@ -40,25 +40,16 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [accessToken, setAccessToken] = useState<string>('');
-  const [refreshToken, setRefreshToken] = useState<string>('');
-
-  useEffect(() => {
-    const storedAccessToken = localStorage.getItem('access_token');
-    const storedRefreshToken = localStorage.getItem('refresh_token');
-
-    if (storedAccessToken) {
-      setAccessToken(storedAccessToken);
-    }
-
-    if (storedRefreshToken) {
-      setRefreshToken(storedRefreshToken);
-    }
-  }, []);
+  const [accessToken, setAccessToken] = useState<string | null>(
+    localStorage.getItem('access_token')
+  );
+  const [refreshToken, setRefreshToken] = useState<string | null>(
+    localStorage.getItem('refresh_token')
+  );
 
   const handleSetAccessToken = (token: string) => {
-    setAccessToken(token);
     if (token) {
+      setAccessToken(token);
       localStorage.setItem('access_token', token);
     } else {
       localStorage.removeItem('access_token');
@@ -66,8 +57,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const handleSetRefreshToken = (token: string) => {
-    setRefreshToken(token);
     if (token) {
+      setRefreshToken(token);
       localStorage.setItem('refresh_token', token);
     } else {
       localStorage.removeItem('refresh_token');
@@ -82,36 +73,32 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   useEffect(() => {
-    const fetchRefresh = async () => {
-      const response: RefreshTokenResponse = await getRefreshToken(
-        refreshToken
-      );
-      return response.refresh_token;
+    const handleTokenRefresh = async () => {
+      const now = Date.now() / 1000;
+
+      if (!!accessToken && accessToken !== refreshToken) {
+        const decodedToken: JwtPayload = jwtDecode(accessToken);
+        if (decodedToken.exp - now < 5 * 60) {
+          handleSetAccessToken(refreshToken ?? '');
+        }
+        return;
+      }
+
+      if (refreshToken) {
+        const decodedRefreshToken: JwtPayload = jwtDecode(refreshToken);
+
+        if (decodedRefreshToken.exp < now) {
+          handleLogout();
+        } else if (decodedRefreshToken.exp - now < 15 * 60) {
+          await getRefreshToken(refreshToken).then((res) => {
+            if (typeof res === 'string') {
+              handleSetRefreshToken(res);
+            }
+          });
+        }
+      }
     };
-
-    const now = Date.now() / 1000;
-
-    if (!!accessToken && accessToken !== refreshToken) {
-      const decodedToken: JwtPayload = jwtDecode(accessToken);
-      if (decodedToken.exp - now < 5 * 60) {
-        handleSetAccessToken(refreshToken);
-      }
-      return;
-    }
-
-    if (refreshToken) {
-      const decodedRefreshToken: JwtPayload = jwtDecode(refreshToken);
-
-      if (decodedRefreshToken.exp < now) {
-        handleLogout();
-      } else if (decodedRefreshToken.exp - now < 15 * 60) {
-        fetchRefresh().then((res) => {
-          if (typeof res === 'string') {
-            handleSetRefreshToken(res);
-          }
-        });
-      }
-    }
+    handleTokenRefresh();
   }, [accessToken, refreshToken, handleSetAccessToken, handleLogout]);
 
   const contextValues = useMemo(

@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router';
 import { QueryClientProvider } from 'react-query';
-
 import Home from './pages/Home/Home';
 import { Login } from './pages/Login/Login';
 import queryClient from './services/client/query';

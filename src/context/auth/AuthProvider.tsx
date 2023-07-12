@@ -12,7 +12,6 @@ import {
   getRefreshToken,
   RefreshTokenResponse,
 } from '../../services/refresh-token/refresh-token-service';
-import { doLogin } from '../../services/login/login-service';
 import jwtDecode from 'jwt-decode';
 
 export interface AuthContextType {
@@ -114,18 +113,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       }
     }
   }, [accessToken, refreshToken, handleSetAccessToken, handleLogout]);
-
-  // TODO: remover depois que terminar
-  useEffect(() => {
-    doLogin({
-      username: 'admin@gmail.com',
-      password: '123456',
-    }).then((response) => {
-      const { token_jwt, refresh_token } = response;
-      setAccessToken(token_jwt);
-      setRefreshToken(refresh_token);
-    });
-  }, []);
 
   const contextValues = useMemo(
     () => ({

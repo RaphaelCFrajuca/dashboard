@@ -1,6 +1,6 @@
 import { createContext, useState, ReactNode, useEffect } from 'react';
-import { useAuth } from '../AuthContext/AuthContext';
 import { dashboardUser } from '../../services/dashboard/dashboard-service';
+import { useAuth } from '../../context/auth/AuthProvider';
 
 type IGenderCount = Array<{
   count: number;

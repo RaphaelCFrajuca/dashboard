@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import ChartLocation from './ChartLocation';
+import { ChartLocation } from './ChartLocation';
 
 jest.mock('../../assets/Icons/Righticons.svg', () => 'RightIcon');
 jest.mock('../../assets/Icons/Lefticons.svg', () => 'LeftIcon');

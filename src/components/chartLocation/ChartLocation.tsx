@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
-import Chart from 'chart.js/auto';
+import { Chart } from 'chart.js/auto';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { locationRequest } from '../../services/location/location-service';
-import * as Styled from './ChartLocation.styles';
 import { ReactComponent as Righticons } from '../../assets/Icons/Righticons.svg';
 import { ReactComponent as Lefticons } from '../../assets/Icons/Lefticons.svg';
+import * as Styled from './ChartLocation.styles';
+import 'chart.js/auto';
 
 enum LocationChartMode {
   Month = 'month',
@@ -26,7 +27,7 @@ interface LocationChartData {
   total_locations: number;
 }
 
-function ChartLocation() {
+export function ChartLocation() {
   const { accessToken } = useAuth();
   const { data, isLoading } = useQuery<LocationChartData>('location', () =>
     locationRequest(accessToken)
@@ -38,6 +39,13 @@ function ChartLocation() {
     LocationChartMode.Month
   );
   const [selectedYear, setSelectedYear] = useState<string>('2023');
+
+  const handleTooltipRadius = (context: any) => {
+    if (context.tooltipActive) {
+      return 6;
+    }
+    return 0;
+  };
 
   useEffect(() => {
     if (!isLoading && data && chartRef.current) {
@@ -73,6 +81,7 @@ function ChartLocation() {
       }
 
       const chartCanvas = chartRef.current;
+
       if (chartCanvas) {
         chartInstanceRef.current = new Chart(chartCanvas, {
           type: 'line',
@@ -88,16 +97,27 @@ function ChartLocation() {
                 borderColor: '#4937BE',
                 borderWidth: 1,
                 pointBackgroundColor: '#4937BE',
-                pointRadius: 4,
                 tension: 0.4,
                 hoverBorderColor: '#4937BE',
               },
             ],
           },
           options: {
+            interaction: {
+              mode: 'index',
+              intersect: false,
+            },
             scales: {
               y: {
+                offset: true,
+                border: {
+                  color: '#FDFCFF',
+                  dash: [4, 4],
+                },
+
                 beginAtZero: true,
+                min: 1,
+                max: 6,
 
                 grid: {
                   color: '#9D8DF4',
@@ -107,18 +127,25 @@ function ChartLocation() {
 
                 ticks: {
                   stepSize: 1,
+
+                  callback: (value) => value + 'k',
                   font: {
                     size: 8,
                     family: 'Poppins',
                   },
                   color: '#878787',
-                  padding: 6,
                 },
               },
 
               x: {
+                offset: true,
+                border: {
+                  color: '#FDFCFF',
+                  dash: [4, 4],
+                },
                 grid: {
                   display: false,
+                  color: '#9D8DF4',
                 },
                 ticks: {
                   font: {
@@ -139,6 +166,13 @@ function ChartLocation() {
               },
               legend: {
                 display: false,
+              },
+            },
+
+            elements: {
+              point: {
+                radius: handleTooltipRadius,
+                hoverRadius: 8,
               },
             },
           },
@@ -211,5 +245,3 @@ function ChartLocation() {
     </Styled.Container>
   );
 }
-
-export default ChartLocation;

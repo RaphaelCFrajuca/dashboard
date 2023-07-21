@@ -1,7 +1,7 @@
 import Sidebar from '../../components/sidebar/Sidebar';
 import Header from '../../components/header/Header';
 import * as Style from './Home.styles';
-import ChartLocation from '../../components/ChartLocation/ChartLocation';
+import { ChartLocation } from '../../components/chartLocation/ChartLocation';
 
 const Home = () => {
   return (

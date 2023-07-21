@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { QueryClientProvider, QueryClient } from 'react-query';
+import { BrowserRouter } from 'react-router-dom'; // Importe o BrowserRouter
 import { AuthProvider } from '../../context/auth/AuthProvider';
 import Header from './Header';
 import { getLoggedUser } from '../../services/get-logged-user/get-logged-user-service';
@@ -37,15 +38,16 @@ describe('Header', () => {
     render(
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
+          <BrowserRouter>
+            {' '}
             <Header />
+          </BrowserRouter>
         </AuthProvider>
       </QueryClientProvider>
     );
 
-    // Wait for the user data to be fetched
     await screen.findByText('olá John Doe');
 
-    // Verify the rendered content
     expect(
       screen.getByRole('heading', { name: /dashboard/i })
     ).toBeInTheDocument();
@@ -62,15 +64,16 @@ describe('Header', () => {
     render(
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
+          <BrowserRouter>
+            {' '}
             <Header />
+          </BrowserRouter>
         </AuthProvider>
       </QueryClientProvider>
     );
 
-    // Wait for the user data to be fetched
     await screen.findByText('olá user');
 
-    // Verify the rendered content
     expect(
       screen.getByRole('heading', { name: /dashboard/i })
     ).toBeInTheDocument();

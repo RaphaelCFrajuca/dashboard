@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-
+import { useNavigate } from 'react-router-dom';
 import { LoginResponse, doLogin } from '../../services/login/login-service';
 import { useAuth } from '../../context/auth/AuthProvider';
 
@@ -10,7 +10,12 @@ type FormValues = {
   password: string;
 };
 
-export const Login = () => {
+type LoginFormProps = {
+  setIsLoggedIn: (isLoggedIn: boolean) => void;
+};
+
+export const Login = ({ setIsLoggedIn }: LoginFormProps) => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -31,6 +36,8 @@ export const Login = () => {
       localStorage.setItem('refresh_token', response.refresh_token);
       setAccessToken(response.token_jwt);
       setRefreshToken(response.refresh_token);
+      setIsLoggedIn(true);
+      navigate('/');
     }
   };
 

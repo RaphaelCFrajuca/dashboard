@@ -33,3 +33,20 @@ export const UserPhoto = styled.img`
   height: 50px;
   border-radius: 50%;
 `;
+export const ButtonContainer = styled.button`
+  display: flex;
+  flex-direction: column;
+  background: rgba(253, 252, 255, 0.5);
+  border: none;
+`;
+export const DropdownContent = styled.button`
+  border: none;
+  background: rgba(253, 252, 255, 0.5);
+`;
+
+export const LogoutButton = styled.button`
+  color: #241b5e;
+  cursor: pointer;
+  font-size: 16px;
+  border: none;
+`;

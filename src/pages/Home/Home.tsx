@@ -1,7 +1,7 @@
 import Sidebar from '../../components/sidebar/Sidebar';
 import Header from '../../components/header/Header';
 import * as Style from './Home.styles';
-import { ChartLocation } from '../../components/chartLocation/ChartLocation';
+import { ChartLocationHome } from '../../components/Charts/ChartLocationHome/ChartLocationHome';
 
 const Home = () => {
   return (
@@ -12,7 +12,7 @@ const Home = () => {
           <Header />
 
           <Style.Content>
-            <ChartLocation />
+            <ChartLocationHome />
           </Style.Content>
         </Style.HeaderContentContainer>
       </Style.PageContainer>

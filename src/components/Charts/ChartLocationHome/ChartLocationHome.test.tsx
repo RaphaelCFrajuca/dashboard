@@ -1,10 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { ChartLocation } from './ChartLocation';
+import { ChartLocationHome } from './ChartLocationHome';
 
-jest.mock('../../assets/Icons/Righticons.svg', () => 'RightIcon');
-jest.mock('../../assets/Icons/Lefticons.svg', () => 'LeftIcon');
+jest.mock('../../../assets/Icons/Righticons.svg', () => 'RightIcon');
+jest.mock('../../../assets/Icons/Lefticons.svg', () => 'LeftIcon');
 
-// Mock da função useQuery
 jest.mock('react-query', () => ({
   useQuery: jest.fn((key, fetchData) => ({
     data: fetchData(),
@@ -14,7 +13,6 @@ jest.mock('react-query', () => ({
 
 describe('ChartLocation', () => {
   test('renders loading state', () => {
-    // Simula isLoading como true
     jest.mock('react-query', () => ({
       useQuery: jest.fn((key, fetchData) => ({
         data: null,
@@ -22,13 +20,12 @@ describe('ChartLocation', () => {
       })),
     }));
 
-    render(<ChartLocation />);
+    render(<ChartLocationHome />);
     const loadingText = screen.getByText('Loading...');
     expect(loadingText).toBeInTheDocument();
   });
 
   test('renders chart data', () => {
-    // Simula os dados retornados pela API
     const mockChartData = {
       chart: [
         {
@@ -51,6 +48,6 @@ describe('ChartLocation', () => {
       })),
     }));
 
-    render(<ChartLocation />);
+    render(<ChartLocationHome />);
   });
 });

@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Chart } from 'chart.js/auto';
-import { useAuth } from '../../context/auth/AuthProvider';
-import { locationRequest } from '../../services/location/location-service';
-import { ReactComponent as Righticons } from '../../assets/Icons/Righticons.svg';
-import { ReactComponent as Lefticons } from '../../assets/Icons/Lefticons.svg';
-import * as Styled from './ChartLocation.styles';
+import { useAuth } from '../../../context/auth/AuthProvider';
+import { locationRequest } from '../../../services/location/location-service';
+import { ReactComponent as Righticons } from '../../../assets/Icons/Righticons.svg';
+import { ReactComponent as Lefticons } from '../../../assets/Icons/Lefticons.svg';
+import * as Styled from './ChartLocationHome.styles';
 import 'chart.js/auto';
 
 enum LocationChartMode {
@@ -27,7 +27,7 @@ interface LocationChartData {
   total_locations: number;
 }
 
-export function ChartLocation() {
+export function ChartLocationHome() {
   const { accessToken } = useAuth();
   const { data, isLoading } = useQuery<LocationChartData>('location', () =>
     locationRequest(accessToken)

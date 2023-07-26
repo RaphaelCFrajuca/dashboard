@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 interface Props {
   isSidebarExpanded: boolean;
@@ -16,9 +17,10 @@ export const SidebarContainer = styled.div<Pick<Props, 'isSidebarExpanded'>>`
   box-sizing: border-box;
 
   button {
+    margin-block: 16px;
     position: absolute;
     top: 0;
-    left: ${(props) => (props.isSidebarExpanded ? '14.6vw' : '4vw')};
+    left: ${(props) => (props.isSidebarExpanded ? '16vw' : '4vw')};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,7 +31,7 @@ export const SidebarContainer = styled.div<Pick<Props, 'isSidebarExpanded'>>`
     height: 36px;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
       linear-gradient(264.3deg, #381766 3.22%, #1f1045 43.38%, #494392 89.8%);
-    box-shadow: -3px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: -3px 4px 4px 0px rgba(0, 0, 0, 0.25);
     border-radius: 42px;
     transform: ${(props) =>
       props.isSidebarExpanded ? 'rotate(-180deg)' : 'rotate(0deg)'};
@@ -90,4 +92,12 @@ export const SidebarMask = styled.div<Props>`
   background-blend-mode: overlay;
   border-right: 4px solid #9d8df4;
   box-sizing: border-box;
+`;
+
+export const Links = styled(Link)`
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: var(--primarias-100);
+  gap: 19px;
 `;

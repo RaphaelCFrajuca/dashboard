@@ -1,4 +1,6 @@
-import * as Style from './Sidebar.styles';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import * as Styled from './Sidebar.styles';
 import { ReactComponent as DoubleArrow } from '../../assets/Icons/icon-dublearrow-lefticons.svg';
 import { ReactComponent as Home } from '../../assets/Icons/Home.svg';
 import { ReactComponent as Places } from '../../assets/Icons/Places.svg';
@@ -6,134 +8,91 @@ import { ReactComponent as Reviews } from '../../assets/Icons/Reviews.svg';
 import { ReactComponent as Users } from '../../assets/Icons/Users.svg';
 import { ReactComponent as Project } from '../../assets/Icons/Project.svg';
 import { ReactComponent as Volunteers } from '../../assets/Icons/Volunteers.svg';
-import { useState } from 'react';
-import { useEffect } from 'react';
+
 const Sidebar = () => {
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(() =>
     Boolean(localStorage.getItem('isSidebarExpanded'))
   );
-  const [maskPosition, setMaskPosition] = useState<number>(
-    localStorage.getItem('setMaskPosition') === null
-      ? 0
-      : Number(localStorage.getItem('setMaskPosition'))
+  const [maskPosition, setMaskPosition] = useState(
+    () => Number(localStorage.getItem('setMaskPosition')) || 0
   );
+  const location = useLocation();
 
   useEffect(() => {
-    const url = window.location.href;
-    const lastIndex =  window.location.href.lastIndexOf('/');
-    const page = url.slice(lastIndex + 1);
-    switch (page) {
-      case '':
-        localStorage.setItem('setMaskPosition', '0')
-        setMaskPosition(0);
-        break;
-      case 'lugares':
-        isSidebarExpanded
-          ? localStorage.setItem('setMaskPosition', '69')
-          : localStorage.setItem('setMaskPosition', '50');
-        isSidebarExpanded ? setMaskPosition(69) : setMaskPosition(50);
+    const pagePositions: { [key: string]: number } = {
+      '': 0,
+      lugares: 69,
+      reviews: 138,
+      usuarios: 207,
+      projeto: 276,
+      voluntarios: 345,
+    };
 
-        break;
-      case 'reviews':
-        isSidebarExpanded
-          ? localStorage.setItem('setMaskPosition', '138')
-          : localStorage.setItem('setMaskPosition', '100');
-        isSidebarExpanded ? setMaskPosition(138) : setMaskPosition(100);
+    const currentPage = location.pathname.substring(1);
+    const newPosition = pagePositions[currentPage] || 0;
 
-        break;
-      case 'usuarios':
-        isSidebarExpanded
-          ? localStorage.setItem('setMaskPosition', '207')
-          : localStorage.setItem('setMaskPosition', '150');
-        isSidebarExpanded ? setMaskPosition(207) : setMaskPosition(150);
-
-        break;
-      case 'projeto':
-        isSidebarExpanded
-          ? localStorage.setItem('setMaskPosition', '276')
-          : localStorage.setItem('setMaskPosition', '200');
-        isSidebarExpanded ? setMaskPosition(276) : setMaskPosition(200);
-
-        break;
-      case 'voluntarios':
-        isSidebarExpanded
-          ? localStorage.setItem('setMaskPosition', '345')
-          : localStorage.setItem('setMaskPosition', '250');
-        isSidebarExpanded ? setMaskPosition(345) : setMaskPosition(250);
-
-        break;
-      default:
-        setMaskPosition(0);
-        break;
-    }
-  }, [window.location.href, isSidebarExpanded]);
+    localStorage.setItem('setMaskPosition', String(newPosition));
+    setMaskPosition(newPosition);
+  }, [location.pathname]);
 
   const toggleSidebar = () => {
-    isSidebarExpanded
-      ? localStorage.setItem('isSidebarExpanded', '')
-      : localStorage.setItem('isSidebarExpanded', 'true');
-    setIsSidebarExpanded(!isSidebarExpanded);
+    const newValue = !isSidebarExpanded;
+    localStorage.setItem('isSidebarExpanded', String(newValue));
+    setIsSidebarExpanded(newValue);
   };
 
   return (
-    <>
-      <Style.SidebarContainer isSidebarExpanded={isSidebarExpanded}>
-        <button id="toggle"  onClick={toggleSidebar}>
-          <DoubleArrow />{' '}
-        </button>
-        <Style.Logo isSidebarExpanded={isSidebarExpanded}>
-          <img src="src/assets/logo.png" alt="logo" />
-        </Style.Logo>
-        <Style.SidebarMenu>
-          <Style.SidebarMask
-            position={maskPosition ? maskPosition : 0}
-            isSidebarExpanded={isSidebarExpanded}
-          ></Style.SidebarMask>
-          <Style.SidebarMenuItem
-            isSidebarExpanded={isSidebarExpanded}
-            onClick={() => window.location.assign('/')}
-          >
+    <Styled.SidebarContainer isSidebarExpanded={isSidebarExpanded}>
+      <button id="toggle" onClick={toggleSidebar}>
+        <DoubleArrow />
+      </button>
+      <Styled.Logo isSidebarExpanded={isSidebarExpanded}>
+        <img src="src/assets/logo.png" alt="logo" />
+      </Styled.Logo>
+      <Styled.SidebarMenu>
+        <Styled.SidebarMask
+          position={maskPosition}
+          isSidebarExpanded={isSidebarExpanded}
+        />
+        <Styled.SidebarMenuItem isSidebarExpanded={isSidebarExpanded}>
+          <Styled.Links to="/">
             <Home />
             <div>Home</div>
-          </Style.SidebarMenuItem>
-          <Style.SidebarMenuItem
-            isSidebarExpanded={isSidebarExpanded}
-            onClick={() => window.location.assign('/lugares')}
-          >
+          </Styled.Links>
+        </Styled.SidebarMenuItem>
+        <Styled.SidebarMenuItem isSidebarExpanded={isSidebarExpanded}>
+          <Styled.Links to="/lugares">
             <Places />
             <div>Lugares</div>
-          </Style.SidebarMenuItem>
-          <Style.SidebarMenuItem
-            isSidebarExpanded={isSidebarExpanded}
-            onClick={() => window.location.assign('/reviews')}
-          >
+          </Styled.Links>
+        </Styled.SidebarMenuItem>
+        <Styled.SidebarMenuItem isSidebarExpanded={isSidebarExpanded}>
+          <Styled.Links to="/reviews">
             <Reviews />
             <div>Reviews</div>
-          </Style.SidebarMenuItem>
-          <Style.SidebarMenuItem
-            isSidebarExpanded={isSidebarExpanded}
-            onClick={() => window.location.assign('/usuarios')}
-          >
+          </Styled.Links>
+        </Styled.SidebarMenuItem>
+        <Styled.SidebarMenuItem isSidebarExpanded={isSidebarExpanded}>
+          <Styled.Links to="/usuarios">
             <Users />
             <div>Usuarios</div>
-          </Style.SidebarMenuItem>
-          <Style.SidebarMenuItem
-            isSidebarExpanded={isSidebarExpanded}
-            onClick={() => window.location.assign('/projeto')}
-          >
+          </Styled.Links>
+        </Styled.SidebarMenuItem>
+        <Styled.SidebarMenuItem isSidebarExpanded={isSidebarExpanded}>
+          <Styled.Links to="/projeto">
             <Project />
             <div>Projeto</div>
-          </Style.SidebarMenuItem>
-          <Style.SidebarMenuItem
-            isSidebarExpanded={isSidebarExpanded}
-            onClick={() => window.location.assign('/voluntarios')}
-          >
+          </Styled.Links>
+        </Styled.SidebarMenuItem>
+        <Styled.SidebarMenuItem isSidebarExpanded={isSidebarExpanded}>
+          <Styled.Links to="/voluntarios">
             <Volunteers />
             <div>Voluntários</div>
-          </Style.SidebarMenuItem>
-        </Style.SidebarMenu>
-      </Style.SidebarContainer>
-    </>
+          </Styled.Links>
+        </Styled.SidebarMenuItem>
+      </Styled.SidebarMenu>
+    </Styled.SidebarContainer>
   );
 };
+
 export default Sidebar;

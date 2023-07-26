@@ -1,9 +1,17 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Login } from './Login';
+
+jest.mock('../../assets/Icons/Visibilityicons.svg', () => 'VisibilityIcon');
+jest.mock('../../assets/Icons/Blindicons.svg', () => 'BlindIcon');
 
 describe('Login', () => {
   it('should render the login form', () => {
-    render(<Login />);
+    render(
+      <Router>
+        <Login setIsLoggedIn={() => {}} />
+      </Router>
+    );
     const emailInput = screen.getByTestId('email');
     const passwordInput = screen.getByTestId('password');
     const submitButton = screen.getByText('Login');
@@ -14,7 +22,11 @@ describe('Login', () => {
   });
 
   it('should display an error message if email is not valid', async () => {
-    render(<Login />);
+    render(
+      <Router>
+        <Login setIsLoggedIn={() => {}} />
+      </Router>
+    );
     const emailInput = screen.getByTestId('email');
     const submitButton = screen.getByText('Login');
 
@@ -30,7 +42,11 @@ describe('Login', () => {
   });
 
   it('should display an error message if password is too short', async () => {
-    render(<Login />);
+    render(
+      <Router>
+        <Login setIsLoggedIn={() => {}} />
+      </Router>
+    );
     const passwordInput = screen.getByTestId('password');
     const submitButton = screen.getByText('Login');
 

@@ -1,21 +1,40 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-
+import { useNavigate } from 'react-router-dom';
 import { LoginResponse, doLogin } from '../../services/login/login-service';
 import { useAuth } from '../../context/auth/AuthProvider';
-
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ReactComponent as BlindIcon } from '../../assets/Icons/Blindicons.svg';
+import { ReactComponent as VisibilityIcon } from '../../assets/Icons/Visibilityicons.svg';
 import * as Styled from './Login.styles';
 
-type FormValues = {
-  username: string;
-  password: string;
+const schema = z.object({
+  username: z
+    .string()
+    .email({ message: 'Email inválido' })
+    .min(1, { message: 'Preencha o email' }),
+  password: z
+    .string()
+    .min(6, { message: 'A senha deve ter pelo menos 6 caracteres.' }),
+});
+
+type FormValues = z.infer<typeof schema>;
+
+type LoginFormProps = {
+  setIsLoggedIn: (isLoggedIn: boolean) => void;
 };
 
-export const Login = () => {
+export const Login = ({ setIsLoggedIn }: LoginFormProps) => {
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState<string>('');
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>();
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
   const { setAccessToken, setRefreshToken } = useAuth();
 
@@ -25,56 +44,68 @@ export const Login = () => {
       password: formData.password,
     };
 
-    const response: LoginResponse = await doLogin(userData);
+    try {
+      const response: LoginResponse = await doLogin(userData);
 
-    if (response.refresh_token) {
-      localStorage.setItem('refresh_token', response.refresh_token);
-      setAccessToken(response.token_jwt);
-      setRefreshToken(response.refresh_token);
+      if (response.refresh_token) {
+        localStorage.setItem('refresh_token', response.refresh_token);
+        setAccessToken(response.token_jwt);
+        setRefreshToken(response.refresh_token);
+        setIsLoggedIn(true);
+        navigate('/');
+      } else {
+        setLoginError('Usuário ou senha incorretos.');
+      }
+    } catch (error) {
+      setLoginError('Erro ao efetuar login. Por favor, tente novamente.');
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   return (
     <Styled.Container>
-      <Styled.Form onSubmit={handleSubmit(getLogin)}>
-        <Styled.Label>Email</Styled.Label>
-        <Styled.Input
-          data-testid="email"
-          type="text"
-          {...register('username', {
-            required: 'Preencha o email',
-            pattern: {
-              value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-              message: 'Email inválido',
-            },
-          })}
-          placeholder="username@email.com"
-        />
-        {errors.username && (
-          <p className="errorMsg">
-            {errors?.username && errors.username.message}
-          </p>
-        )}
-        <Styled.Label>Password</Styled.Label>
-        <Styled.Input
-          data-testid="password"
-          type="password"
-          {...register('password', {
-            required: true,
-            validate: {
-              checkLength: (value) => value.length >= 6,
-            },
-          })}
-          placeholder="Deve conter pelo menos 6 caracteres"
-        />
-        {errors.password?.type === 'required' && (
-          <p className="errorMsg">É necessário informar uma senha.</p>
-        )}
-        {errors.password?.type === 'checkLength' && (
-          <p className="errorMsg">A senha deve ter pelo menos 6 caracteres.</p>
-        )}
-        <Styled.Button type="submit">Login</Styled.Button>
-      </Styled.Form>
+      <Styled.Content>
+        <Styled.Form onSubmit={handleSubmit(getLogin)}>
+          <Styled.Title>LOGIN</Styled.Title>
+
+          <Styled.Input
+            data-testid="email"
+            type="text"
+            {...register('username')}
+            placeholder="Email"
+            hasError={!!errors.username}
+          />
+          {errors.username && (
+            <Styled.ErrorMsg>{errors.username.message}</Styled.ErrorMsg>
+          )}
+
+          <Styled.InputContainer>
+            <Styled.Input
+              data-testid="password"
+              type={showPassword ? 'text' : 'password'}
+              {...register('password')}
+              placeholder="Senha"
+              hasError={!!errors.password}
+            />
+            <Styled.TogglePasswordIcon onClick={togglePasswordVisibility}>
+              {showPassword ? <VisibilityIcon /> : <BlindIcon />}
+            </Styled.TogglePasswordIcon>
+          </Styled.InputContainer>
+          {errors.password && (
+            <Styled.ErrorMsg>{errors.password.message}</Styled.ErrorMsg>
+          )}
+          {loginError && <Styled.ErrorMsg>{loginError}</Styled.ErrorMsg>}
+
+          <Styled.Label>Esqueceu sua senha?</Styled.Label>
+
+          <Styled.Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Carregando...' : 'Entrar'}
+          </Styled.Button>
+        </Styled.Form>
+      </Styled.Content>
     </Styled.Container>
   );
 };

@@ -13,16 +13,18 @@ export interface RefreshTokenResponse {
 }
 
 const baseUrl = 'https://is-it-safe-api-v2.herokuapp.com';
-const headers = {
-  'Content-Type': 'application/json',
-};
 
-export async function refreshToken(
-  refreshToken: string
+export async function getRefreshToken(
+  token: string
 ): Promise<RefreshTokenResponse> {
+  const headers = {
+    'Content-Type': 'application/json',
+    token,
+  };
+
   const response = await axios.post<RefreshTokenResponse>(
     `${baseUrl}/is-it-safe/auth/dashboard/refreshtoken`,
-    refreshToken,
+    {},
     { headers }
   );
   return response.data;

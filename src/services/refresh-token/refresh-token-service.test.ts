@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { refreshToken, RefreshTokenResponse } from './refresh-token-service';
+import { getRefreshToken, RefreshTokenResponse } from './refresh-token-service';
 
 jest.mock('axios');
 
@@ -24,13 +24,18 @@ describe('refreshToken', () => {
 
     requestMock.mockResolvedValueOnce(mockResponse);
 
-    const result = await refreshToken(mockRefreshToken);
+    const result = await getRefreshToken(mockRefreshToken);
 
     expect(result).toEqual(mockResponseData);
     expect(axios.post).toHaveBeenCalledWith(
       `${baseUrl}/is-it-safe/auth/dashboard/refreshtoken`,
-      mockRefreshToken,
-      { headers: { 'Content-Type': 'application/json' } }
+      {},
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          token: mockRefreshToken,
+        },
+      }
     );
   });
 
@@ -38,13 +43,18 @@ describe('refreshToken', () => {
     const mockError = new Error('Failed to refresh token');
     requestMock.mockRejectedValue(mockError);
 
-    await expect(refreshToken(mockRefreshToken)).rejects.toThrowError(
+    await expect(getRefreshToken(mockRefreshToken)).rejects.toThrowError(
       mockError
     );
     expect(axios.post).toHaveBeenCalledWith(
       `${baseUrl}/is-it-safe/auth/dashboard/refreshtoken`,
-      mockRefreshToken,
-      { headers: { 'Content-Type': 'application/json' } }
+      {},
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          token: mockRefreshToken,
+        },
+      }
     );
   });
 });

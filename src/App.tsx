@@ -1,10 +1,15 @@
-import Home from './pages/Home';
+import { QueryClientProvider } from 'react-query';
+import queryClient from './services/client/query';
+import { AuthProvider } from './context/auth/AuthProvider';
+import { Router } from './router/router';
 
 function App() {
   return (
-    <div className="App">
-      <Home></Home>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <Router />
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
 

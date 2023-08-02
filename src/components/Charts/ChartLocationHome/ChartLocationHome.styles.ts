@@ -5,8 +5,7 @@ interface ButtonProps {
 }
 
 export const Container = styled.div`
-  width: 507px;
-  height: 352px;
+  width: 730px;
   background: var(--neutros-50);
   padding: 16px;
   border-radius: 2px;
@@ -17,6 +16,7 @@ export const Content = styled.div`
   align-items: center;
   padding-inline: 24px;
   padding-bottom: 16px;
+  border-bottom: 0.7px solid #efecfd;
 `;
 
 export const Title = styled.h2`

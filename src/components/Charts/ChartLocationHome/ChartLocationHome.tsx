@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
-import { Chart } from 'chart.js/auto';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import { locationRequest } from '../../../services/location/location-service';
+import { Chart } from 'chart.js/auto';
 import { ReactComponent as Righticons } from '../../../assets/Icons/Righticons.svg';
 import { ReactComponent as Lefticons } from '../../../assets/Icons/Lefticons.svg';
 import * as Styled from './ChartLocationHome.styles';
-import 'chart.js/auto';
 
 enum LocationChartMode {
   Month = 'month',
@@ -159,7 +158,6 @@ export function ChartLocationHome() {
 
             plugins: {
               tooltip: {
-                // enabled: false,
                 callbacks: {
                   label: (context) => context.parsed.y.toString(),
                 },
@@ -175,6 +173,7 @@ export function ChartLocationHome() {
                 hoverRadius: 8,
               },
             },
+            aspectRatio: 2.4,
           },
         });
       }

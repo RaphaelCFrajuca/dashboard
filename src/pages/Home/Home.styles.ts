@@ -11,11 +11,20 @@ export const PageContainer = styled.div`
 
 export const Content = styled.div`
   width: 100%;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 42px;
+  padding-right: 52px;
+  padding-bottom: 46px;
   padding-top: 116px;
   box-sizing: border-box;
   background-color: #faf9ff;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-gap: 23px;
+`;
+
+export const Whapper = styled.div`
+  display: flex;
+  gap: 20px;
 `;
 export const HeaderContentContainer = styled.div`
   width: 100%;

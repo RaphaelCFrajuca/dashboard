@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "is-it-safe-dashboard"
+    "default": "isitsafe-dashboard"
   },
   "targets": {
     "is-it-safe-29b67": {

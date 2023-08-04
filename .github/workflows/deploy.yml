@@ -33,5 +33,5 @@ jobs:
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN}}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
-          projectId: isitsafe-dashboard
+          projectId: is-it-safe-29b67
           channelId: live

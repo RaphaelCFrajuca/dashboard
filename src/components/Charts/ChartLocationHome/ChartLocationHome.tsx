@@ -188,9 +188,8 @@ export function ChartLocationHome() {
   };
 
   if (isLoading || !data || !data.chart || data.chart.length === 0) {
-    return <Loading style={{ display: 'flex' }} />;
+    return <Loading />;
   }
-
   const { chart } = data;
 
   const isFirstYear = selectedYear === chart[0].year;

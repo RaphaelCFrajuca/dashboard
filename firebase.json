@@ -1,7 +1,7 @@
 {
   "hosting": [{
     "public": "dist",
-    "target": "isitsafe-dashboard-test",
+    "target": "release",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -16,7 +16,7 @@
   },
   {
     "public": "dist",
-    "target": "isitsafe-dashboard-release",
+    "target": "test",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -31,7 +31,7 @@
   },
   {
     "public": "dist",
-    "target": "isitsafe-dashboard",
+    "target": "default",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -46,4 +46,5 @@
   }
 ]
 }
+
 

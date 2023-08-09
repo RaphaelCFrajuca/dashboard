@@ -1,9 +1,11 @@
-name: Deploy CI/CD
+name: Test CI/CD
 
 on:
   push:
     branches:
       - main
+      - develop
+      - release
 
 jobs:
   build_and_deploy:
@@ -24,6 +26,10 @@ jobs:
           
       - name: Install Dependencies
         run: yarn install
+
+      # Run jest tests
+      - name: Run Jest tests
+        run: yarn test
         
       # Build the app
       - name: Build the app
@@ -35,5 +41,5 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
           projectId: is-it-safe-29b67
           channelId: live
-          target: release
+          target: test
 

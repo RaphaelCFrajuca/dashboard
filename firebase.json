@@ -1,7 +1,6 @@
 {
   "hosting": {
     "public": "dist",
-    "target":"isitsafe-dashboard",
     "ignore": [
       "firebase.json",
       "**/.*",

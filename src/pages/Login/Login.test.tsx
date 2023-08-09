@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Login } from './Login';
 
-jest.mock('../../assets/Icons/Visibilityicons.svg', () => 'VisibilityIcon');
-jest.mock('../../assets/Icons/Blindicons.svg', () => 'BlindIcon');
+jest.mock('../../assets/Icons/Visibilityicons.svg', () => ({
+  ReactComponent: () => <div data-testid="visibility-icon" />,
+}));
+jest.mock('../../assets/Icons/Blindicons.svg', () => ({
+  ReactComponent: () => <div data-testid="blind-icon" />,
+}));
 
 describe('Login', () => {
   it('should render the login form', () => {
@@ -14,7 +19,7 @@ describe('Login', () => {
     );
     const emailInput = screen.getByTestId('email');
     const passwordInput = screen.getByTestId('password');
-    const submitButton = screen.getByText('Login');
+    const submitButton = screen.getByRole('button');
 
     expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
@@ -28,7 +33,7 @@ describe('Login', () => {
       </Router>
     );
     const emailInput = screen.getByTestId('email');
-    const submitButton = screen.getByText('Login');
+    const submitButton = screen.getByRole('button');
 
     // Fill in the email field with an invalid email
     fireEvent.change(emailInput, { target: { value: 'invalid_email' } });
@@ -48,7 +53,7 @@ describe('Login', () => {
       </Router>
     );
     const passwordInput = screen.getByTestId('password');
-    const submitButton = screen.getByText('Login');
+    const submitButton = screen.getByRole('button');
 
     fireEvent.change(passwordInput, { target: { value: '12345' } });
 

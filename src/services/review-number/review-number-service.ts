@@ -1,9 +1,9 @@
 import axios, { AxiosError } from 'axios';
 
 export const reviewNumberRequest = async (token: string | null) => {
-  const reviews: number = await axios
+  const response = await axios
     .get(
-      'https://is-it-safe-api-v2.herokuapp.com/is-it-safe/review/show-review-qnt',
+      'https://is-it-safe-api-v2.herokuapp.com/is-it-safe/dashboard/review',
       {
         headers: {
           Authorization: 'Bearer ' + token,
@@ -15,5 +15,5 @@ export const reviewNumberRequest = async (token: string | null) => {
       throw new Error(err.message);
     });
 
-  return reviews;
+  return response;
 };

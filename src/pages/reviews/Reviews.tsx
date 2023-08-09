@@ -11,7 +11,6 @@ const Reviews = () => {
       refetchInterval: 5000,
     }
   );
-
   return (
     <>
       <h1>{reviews}</h1>

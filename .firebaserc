@@ -1,18 +1,18 @@
 {
   "projects": {
-    "default": "is-it-safe-dashboard"
+    "default": "is-it-safe-29b67"
   },
   "targets": {
     "is-it-safe-29b67": {
       "hosting": {
-        "default": [
-          "isitsafe-dashboard"
-        ],
         "test": [
           "isitsafe-dashboard-test"
         ],
-        "release":[
+        "release": [
           "isitsafe-dashboard-release"
+        ],
+        "isitsafe-dashboard": [
+          "isitsafe-dashboard"
         ]
       }
     }

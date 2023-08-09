@@ -1,10 +1,10 @@
-import * as Style from './Header.styles';
-import { getLoggedUser } from '../../services/get-logged-user/get-logged-user-service';
 import { useQuery } from 'react-query';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { useEffect, useState } from 'react'; // Importe apenas o useEffect e useState do 'react'.
-import { ReactComponent as Down } from '../../assets/Icons/Downicons.svg';
 import { useNavigate } from 'react-router-dom';
+import { getLoggedUser } from '../../services/get-logged-user/get-logged-user-service';
+import { ReactComponent as Down } from '../../assets/Icons/Downicons.svg';
+import * as Style from './Header.styles';
 
 const Header = () => {
   const { accessToken, setAccessToken } = useAuth();
@@ -18,6 +18,7 @@ const Header = () => {
   });
 
   const navigate = useNavigate();
+
   useEffect(() => {
     if (user) {
       setUsernmae(user.nickname);

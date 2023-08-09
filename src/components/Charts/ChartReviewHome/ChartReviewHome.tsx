@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useAuth } from '../../../context/auth/AuthProvider';
-import { locationRequest } from '../../../services/location/location-service';
 import { Chart } from 'chart.js/auto';
 import { ReactComponent as Righticons } from '../../../assets/Icons/Righticons.svg';
 import { ReactComponent as Lefticons } from '../../../assets/Icons/Lefticons.svg';
-import * as Styled from './ChartLocationHome.styles';
+import { reviewNumberRequest } from '../../../services/review-number/review-number-service';
+import * as Styled from './ChartReviewHome.styles';
 import { Loading } from '../../Loading/Loading';
 
-enum LocationChartMode {
+enum ReviewChartMode {
   Month = 'month',
   Year = 'year',
 }
@@ -18,25 +18,25 @@ interface CountByMonthData {
   month: string;
 }
 
-export interface LocationChartData {
+interface ReviewData {
   chart: {
     count_by_month: CountByMonthData[];
     count_by_year: number;
     year: string;
   }[];
-  total_locations: number;
+  total_review: number;
 }
 
-export function ChartLocationHome() {
+export function ChartReviewHome() {
   const { accessToken } = useAuth();
-  const { data, isLoading } = useQuery<LocationChartData>('location', () =>
-    locationRequest(accessToken)
+  const { data, isLoading } = useQuery<ReviewData>('review', () =>
+    reviewNumberRequest(accessToken)
   );
 
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
-  const [chartMode, setChartMode] = useState<LocationChartMode>(
-    LocationChartMode.Month
+  const [chartMode, setChartMode] = useState<ReviewChartMode>(
+    ReviewChartMode.Month
   );
   const [selectedYear, setSelectedYear] = useState<string>('2023');
 
@@ -51,14 +51,14 @@ export function ChartLocationHome() {
     if (!isLoading && data && chartRef.current) {
       let chartData: { label: string; value: number }[] = [];
 
-      if (chartMode === LocationChartMode.Month) {
+      if (chartMode === ReviewChartMode.Month) {
         chartData = data.chart.flatMap((item) =>
           item.count_by_month.map((monthData) => ({
             label: monthData.month,
             value: monthData.count,
           }))
         );
-      } else if (chartMode === LocationChartMode.Year) {
+      } else if (chartMode === ReviewChartMode.Year) {
         const selectedYearData = data.chart.find(
           (item) => item.year === selectedYear
         );
@@ -90,7 +90,7 @@ export function ChartLocationHome() {
             datasets: [
               {
                 label:
-                  chartMode === LocationChartMode.Month
+                  chartMode === ReviewChartMode.Month
                     ? 'Count by Month'
                     : `Count by Year (${selectedYear})`,
                 data: counts,
@@ -116,9 +116,6 @@ export function ChartLocationHome() {
                 },
 
                 beginAtZero: true,
-                min: 1,
-                max: 6,
-
                 grid: {
                   color: '#9D8DF4',
                   lineWidth: 0.7,
@@ -126,8 +123,6 @@ export function ChartLocationHome() {
                 },
 
                 ticks: {
-                  stepSize: 1,
-
                   callback: (value) => value + 'k',
                   font: {
                     size: 8,
@@ -190,6 +185,7 @@ export function ChartLocationHome() {
   if (isLoading || !data || !data.chart || data.chart.length === 0) {
     return <Loading />;
   }
+
   const { chart } = data;
 
   const isFirstYear = selectedYear === chart[0].year;
@@ -198,23 +194,23 @@ export function ChartLocationHome() {
   return (
     <Styled.Container>
       <Styled.Content>
-        <Styled.Title>Locais</Styled.Title>
+        <Styled.Title>Reviews</Styled.Title>
         <Styled.Header>
           <Styled.SubHeader>
             <Styled.ButtonMonth
-              selected={chartMode === LocationChartMode.Month}
-              onClick={() => setChartMode(LocationChartMode.Month)}
+              selected={chartMode === ReviewChartMode.Month}
+              onClick={() => setChartMode(ReviewChartMode.Month)}
             >
               Mês
             </Styled.ButtonMonth>
             <Styled.ButtonYear
-              selected={chartMode === LocationChartMode.Year}
-              onClick={() => setChartMode(LocationChartMode.Year)}
+              selected={chartMode === ReviewChartMode.Year}
+              onClick={() => setChartMode(ReviewChartMode.Year)}
             >
               Ano
             </Styled.ButtonYear>
           </Styled.SubHeader>
-          {chartMode === LocationChartMode.Year && (
+          {chartMode === ReviewChartMode.Year && (
             <Styled.ButtonContainer>
               <Styled.ArrowButton
                 onClick={() => handleYearChange(-1)}

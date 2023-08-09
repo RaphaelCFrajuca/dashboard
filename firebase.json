@@ -1,6 +1,37 @@
 {
-  "hosting": {
+  "hosting": [{
     "public": "dist",
+    "target": "isitsafe-dashboard-test",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  {
+    "public": "dist",
+    "target": "isitsafe-dashboard-release",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  {
+    "public": "dist",
+    "target": "isitsafe-dashboard",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -13,4 +44,6 @@
       }
     ]
   }
+]
 }
+

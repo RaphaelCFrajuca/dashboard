@@ -1,9 +1,11 @@
-name: Deploy CI/CD
+name: Test CI/CD
 
 on:
   push:
     branches:
       - main
+      - develop
+      - release
 
 jobs:
   build_and_deploy:
@@ -28,6 +30,8 @@ jobs:
       # Build the app
       - name: Build the app
         run: yarn build
+        env:
+          VITE_API_URL: ${{ secrets.PROD_API_URL }}
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -35,5 +39,5 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
           projectId: is-it-safe-29b67
           channelId: live
-          target: release
+          target: test
 

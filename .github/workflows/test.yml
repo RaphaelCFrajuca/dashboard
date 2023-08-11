@@ -26,6 +26,10 @@ jobs:
           
       - name: Install Dependencies
         run: yarn install
+
+      # Run jest tests
+      - name: Run Jest tests
+        run: yarn test
         
       # Build the app
       - name: Build the app

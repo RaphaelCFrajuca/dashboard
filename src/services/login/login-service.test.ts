@@ -5,7 +5,7 @@ jest.mock('axios');
 
 describe('login', () => {
   const requestMock = axios.post as jest.MockedFunction<typeof axios.post>;
-  const baseUrl = 'https://is-it-safe-api-v2.herokuapp.com';
+  const baseUrl = import.meta.env.VITE_API_URL as string;
 
   const mockResponse: LoginResponse = {
     refresh_token: 'mockRefreshToken',

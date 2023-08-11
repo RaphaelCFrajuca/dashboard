@@ -23,10 +23,9 @@ interface User {
 }
 
 export const getLoggedUser = async (token: string | null) => {
-  const apiUrl: string =
-    (import.meta.env.VITE_API_URL as string) + '/is-it-safe/user/profile';
+  const baseUrl: string = import.meta.env.VITE_API_URL as string;
   const loggedUserData: User = await axios
-    .get(apiUrl, {
+    .get(`${baseUrl}/is-it-safe/user/profile`, {
       headers: {
         Authorization: 'Bearer ' + token,
       },

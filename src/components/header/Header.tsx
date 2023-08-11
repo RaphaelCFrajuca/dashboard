@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getLoggedUser } from '../../services/get-logged-user/get-logged-user-service';
 import { ReactComponent as Down } from '../../assets/Icons/Downicons.svg';
 import * as Style from './Header.styles';
+import { locationPendingValidationRequest } from '../../services/location/location-service';
 
 const Header = () => {
   const { accessToken, setAccessToken } = useAuth();
@@ -20,6 +21,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const response = locationPendingValidationRequest(accessToken);
+    console.log(response);
     if (user) {
       setUsernmae(user.nickname);
       setProfilePhoto(user.profilePhoto);

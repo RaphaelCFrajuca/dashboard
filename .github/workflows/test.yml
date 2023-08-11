@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-      - develop
-      - release
 
 jobs:
   build_and_deploy:
@@ -30,6 +28,8 @@ jobs:
       # Build the app
       - name: Build the app
         run: yarn build
+        env:
+          VITE_API_URL: ${{ secrets.PROD_API_URL }}
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

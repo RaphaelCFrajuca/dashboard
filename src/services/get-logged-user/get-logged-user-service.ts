@@ -23,8 +23,10 @@ interface User {
 }
 
 export const getLoggedUser = async (token: string | null) => {
+  const apiUrl: string =
+    (import.meta.env.VITE_API_URL as string) + '/is-it-safe/user/profile';
   const loggedUserData: User = await axios
-    .get('https://is-it-safe-api-v2.herokuapp.com/is-it-safe/user/profile', {
+    .get(apiUrl, {
       headers: {
         Authorization: 'Bearer ' + token,
       },

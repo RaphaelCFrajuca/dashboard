@@ -17,7 +17,7 @@ export interface LoginParams {
   password: string;
 }
 
-const baseUrl = import.meta.env.VITE_API_URL as string;
+const baseUrl: string = import.meta.env.VITE_API_URL as string;
 const headers = {
   'Content-Type': 'application/json',
 };

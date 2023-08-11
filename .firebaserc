@@ -5,11 +5,11 @@
   "targets": {
     "is-it-safe-29b67": {
       "hosting": {
-        "test": [
-          "isitsafe-dashboard-test"
-        ],
         "release": [
           "isitsafe-dashboard-release"
+        ],
+        "test": [
+          "isitsafe-dashboard-test"
         ],
         "default": [
           "isitsafe-dashboard"

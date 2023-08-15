@@ -12,7 +12,7 @@ export interface RefreshTokenResponse {
   };
 }
 
-const baseUrl = 'https://is-it-safe-api-v2.herokuapp.com';
+const baseUrl: string = import.meta.env.VITE_API_URL as string;
 
 export async function getRefreshToken(
   token: string

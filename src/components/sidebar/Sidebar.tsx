@@ -46,7 +46,7 @@ const Sidebar = () => {
         <DoubleArrow />
       </button>
       <Styled.Logo isSidebarExpanded={isSidebarExpanded}>
-        <img src="public/logo.png" alt="logo" />
+        <img src="../../assets/logo.png" alt="logo" />
       </Styled.Logo>
       <Styled.SidebarMenu>
         <Styled.SidebarMask

@@ -11,7 +11,7 @@ const Header = () => {
   const [username, setUsernmae] = useState<string>('user');
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState<string>(
-    'public/profile.png'
+    'src/assets/profile.png'
   );
   const { data: user } = useQuery('user', () => getLoggedUser(accessToken), {
     refetchInterval: 5000,

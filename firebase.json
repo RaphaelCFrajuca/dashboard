@@ -30,7 +30,7 @@
     ]
   },
   {
-    "public": "public",
+    "public": "dist",
     "target": "default",
     "ignore": [
       "firebase.json",

@@ -1,15 +1,19 @@
+import LocalsContainer from '../../components/Locals/LocalsContainer/LocalsContainer';
 import Header from '../../components/header/Header';
 import Sidebar from '../../components/sidebar/Sidebar';
-import * as Style from './Lugares.styles';
+import * as StyleImport from '../Home/Home.styles';
 
 const Lugares = () => {
   return (
-    <Style.PageContainer>
+    <StyleImport.PageContainer>
       <Sidebar></Sidebar>
-      <Style.HeaderContentContainer>
+      <StyleImport.HeaderContentContainer>
         <Header />
-      </Style.HeaderContentContainer>
-    </Style.PageContainer>
+        <StyleImport.Content>
+          <LocalsContainer />
+        </StyleImport.Content>
+      </StyleImport.HeaderContentContainer>
+    </StyleImport.PageContainer>
   );
 };
 

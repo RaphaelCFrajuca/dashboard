@@ -1,0 +1,39 @@
+.form-input {
+	border-color: #ced4da;
+	border-width: 2px;
+	border-style: solid;
+	width: 100%;
+	height: 37px;
+	border-radius: 6px;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+.form-input:focus,
+.form-input:focus-visible {
+	border-color: #6898c9;
+	outline: #6898c9; /* Avoid firefox and safari auto style for outline*/
+}
+
+.input-error,
+.input-error:focus,
+.input-error:focus-visible {
+	border-color: #eb3d3d !important;
+	background-color: #ffe8e8;
+}
+
+.form-textarea {
+	border-color: #ced4da;
+	border-width: 2px;
+	border-style: solid;
+	width: 100%;
+	border-radius: 6px;
+	padding: 8px;
+	resize: none;
+}
+
+.form-textarea:focus,
+.form-textarea:focus-visible {
+	border-color: #6898c9;
+	outline: #6898c9; /* Avoid firefox and safari auto style for outline*/
+}

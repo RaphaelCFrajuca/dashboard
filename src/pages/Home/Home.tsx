@@ -14,7 +14,8 @@ const Home = () => {
         <Style.HeaderContentContainer>
           <Header />
           <Style.Content>
-            <CardTotalsHome/>
+            <CardTotalsHome />
+            <ChartUserHome />
             <Style.Whapper>
               <ChartLocationHome />
               <ChartReviewHome />

@@ -8,6 +8,7 @@ import { ReactComponent as Reviews } from '../../assets/Icons/Reviews.svg';
 import { ReactComponent as Users } from '../../assets/Icons/Users.svg';
 import { ReactComponent as Project } from '../../assets/Icons/Project.svg';
 import { ReactComponent as Volunteers } from '../../assets/Icons/Volunteers.svg';
+import logo from '../../assets/logo.png';
 
 const Sidebar = () => {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(() =>
@@ -46,7 +47,7 @@ const Sidebar = () => {
         <DoubleArrow />
       </button>
       <Styled.Logo isSidebarExpanded={isSidebarExpanded}>
-        <img src="public/logo.png" alt="logo" />
+        <img src={logo} alt="logo" />
       </Styled.Logo>
       <Styled.SidebarMenu>
         <Styled.SidebarMask

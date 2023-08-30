@@ -4,6 +4,7 @@ import { userRequest } from '../../services/user/user-service';
 import { reviewNumberRequest } from '../../services/review-number/review-number-service'; // Importe a função reviewNumberRequest
 import { useAuth } from '../../context/auth/AuthProvider';
 import { ReactComponent as Up } from '../../assets/Icons/Up.svg';
+import { ReactComponent as PilNed } from '../../assets/Icons/PilNed.svg';
 import * as Styled from './CardTotalsHome.styles';
 
 export function CardTotalsHome() {
@@ -66,8 +67,8 @@ export function CardTotalsHome() {
           <Styled.Total>{totalReviews}</Styled.Total>
         </Styled.Col>
         <Styled.PercentageContainer>
-          <Up />
-          <Styled.Percentage>-2%</Styled.Percentage>
+          <PilNed />
+          <Styled.Percentage style={{ color: 'red' }}>-2%</Styled.Percentage>
         </Styled.PercentageContainer>
       </Styled.Content>
     </Styled.Container>

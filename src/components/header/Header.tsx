@@ -11,9 +11,7 @@ const Header = () => {
   const { accessToken, setAccessToken } = useAuth();
   const [username, setUsernmae] = useState<string>('user');
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  const [profilePhoto, setProfilePhoto] = useState<string>(
-    profile
-  );
+  const [profilePhoto, setProfilePhoto] = useState<string>(profile);
   const { data: user } = useQuery('user', () => getLoggedUser(accessToken), {
     refetchInterval: 5000,
   });
@@ -52,7 +50,7 @@ const Header = () => {
             </Style.DropdownContent>
           )}
         </Style.ButtonContainer>
-        <Style.UserPhoto src={profilePhoto}  />
+        <Style.UserPhoto src={profilePhoto} />
       </Style.UserContainer>
     </Style.HeaderContainer>
   );

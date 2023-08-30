@@ -16,9 +16,7 @@ export const BasicButton = styled.button.attrs((props) => ({
   font-size: 14px;
   line-height: 21px;
   border-radius: 6px;
-  border-width: 1.5px;
-  border-color: #9d8df4;
-  border-style: solid;
+  border: none;
   cursor: pointer;
   width: ${(props) => (props.grow ? '' : 'fit-content')};
   flex: ${(props) => (props.grow ? '1' : '')};

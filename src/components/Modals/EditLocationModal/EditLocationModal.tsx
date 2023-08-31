@@ -54,7 +54,6 @@ const EditLocationModal = ({
   const {
     register,
     handleSubmit,
-    setValue,
     control,
     reset,
     formState: { errors },
@@ -68,6 +67,7 @@ const EditLocationModal = ({
     const formData = new FormData();
     formData.append('name', data.name);
     formData.append('endereco', data.endereco);
+    console.log(convertValue(typeNumber))
     formData.append('locationType', typeNumber);
     formData.append('file', selectedFile as File);
     formData.append('cep', data.cep);
@@ -80,9 +80,10 @@ const EditLocationModal = ({
     { value: '2', label: 'Restaurante' },
     { value: '3', label: 'Casa Noturna' },
   ];
-  
+
   useEffect(() => {
     if (status === 'success') {
+      console.log(data.type) 
       reset({
         name: data.name,
         endereco: data.endereco,
@@ -91,7 +92,7 @@ const EditLocationModal = ({
         latitude: data.latitude,
         longitude: data.longitude,
       });
-
+     
     }
   }, [data, status, reset]);
   return (
@@ -126,7 +127,6 @@ const EditLocationModal = ({
                 label="Tipo"
                 options={types}
                 onChange={(value) => {
-                  setValue('type', value.label);
                   setTypeNumber(value.value);
                 }}
                 previousValue={

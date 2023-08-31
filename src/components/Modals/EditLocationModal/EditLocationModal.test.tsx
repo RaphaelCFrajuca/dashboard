@@ -9,7 +9,9 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import { AuthProvider } from '../../../context/auth/AuthProvider';
 
 jest.mock('../../../services/get-logged-user/get-logged-user-service');
-jest.mock('../../../utils/ baseUrl.ts', () => ({'someUrl': 'http://www.url.com'}));
+jest.mock('../../../utils/ baseUrl.ts', () => ({
+  someUrl: 'http://www.url.com',
+}));
 jest.mock('../../../services/refresh-token/refresh-token-service');
 jest.mock('../../../services/location/location-by-id-service');
 
@@ -24,13 +26,13 @@ describe('EditLocationModal', () => {
     queryClient = new QueryClient();
     render(
       <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-      <EditLocationModal
-        id={1}
-        showmodal={true}
-        setShowModal={setShowModalMock}
-      />
-      </AuthProvider>
+        <AuthProvider>
+          <EditLocationModal
+            id={1}
+            showmodal={true}
+            setShowModal={setShowModalMock}
+          />
+        </AuthProvider>
       </QueryClientProvider>
     );
   });
@@ -41,7 +43,6 @@ describe('EditLocationModal', () => {
   });
 
   const setShowModalMock = jest.fn();
-
 
   it('renders the modal header correctly', () => {
     const titleText = 'Editar';

@@ -2,7 +2,6 @@ import { ReactNode, RefObject } from 'react';
 import { UseFormHandleSubmit } from 'react-hook-form';
 import { FormContainer } from './Form.styles';
 
-
 export type IForm = React.DetailedHTMLProps<
   React.FormHTMLAttributes<HTMLFormElement>,
   HTMLFormElement

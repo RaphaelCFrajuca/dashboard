@@ -2,6 +2,7 @@ import { render, fireEvent } from '@testing-library/react';
 import { Modal } from './Modal';
 
 describe('Modal component', () => {
+  
   it('renders the modal content correctly when showModal is true', () => {
     const headerText = 'Modal Header';
     const contentText = 'Modal Content';

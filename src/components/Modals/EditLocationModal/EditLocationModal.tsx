@@ -1,16 +1,7 @@
-import {
-  Controller,
-  useForm,
-  SubmitHandler,
-  FieldError,
-} from 'react-hook-form';
+import { Controller, useForm, FieldError } from 'react-hook-form';
 import { useState, useEffect } from 'react';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  editLocationFormSchema,
-  EditLocationFormSchemaType,
-} from '../../../zodSchemas/LocationUpdateSchema';
+import { editLocationFormSchema } from '../../../zodSchemas/LocationUpdateSchema';
 import { ReactComponent as CloseIcon } from '../../../assets/Icons/Closeicons.svg';
 import ModalImg from '../../ModalImg/ModalImg';
 import { Button } from '../../Button/Button';
@@ -66,7 +57,7 @@ const EditLocationModal = ({
     control,
     reset,
     formState: { errors },
-  } = useForm<EditLocationFormSchemaType>({
+  } = useForm({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
     resolver: zodResolver(editLocationFormSchema),
@@ -88,6 +79,7 @@ const EditLocationModal = ({
     reset(data);
   }, [data]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new FormData();
     formData.append('name', data.name);
@@ -129,7 +121,7 @@ const EditLocationModal = ({
               // validate: (value) => validationFunction(value) || errorMessage
             })}
             data-testid="input-name"
-            error={errors.name}
+            error={errors.name as FieldError}
           />
           <Controller
             control={control}
@@ -158,14 +150,14 @@ const EditLocationModal = ({
             label="Endereço"
             {...register('endereco', {})}
             data-testid="input-endereco"
-            error={errors.endereco}
+            error={errors.endereco as FieldError}
           />
           <Frame direction="row" gap={18}>
             <Input
               label="CEP"
               {...register('cep', {})}
               data-testid="input-cep"
-              error={errors.cep}
+              error={errors.cep as FieldError}
             />
           </Frame>
           <Frame direction="row" gap={18}>
@@ -176,7 +168,7 @@ const EditLocationModal = ({
               error={
                 errors.latitude?.message === 'Expected number, received nan'
                   ? ({ message: 'O valor deve ser um número' } as FieldError)
-                  : errors.latitude
+                  : (errors.latitude as FieldError)
               }
             />
             <Input
@@ -186,7 +178,7 @@ const EditLocationModal = ({
               error={
                 errors.longitude?.message === 'Expected number, received nan'
                   ? ({ message: 'O valor deve ser um número' } as FieldError)
-                  : errors.longitude
+                  : (errors.longitude as FieldError)
               }
             />
           </Frame>

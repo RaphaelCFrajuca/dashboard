@@ -26,7 +26,7 @@ export const Content = styled.div`
   width: 100%;
   max-width: 437px;
   background-color: #ffffff;
-  padding: 32px 48px 32px 32px;
+  padding: 32px 32px 32px 32px;
 `;
 
 export const Header = styled.div`

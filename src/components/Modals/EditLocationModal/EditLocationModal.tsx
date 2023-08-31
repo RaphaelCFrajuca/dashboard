@@ -67,7 +67,6 @@ const EditLocationModal = ({
     const formData = new FormData();
     formData.append('name', data.name);
     formData.append('endereco', data.endereco);
-    console.log(convertValue(typeNumber))
     formData.append('locationType', typeNumber);
     formData.append('file', selectedFile as File);
     formData.append('cep', data.cep);
@@ -83,7 +82,6 @@ const EditLocationModal = ({
 
   useEffect(() => {
     if (status === 'success') {
-      console.log(data.type) 
       reset({
         name: data.name,
         endereco: data.endereco,
@@ -180,12 +178,9 @@ const EditLocationModal = ({
           </Frame>
           <Frame data-testid="img" direction="row" gap={0}>
             <ModalImg
-              
               src={data ? data.imgUrl : ''}
-              onFileChange={handleFileChange}
-              
-            />
-          </Frame>
+              onFileChange={handleFileChange}/>
+              </Frame>
           <Frame direction="row" gap={18}>
             <Button
               grow

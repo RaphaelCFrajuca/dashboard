@@ -1,5 +1,16 @@
-import { Controller, set, useForm } from 'react-hook-form';
-import { useState } from 'react';
+import {
+  Controller,
+  useForm,
+  SubmitHandler,
+  FieldError,
+} from 'react-hook-form';
+import { useState, useEffect } from 'react';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  editLocationFormSchema,
+  EditLocationFormSchemaType,
+} from '../../../zodSchemas/LocationUpdateSchema';
 import { ReactComponent as CloseIcon } from '../../../assets/Icons/Closeicons.svg';
 import ModalImg from '../../ModalImg/ModalImg';
 import { Button } from '../../Button/Button';
@@ -8,8 +19,6 @@ import { Form } from '../../Form/Form';
 import { Frame } from '../../../layout';
 import { Modal } from '../Modal/Modal';
 import { Option, SelectComponent } from '../../Select/Select';
-import { BigInput } from '../../Input/BigInput';
-import { useEffect } from 'react';
 import { Title, TitleContainer } from './EditLocationModal.styles';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import { getLocationById } from '../../../services/location/location-by-id-service';
@@ -57,13 +66,13 @@ const EditLocationModal = ({
     control,
     reset,
     formState: { errors },
-  } = useForm({
+  } = useForm<EditLocationFormSchemaType>({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
+    resolver: zodResolver(editLocationFormSchema),
     defaultValues: async () => {
       if (status === 'success') {
         return {
-          id: data.id,
           name: data.name,
           endereco: data.endereco,
           type: convertValue(data.type),
@@ -78,8 +87,7 @@ const EditLocationModal = ({
   useEffect(() => {
     reset(data);
   }, [data]);
-  const imgUrl = data ? data.imgUrl : '';
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const onSubmit = (data: any) => {
     const formData = new FormData();
     formData.append('name', data.name);
@@ -121,6 +129,7 @@ const EditLocationModal = ({
               // validate: (value) => validationFunction(value) || errorMessage
             })}
             data-testid="input-name"
+            error={errors.name}
           />
           <Controller
             control={control}
@@ -149,12 +158,14 @@ const EditLocationModal = ({
             label="Endereço"
             {...register('endereco', {})}
             data-testid="input-endereco"
+            error={errors.endereco}
           />
           <Frame direction="row" gap={18}>
             <Input
               label="CEP"
               {...register('cep', {})}
               data-testid="input-cep"
+              error={errors.cep}
             />
           </Frame>
           <Frame direction="row" gap={18}>
@@ -162,15 +173,28 @@ const EditLocationModal = ({
               label="Latitude"
               {...register('latitude', {})}
               data-testid="input-latitude"
+              error={
+                errors.latitude?.message === 'Expected number, received nan'
+                  ? ({ message: 'O valor deve ser um número' } as FieldError)
+                  : errors.latitude
+              }
             />
             <Input
               label="Longitude"
               {...register('longitude', {})}
               data-testid="input-longitude"
+              error={
+                errors.longitude?.message === 'Expected number, received nan'
+                  ? ({ message: 'O valor deve ser um número' } as FieldError)
+                  : errors.longitude
+              }
             />
           </Frame>
           <Frame direction="row" gap={0}>
-            <ModalImg src={imgUrl} onFileChange={handleFileChange} />
+            <ModalImg
+              src={data ? data.imgUrl : ''}
+              onFileChange={handleFileChange}
+            />
           </Frame>
           <Frame direction="row" gap={18}>
             <Button

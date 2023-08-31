@@ -24,7 +24,6 @@ export const LabelSelect = styled.div<ISelect>`
   font-size: 12px;
   line-height: 24px;
   z-index: 1;
-  
 `;
 
 export const ErrorMessage = styled.span`

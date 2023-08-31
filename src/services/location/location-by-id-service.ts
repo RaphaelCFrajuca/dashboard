@@ -6,9 +6,9 @@ export interface Location {
   endereco: string;
   type: string;
   imgUrl: string;
-  cep: number;
-  latitude: number;
-  longitude: number;
+  cep: string;
+  latitude: string;
+  longitude: string;
   averageGrade: number;
   reviews: number;
 }

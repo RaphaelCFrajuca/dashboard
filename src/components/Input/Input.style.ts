@@ -27,6 +27,6 @@ export const LabelInput = styled.label<IInput>`
 
 export const ErrorMessage = styled.span`
   color: #eb3d3d;
-  fontsize: 12;
-  fontweight: '400';
+  font-size: 12;
+  font-weight: '400';
 `;

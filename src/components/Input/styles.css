@@ -20,7 +20,7 @@
 .input-error:focus,
 .input-error:focus-visible {
 	border-color: #eb3d3d !important;
-	background-color: #ffe8e8;
+	
 }
 
 .form-textarea {

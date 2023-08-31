@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
-import { baseUrl } from '../../utils/ baseUrl';
 
 export const reviewNumberRequest = async (token: string | null) => {
+  const baseUrl: string = import.meta.env.VITE_API_URL as string;
   const response = await axios
     .get(`${baseUrl}/is-it-safe/dashboard/review`, {
       headers: {

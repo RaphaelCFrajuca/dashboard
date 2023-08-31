@@ -4,15 +4,15 @@ import { useEffect, useState } from 'react'; // Importe apenas o useEffect e use
 import { useNavigate } from 'react-router-dom';
 import { getLoggedUser } from '../../services/get-logged-user/get-logged-user-service';
 import { ReactComponent as Down } from '../../assets/Icons/Downicons.svg';
-import profile from '../../assets/profile.png';
 import * as Style from './Header.styles';
 
 const Header = () => {
   const { accessToken, setAccessToken } = useAuth();
   const [username, setUsernmae] = useState<string>('user');
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  console.log(profile);
-  const [profilePhoto, setProfilePhoto] = useState<string>(profile);
+  const [profilePhoto, setProfilePhoto] = useState<string>(
+    'src/assets/profile.png'
+  );
   const { data: user } = useQuery('user', () => getLoggedUser(accessToken), {
     refetchInterval: 5000,
   });
@@ -51,7 +51,7 @@ const Header = () => {
             </Style.DropdownContent>
           )}
         </Style.ButtonContainer>
-        <Style.UserPhoto data-testid="user-profile-pic" src={profilePhoto} />
+        <Style.UserPhoto src={profilePhoto} alt="user" />
       </Style.UserContainer>
     </Style.HeaderContainer>
   );

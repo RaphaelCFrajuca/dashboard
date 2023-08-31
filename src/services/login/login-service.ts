@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { baseUrl } from '../../utils/ baseUrl';
 
 export interface LoginResponse {
   refresh_token: string;
@@ -18,6 +17,7 @@ export interface LoginParams {
   password: string;
 }
 
+const baseUrl: string = import.meta.env.VITE_API_URL as string;
 const headers = {
   'Content-Type': 'application/json',
 };

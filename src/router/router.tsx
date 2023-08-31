@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import Home from '../pages/Home/Home';
 import Reviews from '../pages/reviews/Reviews';
 import { Login } from '../pages/Login/Login';
-import Locations from '../pages/Locations/Locations';
 
 export function Router() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -29,7 +28,6 @@ export function Router() {
           element={<Login setIsLoggedIn={setIsLoggedIn} />}
         />
         <Route path="/reviews" element={<Reviews />} />
-        <Route path="/lugares" element={<Locations />} />
       </Routes>
     </BrowserRouter>
   );

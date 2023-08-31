@@ -1,5 +1,4 @@
 import axios, { AxiosError } from 'axios';
-import { baseUrl } from '../../utils/ baseUrl';
 
 interface Review {
   locationId: number;
@@ -24,6 +23,7 @@ interface User {
 }
 
 export const getLoggedUser = async (token: string | null) => {
+  const baseUrl: string = import.meta.env.VITE_API_URL as string;
   const loggedUserData: User = await axios
     .get(`${baseUrl}/is-it-safe/user/profile`, {
       headers: {

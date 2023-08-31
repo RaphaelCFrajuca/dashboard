@@ -5,23 +5,48 @@ import {
   findAllByTestId,
 } from '@testing-library/react';
 import { EditLocationModal } from './EditLocationModal';
+import { QueryClientProvider, QueryClient } from 'react-query';
+import { AuthProvider } from '../../../context/auth/AuthProvider';
+
+jest.mock('../../../services/get-logged-user/get-logged-user-service');
+jest.mock('../../../utils/ baseUrl.ts', () => ({'someUrl': 'http://www.url.com'}));
+jest.mock('../../../services/refresh-token/refresh-token-service');
+jest.mock('../../../services/location/location-by-id-service');
+
+jest.mock('../../../assets/Icons/Closeicons.svg', () => ({
+  ReactComponent: () => <div data-testid="close-icon" />,
+}));
 
 describe('EditLocationModal', () => {
-  const setShowModalMock = jest.fn();
+  let queryClient: QueryClient;
 
   beforeEach(() => {
+    queryClient = new QueryClient();
     render(
-      <EditLocationModal showmodal={true} setShowModal={setShowModalMock} />
+      <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+      <EditLocationModal
+        id={1}
+        showmodal={true}
+        setShowModal={setShowModalMock}
+      />
+      </AuthProvider>
+      </QueryClientProvider>
     );
   });
 
+  afterEach(() => {
+    jest.resetAllMocks();
+    queryClient.clear();
+  });
+
+  const setShowModalMock = jest.fn();
+
+
   it('renders the modal header correctly', () => {
-    const titleText = 'Quero ser voluntário!';
-    const subTitleText =
-      'Após o envio deste formulário, a equipe do Is It Safe? irá entrar em contato através do e-mail fornecido.';
+    const titleText = 'Editar';
 
     expect(screen.getByText(titleText)).toBeInTheDocument();
-    expect(screen.getByText(subTitleText)).toBeInTheDocument();
   });
 
   it('triggers the setShowModal function when cancel button is clicked', () => {
@@ -33,38 +58,26 @@ describe('EditLocationModal', () => {
 
   it('show errors in required inputs if user click on submit with all inputs empty', async () => {
     const nameInput = await screen.findByTestId('input-name');
-    const emailInput = await screen.findByTestId('input-email');
-    const indicationInput = await screen.findByTestId('input-indication');
-    const pronounsInput = await screen.findByTestId('input-pronouns');
-    const partOfCommunityInput = await screen.findByTestId(
-      'input-part-of-community'
-    );
-    const aboutInput = await screen.findByTestId('input-about');
-    const reasonInput = await screen.findByTestId('input-reason');
-    const interestInput = await screen.findByTestId('input-interest');
-    const timeExperienceInput = await screen.findByTestId(
-      'input-time-experience'
-    );
-    const portifolioInput = await screen.findByTestId('input-portifolio');
-    const cancelButton = await screen.findByTestId('button-cancel');
-    const sendButton = await screen.findByTestId('button-send');
+    const typeInput = await screen.findByTestId('type-select');
+    const cepInput = await screen.findByTestId('input-cep');
+    const addressInput = await screen.findByTestId('input-endereco');
+    const latitudeInput = await screen.findByTestId('input-latitude');
+    const longitudeInput = await screen.findByTestId('input-longitude');
+    const imgInput = await screen.findByTestId('img');
+    const sendButton = screen.getByText('ENVIAR');
 
     expect(nameInput).toBeInTheDocument();
-    expect(emailInput).toBeInTheDocument();
-    expect(indicationInput).toBeInTheDocument();
-    expect(pronounsInput).toBeInTheDocument();
-    expect(partOfCommunityInput).toBeInTheDocument();
-    expect(aboutInput).toBeInTheDocument();
-    expect(reasonInput).toBeInTheDocument();
-    expect(interestInput).toBeInTheDocument();
-    expect(timeExperienceInput).toBeInTheDocument();
-    expect(portifolioInput).toBeInTheDocument();
-    expect(cancelButton).toBeInTheDocument();
+    expect(typeInput).toBeInTheDocument();
+    expect(cepInput).toBeInTheDocument();
+    expect(addressInput).toBeInTheDocument();
+    expect(latitudeInput).toBeInTheDocument();
+    expect(longitudeInput).toBeInTheDocument();
+    expect(imgInput).toBeInTheDocument();
     expect(sendButton).toBeInTheDocument();
 
     fireEvent.click(sendButton);
 
     const allErrors = await screen.findAllByTestId('input-error');
-    expect(allErrors).toHaveLength(9); // There is 9 required inputs
+    expect(allErrors).toHaveLength(5); // There is 9 required inputs
   });
 });

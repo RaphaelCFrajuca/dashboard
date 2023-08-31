@@ -1,8 +1,7 @@
 import { ReactNode, RefObject } from 'react';
 import { UseFormHandleSubmit } from 'react-hook-form';
 import { FormContainer } from './Form.styles';
-import { SubmitHandler } from 'react-hook-form';
-import { EditLocationFormSchemaType } from '../../zodSchemas/LocationUpdateSchema';
+
 
 export type IForm = React.DetailedHTMLProps<
   React.FormHTMLAttributes<HTMLFormElement>,

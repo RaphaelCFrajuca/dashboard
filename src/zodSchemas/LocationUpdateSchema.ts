@@ -21,7 +21,7 @@ export const editLocationFormSchema = z.object({
     message: 'CEP Inválido',
   }),
   latitude: z
-    .string()
+    .string().nonempty({ message: 'Campo obrigatório' })
     .pipe(
       z.coerce
         .number()
@@ -29,7 +29,7 @@ export const editLocationFormSchema = z.object({
         .max(90, { message: 'Latitude inválida' })
     ),
   longitude: z
-    .string()
+    .string().nonempty({ message: 'Campo obrigatório' })
     .pipe(
       z.coerce
         .number()
@@ -37,5 +37,3 @@ export const editLocationFormSchema = z.object({
         .max(180, { message: 'Longitude inválida' })
     ),
 });
-
-

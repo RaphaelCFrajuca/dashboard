@@ -11,6 +11,46 @@ export const BasicInput = styled.div`
   line-height: 21px;
   gap: 4px;
   width: 100%;
+
+  .form-input {
+    border-width: 1px;
+    border-style: solid;
+    width: 100%;
+    height: 37px;
+    border-radius: 6px;
+    border-color: #9d8df4;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .form-input:focus,
+  .form-input:focus-visible {
+    border-color: #6200ee;
+    outline: #6898c9; /* Avoid firefox and safari auto style for outline*/
+    font-weight: 700;
+  }
+
+  .input-error,
+  .input-error:focus,
+  .input-error:focus-visible {
+    border-color: #eb3d3d !important;
+  }
+
+  .form-textarea {
+    border-color: #ced4da;
+    border-width: 2px;
+    border-style: solid;
+    width: 100%;
+    border-radius: 6px;
+    padding: 8px;
+    resize: none;
+  }
+
+  .form-textarea:focus,
+  .form-textarea:focus-visible {
+    border-color: #9d8df4;
+    outline: #6898c9; /* Avoid firefox and safari auto style for outline*/
+  }
 `;
 
 export const LabelInput = styled.label<IInput>`

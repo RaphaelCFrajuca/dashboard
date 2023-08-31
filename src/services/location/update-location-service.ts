@@ -1,11 +1,10 @@
 import axios, { AxiosError } from 'axios';
-
+import { baseUrl } from '../../utils/ baseUrl';
 export const updateLocation = async (
   token: string | null,
   formData: FormData,
   id: number
 ) => {
-  const baseUrl: string = import.meta.env.VITE_API_URL as string;
   const response = await axios
     .put(`${baseUrl}/is-it-safe/location/update/${id}`, formData, {
       headers: {

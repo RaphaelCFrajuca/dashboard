@@ -182,10 +182,12 @@ const EditLocationModal = ({
               }
             />
           </Frame>
-          <Frame direction="row" gap={0}>
+          <Frame data-testid="img" direction="row" gap={0}>
             <ModalImg
+              
               src={data ? data.imgUrl : ''}
               onFileChange={handleFileChange}
+              
             />
           </Frame>
           <Frame direction="row" gap={18}>

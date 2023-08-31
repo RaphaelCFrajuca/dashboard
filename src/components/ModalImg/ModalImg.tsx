@@ -47,6 +47,8 @@ const ModalImg: React.FC<ModalImgProps> = ({ src, onFileChange }) => {
             ref={fileInputRef}
             type="file"
             onChange={handleFileInputChange}
+            
+            
           />
           <CloseIcon
             style={{

@@ -1,7 +1,7 @@
 import { Controller, useForm, FieldError } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { editLocationFormSchema } from '../../../zodSchemas/LocationUpdateSchema';
+import { EditLocationFormSchemaType, editLocationFormSchema } from '../../../zodSchemas/LocationUpdateSchema';
 import { ReactComponent as CloseIcon } from '../../../assets/Icons/Closeicons.svg';
 import ModalImg from '../../ModalImg/ModalImg';
 import { Button } from '../../Button/Button';
@@ -31,6 +31,7 @@ const EditLocationModal = ({
   const { data, status } = useQuery('location', () =>
     getLocationById(accessToken, id)
   );
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
 
@@ -57,29 +58,12 @@ const EditLocationModal = ({
     control,
     reset,
     formState: { errors },
-  } = useForm({
+  } = useForm<EditLocationFormSchemaType>({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
     resolver: zodResolver(editLocationFormSchema),
-    defaultValues: async () => {
-      if (status === 'success') {
-        return {
-          name: data.name,
-          endereco: data.endereco,
-          type: convertValue(data.type),
-          cep: data.cep,
-          latitude: data.latitude,
-          longitude: data.longitude,
-        };
-      }
-    },
   });
 
-  useEffect(() => {
-    reset(data);
-  }, [data]);
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new FormData();
     formData.append('name', data.name);
@@ -96,7 +80,20 @@ const EditLocationModal = ({
     { value: '2', label: 'Restaurante' },
     { value: '3', label: 'Casa Noturna' },
   ];
+  
+  useEffect(() => {
+    if (status === 'success') {
+      reset({
+        name: data.name,
+        endereco: data.endereco,
+        type: convertValue(data.type),
+        cep: data.cep,
+        latitude: data.latitude,
+        longitude: data.longitude,
+      });
 
+    }
+  }, [data, status, reset]);
   return (
     <Modal
       header={
@@ -118,7 +115,6 @@ const EditLocationModal = ({
           <Input
             label="Nome"
             {...register('name', {
-              // validate: (value) => validationFunction(value) || errorMessage
             })}
             data-testid="input-name"
             error={errors.name as FieldError}

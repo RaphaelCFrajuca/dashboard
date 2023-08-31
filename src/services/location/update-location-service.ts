@@ -12,7 +12,7 @@ export const updateLocation = async (
         Authorization: `Bearer ${token}`,
       },
     })
-    .then((res) => console.log(res))
+    .then((res) => res.data)
     .catch((err: AxiosError) => {
       throw new Error(err.message);
     });

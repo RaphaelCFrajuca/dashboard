@@ -11,10 +11,9 @@ const Header = () => {
   const { accessToken, setAccessToken } = useAuth();
   const [username, setUsernmae] = useState<string>('user');
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  console.log(profile);
   const [profilePhoto, setProfilePhoto] = useState<string>(profile);
   const { data: user } = useQuery('user', () => getLoggedUser(accessToken), {
-    refetchInterval: 5000,
+    refetchInterval: 50000,
   });
 
   const navigate = useNavigate();

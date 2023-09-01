@@ -4,7 +4,6 @@ export const Container = styled.div`
   background: var(--neutros-50);
   padding: 16px 24px;
   border-radius: 2px;
-  border: 1px solid red;
 `;
 
 export const Content = styled.div`
@@ -14,15 +13,16 @@ export const Content = styled.div`
 `;
 
 export const ContentBody = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  gap: calc(20px);
 `;
 
 export const Title = styled.h1`
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
-  border: 1px solid yellow;
 `;
 
 export const ContainerSearchFilterAdd = styled.div`
@@ -83,8 +83,8 @@ export const ButtonAddBox = styled.div`
 export const LineGrey = styled.div`
   width: 100%;
   height: 1px;
-  background-color: gray;
-  margin: 1.5em 0;
+  background-color: #efecfd;
+  margin: 1em 0;
 `;
 
 export const ColumnAlphabet = styled.div`
@@ -101,6 +101,35 @@ export const ColumnAlphabet = styled.div`
     rgba(58, 44, 136, 1) 49%,
     rgba(34, 19, 70, 1) 100%
   );
+  border-radius: 3px;
   gap: calc(5px);
   padding: 5px 0;
+`;
+
+export const BoxList = styled.div`
+  width: 94%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
+
+export const TopList = styled.div`
+  width: 100%;
+  height: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 3em;
+`;
+
+export const SpaceColumn = styled.div`
+  width: 20%;
+  display: flex;
+  align-items: center;
+`;
+
+export const TitleColumn = styled.h4`
+  font-size: 0.8em;
+  font-weight: 200;
+  color: #9d8df4;
 `;

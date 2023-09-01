@@ -1,6 +1,7 @@
 import * as Style from './LocalsContainer.styles';
 import searchIcon from '../../../assets/Icons/Searchicons.svg';
 import filterIcon from '../../../assets/Icons/Filtericons.svg';
+import React from 'react';
 
 const alphabetList = [
   'A',
@@ -30,7 +31,7 @@ const alphabetList = [
   'Z',
 ];
 
-const LocalsContainer = () => {
+const LocalsContainer: React.FC<HTMLBodyElement> = () => {
   return (
     <Style.Container>
       <Style.Content>
@@ -51,7 +52,17 @@ const LocalsContainer = () => {
             <div key={i}>{letter}</div>
           ))}
         </Style.ColumnAlphabet>
-        <div>hello</div>
+        <Style.BoxList>
+          <Style.TopList>
+            <Style.SpaceColumn>
+              <Style.TitleColumn>Local</Style.TitleColumn>
+            </Style.SpaceColumn>
+            <Style.SpaceColumn>
+              <Style.TitleColumn>Status</Style.TitleColumn>
+            </Style.SpaceColumn>
+          </Style.TopList>
+          <Style.LineGrey></Style.LineGrey>
+        </Style.BoxList>
       </Style.ContentBody>
     </Style.Container>
   );

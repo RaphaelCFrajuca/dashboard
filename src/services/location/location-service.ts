@@ -15,7 +15,7 @@ export const locationPendingValidationRequest = async (
   token: string | null
 ) => {
   const response = await axios.get(
-    'https://is-it-safe-api-v2.herokuapp.com/is-it-safe/dashboard/location/validate/locations',
+    `${baseUrl}/is-it-safe/dashboard/location/validate/locations`,
     {
       headers: {
         Authorization: 'Bearer ' + token,

@@ -1,8 +1,15 @@
 import * as Style from './LocalsContainer.styles';
+import { useQuery } from 'react-query';
 import searchIcon from '../../../assets/Icons/Searchicons.svg';
-import filterIcon from '../../../assets/Icons/Filtericons.svg';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import {
+  LocationList,
+  PartialLocation,
+  getAllLocations,
+} from '../../../services/location/all-location-service';
+import { useAuth } from '../../../context/auth/AuthProvider';
 
+//tira isso, muito feio
 const alphabetList = [
   'A',
   'B',
@@ -31,7 +38,18 @@ const alphabetList = [
   'Z',
 ];
 
-const LocalsContainer: React.FC<HTMLBodyElement> = () => {
+const LocalsContainer: React.FC = () => {
+  const { accessToken } = useAuth();
+  const { data, status } = useQuery('locationList', () =>
+    getAllLocations(accessToken)
+  );
+  const [locationList, setLocationList] = useState<PartialLocation[] | null>(
+    null
+  );
+  useEffect(() => {
+    data ? setLocationList(data.content) : null;
+  }, [data]);
+
   return (
     <Style.Container>
       <Style.Content>
@@ -62,6 +80,7 @@ const LocalsContainer: React.FC<HTMLBodyElement> = () => {
             </Style.SpaceColumn>
           </Style.TopList>
           <Style.LineGrey></Style.LineGrey>
+          <Style.List></Style.List>
         </Style.BoxList>
       </Style.ContentBody>
     </Style.Container>

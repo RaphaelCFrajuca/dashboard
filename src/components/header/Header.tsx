@@ -20,8 +20,6 @@ const Header = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const response = locationPendingValidationRequest(accessToken);
-    console.log(response);
     if (user) {
       setUsernmae(user.nickname);
       setProfilePhoto(user.profilePhoto);

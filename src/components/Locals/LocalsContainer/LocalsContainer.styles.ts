@@ -133,3 +133,10 @@ export const TitleColumn = styled.h4`
   font-weight: 200;
   color: #9d8df4;
 `;
+
+export const List = styled.ul`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;

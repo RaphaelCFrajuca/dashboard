@@ -4,6 +4,7 @@ import * as Style from '../Home/Home.styles';
 import { EditLocationModal } from '../../components/Modals/EditLocationModal/EditLocationModal';
 import { DeleteLocationModal } from '../../components/Modals/DeleteLocationModal/DeleteLocationModal';
 import { useState } from 'react';
+import LocalsContainer from '../../components/Locals/LocalsContainer/LocalsContainer';
 
 const Locations = () => {
   const [showmodal, setShowModal] = useState(false);
@@ -14,6 +15,7 @@ const Locations = () => {
         <Style.HeaderContentContainer>
           <Header />
           <Style.Content>
+            <LocalsContainer />
             <EditLocationModal
               showmodal={true}
               setShowModal={setShowModal}

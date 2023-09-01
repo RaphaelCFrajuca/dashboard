@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import { baseUrl } from '../../utils/ baseUrl';
 
 interface Review {
   locationId: number;
@@ -24,7 +25,7 @@ interface User {
 
 export const getLoggedUser = async (token: string | null) => {
   const loggedUserData: User = await axios
-    .get('https://is-it-safe-api-v2.herokuapp.com/is-it-safe/user/profile', {
+    .get(`${baseUrl}/is-it-safe/user/profile`, {
       headers: {
         Authorization: 'Bearer ' + token,
       },

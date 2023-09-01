@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { baseUrl } from '../../utils/ baseUrl';
 
 export interface LoginResponse {
   refresh_token: string;
@@ -17,7 +18,6 @@ export interface LoginParams {
   password: string;
 }
 
-const baseUrl = 'https://is-it-safe-api-v2.herokuapp.com';
 const headers = {
   'Content-Type': 'application/json',
 };

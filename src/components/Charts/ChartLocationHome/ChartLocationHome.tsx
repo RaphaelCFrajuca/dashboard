@@ -9,6 +9,7 @@ import { Chart } from 'chart.js/auto';
 import { ReactComponent as Righticons } from '../../../assets/Icons/Righticons.svg';
 import { ReactComponent as Lefticons } from '../../../assets/Icons/Lefticons.svg';
 import * as Styled from './ChartLocationHome.styles';
+import { Loading } from '../../Loading/Loading';
 
 enum LocationChartMode {
   Month = 'month',
@@ -20,7 +21,7 @@ interface CountByMonthData {
   month: string;
 }
 
-interface LocationChartData {
+export interface LocationChartData {
   chart: {
     count_by_month: CountByMonthData[];
     count_by_year: number;
@@ -190,9 +191,8 @@ export function ChartLocationHome() {
   };
 
   if (isLoading || !data || !data.chart || data.chart.length === 0) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
-
   const { chart } = data;
 
   const isFirstYear = selectedYear === chart[0].year;

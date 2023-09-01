@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import { ReactComponent as Downicons } from '../../../assets/Icons/Downicons.svg';
 
 interface ButtonProps {
   selected: boolean;

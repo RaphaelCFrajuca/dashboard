@@ -25,6 +25,7 @@ export const Content = styled.div`
 export const Whapper = styled.div`
   display: flex;
   gap: 20px;
+  width: 100%;
 `;
 export const HeaderContentContainer = styled.div`
   width: 100%;

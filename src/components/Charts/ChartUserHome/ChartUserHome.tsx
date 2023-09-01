@@ -8,8 +8,8 @@ import { Chart } from 'chart.js/auto';
 import { ReactComponent as Righticons } from '../../../assets/Icons/Righticons.svg';
 import { ReactComponent as Lefticons } from '../../../assets/Icons/Lefticons.svg';
 import { ReactComponent as Downicons } from '../../../assets/Icons/Downicons.svg';
-
 import * as Styled from './ChartUserHome.styles';
+import { Loading } from '../../Loading/Loading';
 
 enum UserChartMode {
   Month = 'month',
@@ -240,7 +240,7 @@ export function ChartUserHome() {
   };
 
   if (isLoading || !data || !data.chart || data.chart.length === 0) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   const { chart } = data;

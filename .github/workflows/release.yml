@@ -28,10 +28,13 @@ jobs:
       # Build the app
       - name: Build the app
         run: yarn build
+        env:
+          VITE_API_URL: ${{ secrets.PROD_API_URL }}
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN}}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
-          projectId: isitsafe-dashboard-release
+          projectId: is-it-safe-29b67
           channelId: live
+          target: release

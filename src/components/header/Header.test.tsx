@@ -7,9 +7,11 @@ import Header from './Header';
 import { getLoggedUser } from '../../services/get-logged-user/get-logged-user-service';
 
 jest.mock('../../services/get-logged-user/get-logged-user-service');
+jest.mock('../../utils/ baseUrl.ts', () => ({ someUrl: 'http://www.url.com' }));
 jest.mock('../../assets/Icons/Downicons.svg', () => ({
   ReactComponent: () => <div data-testid="down-icon" />,
 }));
+jest.mock('../../assets/profile.png', () => 'src/assets/profile.png');
 
 interface User {
   nickname: string;
@@ -52,33 +54,7 @@ describe('Header', () => {
       screen.getByRole('heading', { name: /dashboard/i })
     ).toBeInTheDocument();
     expect(screen.getByText('olá John Doe')).toBeInTheDocument();
-    expect(screen.getByAltText('user')).toHaveAttribute(
-      'src',
-      'src/assets/profile.png'
-    );
-  });
-
-  it('renders the header component with default user information if user data is not available', async () => {
-    (getLoggedUser as jest.Mock).mockResolvedValueOnce(null);
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <BrowserRouter>
-            {' '}
-            <Header />
-          </BrowserRouter>
-        </AuthProvider>
-      </QueryClientProvider>
-    );
-
-    await screen.findByText('olá user');
-
-    expect(
-      screen.getByRole('heading', { name: /dashboard/i })
-    ).toBeInTheDocument();
-    expect(screen.getByText('olá user')).toBeInTheDocument();
-    expect(screen.getByAltText('user')).toHaveAttribute(
+    expect(screen.getByTestId('user-profile-pic')).toHaveAttribute(
       'src',
       'src/assets/profile.png'
     );

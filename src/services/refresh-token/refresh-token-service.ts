@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { baseUrl } from '../../utils/ baseUrl';
 
 export interface RefreshTokenResponse {
   refresh_token: string;
@@ -11,8 +12,6 @@ export interface RefreshTokenResponse {
     role: string;
   };
 }
-
-const baseUrl = 'https://is-it-safe-api-v2.herokuapp.com';
 
 export async function getRefreshToken(
   token: string

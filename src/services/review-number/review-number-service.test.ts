@@ -22,7 +22,7 @@ describe('reviewNumberRequest', () => {
     expect(result).toEqual(mockReviews); // Assert that the result is equal to the mock reviews value
     expect(axios.get).toHaveBeenCalledTimes(1); // Assert that the axios get method was called exactly once
     expect(axios.get).toHaveBeenCalledWith(
-      'https://is-it-safe-api-v2.herokuapp.com/is-it-safe/review/show-review-qnt',
+      'https://is-it-safe-api-v2.herokuapp.com/is-it-safe/dashboard/review',
       {
         headers: {
           Authorization: 'Bearer ' + mockToken,
@@ -45,7 +45,7 @@ describe('reviewNumberRequest', () => {
       expect(error).toEqual(mockError); // Assert that the error thrown is equal to the mock error value
       expect(axios.get).toHaveBeenCalledTimes(1); // Assert that the axios get method was called exactly once
       expect(axios.get).toHaveBeenCalledWith(
-        'https://is-it-safe-api-v2.herokuapp.com/is-it-safe/review/show-review-qnt',
+        'https://is-it-safe-api-v2.herokuapp.com/is-it-safe/dashboard/review',
         {
           headers: {
             Authorization: 'Bearer ' + mockToken,

@@ -25,7 +25,6 @@ const SelectComponent = ({
   previousValue,
 }: ISelect) => {
   const hasError = !!error;
-  const errorMessage = error?.message;
   const [selected, setSelected] = useState<Option | null>(null);
 
   const change = (value: Option | null) => {
@@ -46,7 +45,6 @@ const SelectComponent = ({
         isSearchable={false}
         styles={{
           control: (base, state) => {
-            let backgroundColor = '';
             let fontWeight = 400;
             let borderColor = '#9D8DF4';
             let borderWidth = '1px';
@@ -57,11 +55,9 @@ const SelectComponent = ({
             }
             if (hasError) {
               borderColor = '#eb3d3d';
-              backgroundColor = '#ffe8e8';
             }
             return {
               ...base,
-              backgroundColor,
               borderColor,
               fontWeight,
               borderWidth,
@@ -79,7 +75,9 @@ const SelectComponent = ({
         }}
       />
       {hasError && (
-        <ErrorMessage data-testid="input-error">{errorMessage}</ErrorMessage>
+        <ErrorMessage data-testid="input-error">
+          Selecione um valor
+        </ErrorMessage>
       )}
     </BasicSelect>
   );

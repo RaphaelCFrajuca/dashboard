@@ -3,6 +3,7 @@ import Header from '../../components/header/Header';
 import * as Style from '../Home/Home.styles';
 import { AddLocationModal } from '../../components/Modals/AddLocationModal/AddLocationModal'; 
 import { useState } from 'react';
+import LocalsContainer from '../../components/Locals/LocalsContainer/LocalsContainer';
 
 const Locations = () => {
   const [showmodal, setShowModal] = useState(false);

@@ -63,7 +63,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
       header={
         <>
           <TitleContainer>
-            <Title>Editar</Title>
+            <Title>Novo Local</Title>
           </TitleContainer>
           <CloseIcon
             data-testid="close-modal"

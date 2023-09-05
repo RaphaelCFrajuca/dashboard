@@ -84,7 +84,7 @@ const EditLocationModal = ({
   ];
 
   useEffect(() => {
-    if (data) {
+    if (status === 'success') {
       reset({
         name: data.name,
         endereco: data.endereco,
@@ -123,7 +123,6 @@ const EditLocationModal = ({
             control={control}
             render={() => (
               <SelectComponent
-                dataTestid="select"
                 label="Tipo"
                 options={types}
                 onChange={(value) => {
@@ -137,6 +136,7 @@ const EditLocationModal = ({
                       } as Option)
                     : null
                 }
+                dataTestid="type-select"
               />
             )}
             name="type"

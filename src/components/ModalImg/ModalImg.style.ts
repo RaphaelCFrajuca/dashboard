@@ -11,7 +11,7 @@ export const ModalImageContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  `;
+`;
 
 export const ImageContainer = styled.div<ImageContainerProps>`
   width: 100%;
@@ -19,7 +19,12 @@ export const ImageContainer = styled.div<ImageContainerProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: ${(props) => (props.srcImg ? 'none': props.hasError? '2px dashed #eb3d3d' : '1px dashed #9D8DF4')};
+  border: ${(props) =>
+    props.srcImg
+      ? 'none'
+      : props.hasError
+      ? '2px dashed #eb3d3d'
+      : '1px dashed #9D8DF4'};
   img {
     width: 100%;
     height: auto;

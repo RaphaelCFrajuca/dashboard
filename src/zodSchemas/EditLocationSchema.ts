@@ -4,7 +4,7 @@ import { validaCep } from '../services/cep-validation-service';
 export const editLocationFormSchema = z.object({
   name: z.string().min(5, 'Campo obrigatório').max(100),
   endereco: z.string().min(5, 'Campo obrigatório').max(100),
-  locationTypeId: z
+  type: z
     .string()
     .nonempty({ message: 'Campo obrigatório' })
     .refine(

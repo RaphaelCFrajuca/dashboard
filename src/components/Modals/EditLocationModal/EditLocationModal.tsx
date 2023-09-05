@@ -113,8 +113,7 @@ const EditLocationModal = ({
         <Frame direction="column" gap={16}>
           <Input
             label="Nome"
-            {...register('name', {
-            })}
+            {...register('name', {})}
             data-testid="input-name"
             error={errors.name as FieldError}
           />

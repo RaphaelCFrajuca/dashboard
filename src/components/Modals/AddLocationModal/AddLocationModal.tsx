@@ -94,7 +94,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
                   errors.type = undefined;
                 }}
                 dataTestid="type-select"
-                error={(errors.type)}
+                error={errors.type}
               />
             )}
             name="type"
@@ -104,7 +104,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
               label="CEP"
               {...register('cep', {})}
               data-testid="input-cep"
-              error={(errors.cep)}
+              error={errors.cep}
             />
           </Frame>
           <Frame data-testid="img" direction="row" gap={0}>

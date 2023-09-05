@@ -19,7 +19,12 @@ const ModalImg: React.FC<ModalImgProps> = ({ src, onFileChange }) => {
   ) => {
     const selectedFile = event.target.files && event.target.files[0];
     if (selectedFile) {
-      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+      const allowedTypes = [
+        'image/jpeg',
+        'image/jpg',
+        'image/png',
+        'image/webp',
+      ];
       const maxSize = 5242880; // 5MB in bytes
       if (!allowedTypes.includes(selectedFile.type)) {
         setInputErrorMessage('Tipo de arquivo não permitido');
@@ -40,44 +45,44 @@ const ModalImg: React.FC<ModalImgProps> = ({ src, onFileChange }) => {
   }, [src]);
   return (
     <ModalImageContainer>
-    <ImageContainer hasError={hasError} srcImg={srcImg}>
-      {srcImg ? (
-        <div>
-          <CloseIcon
-            style={{
-              position: 'absolute',
-              top: '10px',
-              right: '10px',
-              backgroundColor: 'white',
-              padding: '5px',
-              borderRadius: '50%',
-            }}
-            onClick={() => setSrcImg('')}
-          ></CloseIcon>
-          <img src={srcImg} alt="Image" />
-        </div>
-      ) : (
-        <>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".jpg, .jpeg, .png, .webp"
-            multiple={false}
-            onChange={handleFileInputChange}
-          />
-          <CloseIcon
-            style={{
-              backgroundColor: hasError? '#ffcdcd': 'ece9fd',
-              color: hasError? '#ff0000': '#3f3d56',
-              padding: '5px',
-              borderRadius: '50%',
-              rotate: '-45deg',
-            }}
-            onClick={() => fileInputRef.current?.click()}
-          ></CloseIcon>
-        </>
-      )}
-    </ImageContainer>
+      <ImageContainer hasError={hasError} srcImg={srcImg}>
+        {srcImg ? (
+          <div>
+            <CloseIcon
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                backgroundColor: 'white',
+                padding: '5px',
+                borderRadius: '50%',
+              }}
+              onClick={() => setSrcImg('')}
+            ></CloseIcon>
+            <img src={srcImg} alt="Image" />
+          </div>
+        ) : (
+          <>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".jpg, .jpeg, .png, .webp"
+              multiple={false}
+              onChange={handleFileInputChange}
+            />
+            <CloseIcon
+              style={{
+                backgroundColor: hasError ? '#ffcdcd' : 'ece9fd',
+                color: hasError ? '#ff0000' : '#3f3d56',
+                padding: '5px',
+                borderRadius: '50%',
+                rotate: '-45deg',
+              }}
+              onClick={() => fileInputRef.current?.click()}
+            ></CloseIcon>
+          </>
+        )}
+      </ImageContainer>
       {hasError && (
         <ErrorMessage data-testid="input-error">
           {InputErrorMessage}

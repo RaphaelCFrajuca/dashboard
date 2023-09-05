@@ -1,15 +1,7 @@
-import {
-  render,
-  screen,
-  fireEvent,
-  findAllByTestId
-} from '@testing-library/react';
-import { EditLocationModal } from './EditLocationModal';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { AddLocationModal } from './AddLocationModal';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { AuthProvider } from '../../../context/auth/AuthProvider';
-import React from 'react';
-import * as ReactQuery from 'react-query';
-import { Input } from '../../Input/Input';
 
 jest.mock('../../../services/get-logged-user/get-logged-user-service');
 jest.mock('../../../utils/ baseUrl.ts', () => ({
@@ -18,33 +10,22 @@ jest.mock('../../../utils/ baseUrl.ts', () => ({
 jest.mock('../../../services/refresh-token/refresh-token-service');
 jest.mock('../../../services/location/location-by-id-service');
 
-
-jest.mock('../../../services/location/location-by-id-service');
-
 jest.mock('../../../assets/Icons/Closeicons.svg', () => ({
   ReactComponent: () => <div data-testid="close-icon" />,
 }));
 
-
-
-describe('EditLocationModal', () => {
+describe('AddLocationModal', () => {
   let queryClient: QueryClient;
 
   beforeEach(() => {
-   
     queryClient = new QueryClient();
     render(
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <EditLocationModal
-            id={1}
-            showmodal={true}
-            setShowModal={setShowModalMock}
-          />
+          <AddLocationModal showmodal={true} setShowModal={setShowModalMock} />
         </AuthProvider>
       </QueryClientProvider>
     );
-
   });
 
   afterEach(() => {
@@ -54,10 +35,8 @@ describe('EditLocationModal', () => {
 
   const setShowModalMock = jest.fn();
 
-  
-
   it('renders the modal header correctly', () => {
-    const titleText = 'Editar';
+    const titleText = 'Novo Local';
 
     expect(screen.getByText(titleText)).toBeInTheDocument();
   });
@@ -70,29 +49,21 @@ describe('EditLocationModal', () => {
   });
 
   it('show errors in required inputs if user click on submit with all inputs empty', async () => {
-
     const nameInput = await screen.findByTestId('input-name');
-    const typeInput = await screen.findByTestId('select');
+    const typeInput = await screen.findByTestId('type-select');
     const cepInput = await screen.findByTestId('input-cep');
-    const addressInput = await screen.findByTestId('input-endereco');
-    const latitudeInput = await screen.findByTestId('input-latitude');
-    const longitudeInput = await screen.findByTestId('input-longitude');
     const imgInput = await screen.findByTestId('img');
     const sendButton = screen.getByText('ENVIAR');
 
     expect(nameInput).toBeInTheDocument();
     expect(typeInput).toBeInTheDocument();
     expect(cepInput).toBeInTheDocument();
-    expect(addressInput).toBeInTheDocument();
-    expect(latitudeInput).toBeInTheDocument();
-    expect(longitudeInput).toBeInTheDocument();
     expect(imgInput).toBeInTheDocument();
     expect(sendButton).toBeInTheDocument();
-
 
     fireEvent.click(sendButton);
 
     const allErrors = await screen.findAllByTestId('input-error');
-    expect(allErrors).toHaveLength(5); 
+    expect(allErrors).toHaveLength(3); 
   });
 });

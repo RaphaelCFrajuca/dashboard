@@ -11,8 +11,6 @@ export const BasicSelect = styled.div`
   line-height: 21px;
   gap: 4px;
   width: 100%;
-
-
 `;
 
 export const LabelSelect = styled.div<ISelect>`

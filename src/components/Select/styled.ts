@@ -11,6 +11,8 @@ export const BasicSelect = styled.div`
   line-height: 21px;
   gap: 4px;
   width: 100%;
+
+
 `;
 
 export const LabelSelect = styled.div<ISelect>`
@@ -28,6 +30,6 @@ export const LabelSelect = styled.div<ISelect>`
 
 export const ErrorMessage = styled.span`
   color: #eb3d3d;
-  fontsize: 12;
-  fontweight: '400';
+  font-size: 14px;
+  font-weight: 600;
 `;

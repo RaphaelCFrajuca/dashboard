@@ -1,7 +1,7 @@
 import { Controller, useForm, FieldError } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { EditLocationFormSchemaType, editLocationFormSchema } from '../../../zodSchemas/LocationUpdateSchema';
+import { EditLocationFormSchemaType, editLocationFormSchema } from '../../../zodSchemas/EditLocationSchema';
 import { ReactComponent as CloseIcon } from '../../../assets/Icons/Closeicons.svg';
 import ModalImg from '../../ModalImg/ModalImg';
 import { Button } from '../../Button/Button';

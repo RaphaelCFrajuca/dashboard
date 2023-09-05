@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ReactComponent as BlindIcon } from '../../assets/Icons/Blindicons.svg';
 import { ReactComponent as VisibilityIcon } from '../../assets/Icons/Visibilityicons.svg';
 import * as Styled from './Login.styles';
+import { locationPendingValidationRequest } from '../../services/location/location-service';
 
 const schema = z.object({
   username: z

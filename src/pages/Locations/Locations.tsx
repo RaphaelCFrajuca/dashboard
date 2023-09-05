@@ -4,6 +4,7 @@ import * as Style from '../Home/Home.styles';
 import { AddLocationModal } from '../../components/Modals/AddLocationModal/AddLocationModal';
 import { DeleteLocationModal } from '../../components/Modals/DeleteLocationModal/DeleteLocationModal';
 import { useState } from 'react';
+import LocalsContainer from '../../components/Locals/LocalsContainer/LocalsContainer';
 
 const Locations = () => {
   const [showmodal, setShowModal] = useState(false);

@@ -1,0 +1,28 @@
+import Sidebar from '../../components/sidebar/Sidebar';
+import Header from '../../components/header/Header';
+import * as Style from '../Home/Home.styles';
+import { AddLocationModal } from '../../components/Modals/AddLocationModal/AddLocationModal'; 
+import { useState } from 'react';
+import LocalsContainer from '../../components/Locals/LocalsContainer/LocalsContainer';
+
+const Locations = () => {
+  const [showmodal, setShowModal] = useState(false);
+  return (
+    <>
+      <Style.PageContainer>
+        <Sidebar></Sidebar>
+        <Style.HeaderContentContainer>
+          <Header />
+          <Style.Content>
+            <AddLocationModal
+              showmodal={true}
+              setShowModal={setShowModal}
+            />
+          </Style.Content>
+        </Style.HeaderContentContainer>
+      </Style.PageContainer>
+    </>
+  );
+};
+
+export default Locations;

@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 type IFrame = {
   direction: 'column' | 'row';
-  gap?: number;
+  gap?: string;
 };
 
 export const Frame = styled.div<IFrame>`
@@ -11,7 +11,7 @@ export const Frame = styled.div<IFrame>`
     return css`
       display: flex;
       flex-direction: ${direction || ''};
-      gap: ${gap ? `${gap}px` : ''};
+      gap: ${gap ? gap : ''};
     `;
   }}
 `;

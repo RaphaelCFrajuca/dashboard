@@ -1,17 +1,20 @@
 import axios, { AxiosError } from 'axios';
 import { baseUrl } from '../../utils/ baseUrl';
-export interface Location {
+export type Location = {
   id: number;
   name: string;
   endereco: string;
   type: string;
-  imgUrl: string;
+  imgUrl: string | null;
   cep: string;
-  latitude: string;
-  longitude: string;
+  latitude: string | null;
+  longitude: string | null;
+  totalReviews: number;
+  isActive: boolean;
+  pendingValidation: boolean;
   averageGrade: number;
   reviews: number;
-}
+};
 
 export const getLocationById = async (token: string | null, id: number) => {
   const locationData: Location = await axios

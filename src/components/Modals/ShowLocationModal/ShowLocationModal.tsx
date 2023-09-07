@@ -103,11 +103,12 @@ const ShowLocationModal = ({
         <>
           <TitleContainer>
             <Title>{locationData?.name}</Title>
-            <EditDelete>
+            
+          </TitleContainer>
+          <EditDelete>
             <BinIcon onClick={handleDelete(locationData?.id)}></BinIcon>
             <EditIcon  onClick={handleEdit(locationData?.id)}></EditIcon>
             </EditDelete>
-          </TitleContainer>
           <CloseIcon
             data-testid="close-modal"
             onClick={() => setShowShowModal(false)}

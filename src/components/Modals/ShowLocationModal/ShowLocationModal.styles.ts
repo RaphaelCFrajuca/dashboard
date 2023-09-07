@@ -3,10 +3,21 @@ import styled from 'styled-components';
 export const TitleContainer = styled.div`
   width: 90%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
 `;
 
+export const BelowTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  span{
+    font-size: 12px;
+    font-weight: 400;
+    color: 
+  }
+  
+`;
 export const EditDelete = styled.div`
 display: flex;
 flex-direction: row;

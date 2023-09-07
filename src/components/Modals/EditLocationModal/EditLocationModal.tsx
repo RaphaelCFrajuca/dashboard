@@ -2,7 +2,6 @@ import { Controller, useForm, FieldError } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  EditLocationFormSchemaType,
   editLocationFormSchema,
 } from '../../../zodSchemas/EditLocationSchema';
 import { ReactComponent as CloseIcon } from '../../../assets/Icons/Closeicons.svg';
@@ -15,7 +14,7 @@ import { Modal } from '../Modal/Modal';
 import { Option, SelectComponent } from '../../Select/Select';
 import { Title, TitleContainer } from './EditLocationModal.styles';
 import { useAuth } from '../../../context/auth/AuthProvider';
-import { getLocationById } from '../../../services/location/location-by-id-service';
+import { getLocationById, Location } from '../../../services/location/location-by-id-service';
 import { useQuery } from 'react-query';
 import { updateLocation } from '../../../services/location/update-location-service';
 
@@ -60,12 +59,13 @@ const EditLocationModal = ({
     control,
     reset,
     formState: { errors },
-  } = useForm<EditLocationFormSchemaType>({
+  } = useForm<Location>({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
     resolver: zodResolver(editLocationFormSchema),
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new FormData();
     formData.append('name', data.name);
@@ -82,6 +82,8 @@ const EditLocationModal = ({
     { value: '2', label: 'Restaurante' },
     { value: '3', label: 'Casa Noturna' },
   ];
+  
+  const src = data?.imgUrl ? data?.imgUrl : '';
 
   useEffect(() => {
     if (data) {
@@ -112,7 +114,7 @@ const EditLocationModal = ({
       setShowModal={setShowModal}
     >
       <Form handleSubmit={handleSubmit} onSubmit={onSubmit}>
-        <Frame direction="column" gap={16}>
+        <Frame direction="column" gap={'16px'}>
           <Input
             label="Nome"
             {...register('name', {})}
@@ -147,7 +149,7 @@ const EditLocationModal = ({
             data-testid="input-endereco"
             error={errors.endereco as FieldError}
           />
-          <Frame direction="row" gap={18}>
+          <Frame direction="row" gap={'18px'}>
             <Input
               label="CEP"
               {...register('cep', {})}
@@ -155,7 +157,7 @@ const EditLocationModal = ({
               error={errors.cep as FieldError}
             />
           </Frame>
-          <Frame direction="row" gap={18}>
+          <Frame direction="row" gap={'18px'}>
             <Input
               label="Latitude"
               {...register('latitude', {})}
@@ -177,13 +179,10 @@ const EditLocationModal = ({
               }
             />
           </Frame>
-          <Frame data-testid="img" direction="row" gap={0}>
-            <ModalImg
-              src={data ? data.imgUrl : ''}
-              onFileChange={handleFileChange}
-            />
+          <Frame data-testid="img" direction="row" gap={'0px'}>
+            <ModalImg src={src} onFileChange={handleFileChange} />
           </Frame>
-          <Frame direction="row" gap={18}>
+          <Frame direction="row" gap={'18px'}>
             <Button
               grow
               onClick={() => setShowModal(false)}

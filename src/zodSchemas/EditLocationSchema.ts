@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { validaCep } from '../services/cep-validation-service';
+import { validaCep } from '../services/cep/cep-validation-service';
 
 export const editLocationFormSchema = z.object({
   name: z.string().min(5, 'Campo obrigatório').max(100),
@@ -21,7 +21,8 @@ export const editLocationFormSchema = z.object({
     message: 'CEP Inválido',
   }),
   latitude: z
-    .string().nonempty('Campo obrigatório')
+    .string()
+    .nonempty('Campo obrigatório')
     .pipe(
       z.coerce
         .number()
@@ -30,7 +31,8 @@ export const editLocationFormSchema = z.object({
     )
     .pipe(z.coerce.string()),
   longitude: z
-    .string().nonempty('Campo obrigatório')
+    .string()
+    .nonempty('Campo obrigatório')
     .pipe(
       z.coerce
         .number()
@@ -40,4 +42,4 @@ export const editLocationFormSchema = z.object({
     .pipe(z.coerce.string()),
 });
 
-export type EditLocationFormSchemaType = z.infer<typeof editLocationFormSchema>;
+

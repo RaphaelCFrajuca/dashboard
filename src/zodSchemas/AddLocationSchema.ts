@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { validaCep } from '../services/cep-validation-service';
+import { validaCep } from '../services/cep/cep-validation-service';
 
 export const addLocationFormSchema = z.object({
   name: z.string().min(5, 'Campo obrigatório').max(100),

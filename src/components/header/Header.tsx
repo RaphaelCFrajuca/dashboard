@@ -6,16 +6,15 @@ import { getLoggedUser } from '../../services/get-logged-user/get-logged-user-se
 import { ReactComponent as Down } from '../../assets/Icons/Downicons.svg';
 import profile from '../../assets/profile.png';
 import * as Style from './Header.styles';
+import { locationPendingValidationRequest } from '../../services/location/location-service';
 
 const Header = () => {
   const { accessToken, setAccessToken } = useAuth();
   const [username, setUsernmae] = useState<string>('user');
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  const [profilePhoto, setProfilePhoto] = useState<string>(
-    profile
-  );
+  const [profilePhoto, setProfilePhoto] = useState<string>(profile);
   const { data: user } = useQuery('user', () => getLoggedUser(accessToken), {
-    refetchInterval: 5000,
+    refetchInterval: 50000,
   });
 
   const navigate = useNavigate();
@@ -52,7 +51,7 @@ const Header = () => {
             </Style.DropdownContent>
           )}
         </Style.ButtonContainer>
-        <Style.UserPhoto src={profilePhoto}  />
+        <Style.UserPhoto data-testid="user-profile-pic" src={profilePhoto} />
       </Style.UserContainer>
     </Style.HeaderContainer>
   );

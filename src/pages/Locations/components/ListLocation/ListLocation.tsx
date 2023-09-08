@@ -15,13 +15,15 @@ interface LocationList {
     isActive: boolean;
   }[];
 }
-
-export function ListLocation() {
+interface Props {
+  onOpenDeleteModal: () => void;
+  onOpenEditModal: () => void;
+}
+export function ListLocation({ onOpenDeleteModal, onOpenEditModal }: Props) {
   const { accessToken } = useAuth();
   const { data, isLoading } = useQuery<LocationList>('location', () =>
     locationController(accessToken)
   );
-
   const [selectedLetter, setSelectedLetter] = useState('');
 
   const handleLetterChange = (letter: string) => {
@@ -60,7 +62,7 @@ export function ListLocation() {
       <Styled.LocationListContainer>
         <Styled.LocationHeader>Local</Styled.LocationHeader>
         {filteredLocations?.map((location, index) => (
-          <React.Fragment key={location.id}>
+          <div key={location.id}>
             {index === 0 ||
             location.name.charAt(0).toUpperCase() !==
               filteredLocations[index - 1].name.charAt(0).toUpperCase() ? (
@@ -75,14 +77,16 @@ export function ListLocation() {
                 {location.isActive ? 'Aprovado' : 'Pendente'}
               </Styled.LocationStatusText>
               <Styled.LocationStatusIcon approved={location.isActive} />
-              <Styled.DeleteButton>
+              <Styled.EditButton onClick={onOpenEditModal}>
                 <TeamIcon />
-              </Styled.DeleteButton>
-              <Styled.EditButton>
-                <BinIcon />
               </Styled.EditButton>
+              <Styled.DeleteButton
+                onClick={() => onOpenDeleteModal(location.id)}
+              >
+                <BinIcon />
+              </Styled.DeleteButton>
             </Styled.LocationItemContainer>
-          </React.Fragment>
+          </div>
         ))}
       </Styled.LocationListContainer>
     </Styled.Container>

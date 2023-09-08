@@ -1,17 +1,17 @@
 import axios, { AxiosError } from 'axios';
 import { baseUrl } from '../../utils/ baseUrl';
 
-export const reviewNumberRequest = async (token: string | null) => {
+export const saveLocation = async (token: string | null, data: FormData) => {
+  console.log(data);
   const response = await axios
-    .get(`${baseUrl}/is-it-safe/dashboard/review`, {
+    .post(`${baseUrl}/is-it-safe/location/save`, data, {
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((res) => res.data)
     .catch((err: AxiosError) => {
       throw new Error(err.message);
     });
-
   return response;
 };

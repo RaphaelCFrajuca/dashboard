@@ -87,9 +87,7 @@ export const LocationItemContainer = styled.li`
 `;
 
 export const LocationImage = styled.img`
-  width: 50px;
-  height: 50px;
-  padding-inline: 24px;
+  padding-right: 24px;
 `;
 
 export const LocationName = styled.p`
@@ -137,7 +135,6 @@ export const EditButton = styled.button`
   padding: 6px 12px;
   border: none;
   border-radius: 4px;
-  margin-right: 14px;
 `;
 
 export const DeleteButton = styled.button`
@@ -146,4 +143,5 @@ export const DeleteButton = styled.button`
   padding-right: 8px;
   border: none;
   border-radius: 4px;
+  margin-right: 14px;
 `;

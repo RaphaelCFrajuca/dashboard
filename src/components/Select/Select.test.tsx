@@ -22,7 +22,7 @@ describe('SelectComponent', () => {
   });
 
   it('renders the select error message correctly', () => {
-    const errorMessage = 'Please select an option';
+    const errorMessage = 'Selecione um valor';
     const error = { type: 'required', message: errorMessage };
     const { getByText } = render(
       <SelectComponent

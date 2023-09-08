@@ -1,17 +1,21 @@
 import axios, { AxiosError } from 'axios';
 import { baseUrl } from '../../utils/ baseUrl';
 
-export const reviewNumberRequest = async (token: string | null) => {
+export const updateLocation = async (
+  token: string | null,
+  formData: FormData,
+  id: number
+) => {
   const response = await axios
-    .get(`${baseUrl}/is-it-safe/dashboard/review`, {
+    .put(`${baseUrl}/is-it-safe/location/update/${id}`, formData, {
       headers: {
-        Authorization: 'Bearer ' + token,
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((res) => res.data)
     .catch((err: AxiosError) => {
       throw new Error(err.message);
     });
-
   return response;
 };

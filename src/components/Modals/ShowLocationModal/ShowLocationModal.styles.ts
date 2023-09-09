@@ -14,7 +14,6 @@ export const BelowTitle = styled.div`
   span{
     font-size: 12px;
     font-weight: 400;
-    color: 
   }
   
 `;

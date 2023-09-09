@@ -21,10 +21,10 @@ const Locations = () => {
           <Header />
           <Style.Content>
             <ShowLocationModal
-              id={2}
+              id={selectedId}
               showmodal={showShowodal}
               setSelectedId={setSelectedId}
-              setShowShowModal={setShowShowModal}
+              setShowModal={setShowShowModal}
               setShowEditModal={setShowEditModal}
               setShowDeleteModal={setShowdeleteModal}
               setShowAddModal={setShowAddModal}

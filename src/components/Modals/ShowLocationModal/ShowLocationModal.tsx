@@ -30,7 +30,7 @@ import { TranslatedCep, translateCep } from '../../../services/cep/cep-translati
 
 type IShowLocationModal = {
   showmodal: boolean;
-  setShowShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -40,7 +40,7 @@ type IShowLocationModal = {
 
 const ShowLocationModal = ({
   showmodal,
-  setShowShowModal,
+  setShowModal,
   setShowEditModal,
   setShowDeleteModal,
   setShowAddModal,
@@ -62,6 +62,11 @@ const ShowLocationModal = ({
   });
 
   useEffect(() => {
+    location.refetch();
+    translatedCep.refetch();
+  }, [showmodal]);
+
+  useEffect(() => {
     if (location.data) {
       setLocationData({
         id: location.data.id,
@@ -81,10 +86,11 @@ const ShowLocationModal = ({
         setCepData(translatedCep.data);
       }
     }
-  }, [location.data, translatedCep.data]);
+  }, [location.data, translatedCep.data, showmodal]);
+ 
    const handleEdit = (id: number | undefined) => () => {
     setSelectedId(id as number);
-    setShowShowModal(false);
+    setShowModal(false);
     setShowAddModal(false);
     setShowEditModal(true);
     setShowDeleteModal(false);
@@ -92,7 +98,7 @@ const ShowLocationModal = ({
 
   const handleDelete = (id: number | undefined) => () => {
     setSelectedId(id as number);
-    setShowShowModal(false);
+    setShowModal(false);
     setShowAddModal(false);
     setShowEditModal(false);
     setShowDeleteModal(true);
@@ -111,12 +117,12 @@ const ShowLocationModal = ({
             </EditDelete>
           <CloseIcon
             data-testid="close-modal"
-            onClick={() => setShowShowModal(false)}
+            onClick={() => setShowModal(false)}
           ></CloseIcon>
         </>
       }
       showModal={showmodal}
-      setShowModal={setShowShowModal}
+      setShowModal={setShowModal}
     >
       <Frame direction="column" gap={'16px'}>
         <Frame direction="row" gap={'18px'}>

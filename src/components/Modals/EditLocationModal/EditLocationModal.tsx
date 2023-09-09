@@ -1,4 +1,4 @@
-import { Controller, useForm, FieldError } from 'react-hook-form';
+import { Controller, useForm, FieldError, set } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -30,7 +30,7 @@ const EditLocationModal = ({
   id,
 }: IEditLocationModal) => {
   const { accessToken } = useAuth();
-  const { data, status } = useQuery('location', () =>
+  const { data, status, refetch } = useQuery('location', () =>
     getLocationById(accessToken, id)
   );
 
@@ -76,6 +76,7 @@ const EditLocationModal = ({
     formData.append('latitude', data.latitude);
     formData.append('longitude', data.longitude);
     updateLocation(accessToken, formData, id);
+    setShowModal(false);
   };
   const types: Option[] = [
     { value: '1', label: 'Bar' },
@@ -97,6 +98,10 @@ const EditLocationModal = ({
       });
     }
   }, [data, status, reset]);
+
+  useEffect(() => {
+    refetch();
+  }, [showmodal]);
   return (
     <Modal
       header={

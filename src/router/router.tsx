@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Home from '../pages/Home/Home';
 import Reviews from '../pages/reviews/Reviews';
 import { Login } from '../pages/Login/Login';
-import { Locations } from '../pages/Locations/Locations';
+import  Locations  from '../pages/Locations/Locations';
 
 export function Router() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);

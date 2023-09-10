@@ -2,7 +2,7 @@ import {
   render,
   screen,
   fireEvent,
-  findAllByTestId
+  findAllByTestId,
 } from '@testing-library/react';
 import { EditLocationModal } from './EditLocationModal';
 import { QueryClientProvider, QueryClient } from 'react-query';
@@ -18,20 +18,16 @@ jest.mock('../../../utils/ baseUrl.ts', () => ({
 jest.mock('../../../services/refresh-token/refresh-token-service');
 jest.mock('../../../services/location/location-by-id-service');
 
-
 jest.mock('../../../services/location/location-by-id-service');
 
 jest.mock('../../../assets/Icons/Closeicons.svg', () => ({
   ReactComponent: () => <div data-testid="close-icon" />,
 }));
 
-
-
 describe('EditLocationModal', () => {
   let queryClient: QueryClient;
 
   beforeEach(() => {
-   
     queryClient = new QueryClient();
     render(
       <QueryClientProvider client={queryClient}>
@@ -44,7 +40,6 @@ describe('EditLocationModal', () => {
         </AuthProvider>
       </QueryClientProvider>
     );
-
   });
 
   afterEach(() => {
@@ -53,8 +48,6 @@ describe('EditLocationModal', () => {
   });
 
   const setShowModalMock = jest.fn();
-
-  
 
   it('renders the modal header correctly', () => {
     const titleText = 'Editar';
@@ -70,7 +63,6 @@ describe('EditLocationModal', () => {
   });
 
   it('show errors in required inputs if user click on submit with all inputs empty', async () => {
-
     const nameInput = await screen.findByTestId('input-name');
     const typeInput = await screen.findByTestId('select');
     const cepInput = await screen.findByTestId('input-cep');
@@ -89,10 +81,9 @@ describe('EditLocationModal', () => {
     expect(imgInput).toBeInTheDocument();
     expect(sendButton).toBeInTheDocument();
 
-
     fireEvent.click(sendButton);
 
     const allErrors = await screen.findAllByTestId('input-error');
-    expect(allErrors).toHaveLength(5); 
+    expect(allErrors).toHaveLength(5);
   });
 });

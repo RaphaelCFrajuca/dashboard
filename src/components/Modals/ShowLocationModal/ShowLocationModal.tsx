@@ -1,107 +1,114 @@
-import { Controller, useForm, FieldError } from 'react-hook-form';
-import { useState, useEffect } from 'react';
+import { Controller, useForm, FieldError, set } from 'react-hook-form';
+import { useState, useEffect, SetStateAction } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  EditLocationFormSchemaType,
-  editLocationFormSchema,
-} from '../../../zodSchemas/EditLocationSchema';
 import { ReactComponent as CloseIcon } from '../../../assets/Icons/Closeicons.svg';
+import { ReactComponent as EditIcon } from '../../../assets/Icons/Editicons.svg';
+import { ReactComponent as BinIcon } from '../../../assets/Icons/Bin.svg';
 import ModalImg from '../../ModalImg/ModalImg';
 import { Button } from '../../Button/Button';
 import { Input } from '../../Input/Input';
 import { Form } from '../../Form/Form';
 import { Frame } from '../../../layout';
 import { Modal } from '../Modal/Modal';
-import { Option, SelectComponent } from '../../Select/Select';
-import { Title, TitleContainer } from './EditLocationModal.styles';
+import {
+  Title,
+  TitleContainer,
+  Property,
+  PropertyName,
+  PropertyValue,
+  EditDelete,
+} from './ShowLocationModal.styles';
 import { useAuth } from '../../../context/auth/AuthProvider';
-import { getLocationById } from '../../../services/location/location-by-id-service';
+import {
+  getLocationById,
+  Location,
+} from '../../../services/location/location-by-id-service';
 import { useQuery } from 'react-query';
-import { updateLocation } from '../../../services/location/update-location-service';
+import { TranslatedCep, translateCep } from '../../../services/cep/cep-translation-service';
 
-type IEditLocationModal = {
+type IShowLocationModal = {
   showmodal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
   id: number;
 };
 
-const EditLocationModal = ({
+const ShowLocationModal = ({
   showmodal,
   setShowModal,
+  setShowEditModal,
+  setShowAddModal,
   id,
-}: IEditLocationModal) => {
+}: IShowLocationModal) => {
   const { accessToken } = useAuth();
-  const { data, status } = useQuery('location', () =>
-    getLocationById(accessToken, id)
-  );
+  const location = useQuery('location', () => getLocationById(accessToken, id));
 
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [typeNumber, setTypeNumber] = useState<string>('');
+  const [locationData, setLocationData] = useState<Location | null>(null);
+  const [cepData, setCepData] = useState< TranslatedCep | null>(null);
+  const cep = locationData?.cep;
+  const src = locationData?.imgUrl? locationData?.imgUrl : "";
 
-  const handleFileChange = (file: File) => {
-    setSelectedFile(file);
-  };
-
-  const convertValue = (value: string) => {
-    if (value === 'Bar') {
-      return '1';
-    } else if (value === 'Restaurante') {
-      return '2';
-    } else if (value === 'Casa Noturna') {
-      return '3';
-    } else {
-      return '';
-    }
-  };
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    reset,
-    formState: { errors },
-  } = useForm<EditLocationFormSchemaType>({
-    mode: 'onBlur',
-    reValidateMode: 'onBlur',
-    resolver: zodResolver(editLocationFormSchema),
+  const translatedCep = useQuery({
+    queryKey: ['translatedCep', cep],
+    queryFn: () => translateCep(cep),
+    enabled: !!cep,
   });
 
-  const onSubmit = (data: any) => {
-    const formData = new FormData();
-    formData.append('name', data.name);
-    formData.append('endereco', data.endereco);
-    formData.append('locationType', typeNumber);
-    formData.append('file', selectedFile as File);
-    formData.append('cep', data.cep);
-    formData.append('latitude', data.latitude);
-    formData.append('longitude', data.longitude);
-    updateLocation(accessToken, formData, id);
-  };
-  const types: Option[] = [
-    { value: '1', label: 'Bar' },
-    { value: '2', label: 'Restaurante' },
-    { value: '3', label: 'Casa Noturna' },
-  ];
+  useEffect(() => {
+    location.refetch();
+    translatedCep.refetch();
+  }, [showmodal]);
 
   useEffect(() => {
-    if (status === 'success') {
-      reset({
-        name: data.name,
-        endereco: data.endereco,
-        type: convertValue(data.type),
-        cep: data.cep,
-        latitude: data.latitude,
-        longitude: data.longitude,
-      });
+    if (location.data) {
+      setLocationData({
+        id: location.data.id,
+        name: location.data.name,
+        cep: location.data.cep,
+        endereco: location.data.endereco,
+        type: location.data.type,
+        imgUrl: location.data.imgUrl,
+        averageGrade: location.data.averageGrade,
+        totalReviews: location.data.totalReviews,
+        isActive: location.data.isActive,
+        pendingValidation: location.data.pendingValidation,
+        latitude: location.data.latitude,
+        longitude: location.data.longitude,
+      } as Location);
+      if (translatedCep.data) {
+        setCepData(translatedCep.data);
+      }
     }
-  }, [data, status, reset]);
+  }, [location.data, translatedCep.data, showmodal]);
+ 
+   const handleEdit = () => () => {
+    
+    setShowModal(false);
+    setShowAddModal(false);
+    setShowEditModal(true);
+  
+  };
+
+  const handleDelete = () => () => {
+    setSelectedId(id as number);
+    setShowModal(false);
+    setShowAddModal(false);
+    setShowEditModal(false);
+  
+  };
   return (
     <Modal
       header={
         <>
           <TitleContainer>
-            <Title>Editar</Title>
+            <Title>{locationData?.name}</Title>
+            
           </TitleContainer>
+          <EditDelete>
+            <BinIcon onClick={handleDelete()}></BinIcon>
+            <EditIcon  onClick={handleEdit()}></EditIcon>
+            </EditDelete>
           <CloseIcon
             data-testid="close-modal"
             onClick={() => setShowModal(false)}
@@ -111,94 +118,47 @@ const EditLocationModal = ({
       showModal={showmodal}
       setShowModal={setShowModal}
     >
-      <Form handleSubmit={handleSubmit} onSubmit={onSubmit}>
-        <Frame direction="column" gap={16}>
-          <Input
-            label="Nome"
-            {...register('name', {})}
-            data-testid="input-name"
-            error={errors.name as FieldError}
-          />
-          <Controller
-            control={control}
-            render={() => (
-              <SelectComponent
-                label="Tipo"
-                options={types}
-                onChange={(value) => {
-                  setTypeNumber(value.value);
-                }}
-                previousValue={
-                  data
-                    ? ({
-                        label: data?.type,
-                        value: convertValue(data?.type),
-                      } as Option)
-                    : null
-                }
-                dataTestid="type-select"
-              />
-            )}
-            name="type"
-          ></Controller>
-          <Input
-            label="Endereço"
-            {...register('endereco', {})}
-            data-testid="input-endereco"
-            error={errors.endereco as FieldError}
-          />
-          <Frame direction="row" gap={18}>
-            <Input
-              label="CEP"
-              {...register('cep', {})}
-              data-testid="input-cep"
-              error={errors.cep as FieldError}
-            />
-          </Frame>
-          <Frame direction="row" gap={18}>
-            <Input
-              label="Latitude"
-              {...register('latitude', {})}
-              data-testid="input-latitude"
-              error={
-                errors.latitude?.message === 'Expected number, received nan'
-                  ? ({ message: 'O valor deve ser um número' } as FieldError)
-                  : (errors.latitude as FieldError)
-              }
-            />
-            <Input
-              label="Longitude"
-              {...register('longitude', {})}
-              data-testid="input-longitude"
-              error={
-                errors.longitude?.message === 'Expected number, received nan'
-                  ? ({ message: 'O valor deve ser um número' } as FieldError)
-                  : (errors.longitude as FieldError)
-              }
-            />
-          </Frame>
-          <Frame data-testid="img" direction="row" gap={0}>
-            <ModalImg
-              src={data ? data.imgUrl : ''}
-              onFileChange={handleFileChange}
-            />
-          </Frame>
-          <Frame direction="row" gap={18}>
-            <Button
-              grow
-              onClick={() => setShowModal(false)}
-              data-testid="button-cancel"
-            >
-              CANCELAR
-            </Button>
-            <Button grow type="submit" primary data-testid="button-send">
-              ENVIAR
-            </Button>
-          </Frame>
+      <Frame direction="column" gap={'16px'}>
+        <Frame direction="row" gap={'18px'}>
+          <Property>
+            <PropertyName>Tipo de local</PropertyName>
+            <PropertyValue>{locationData?.type}</PropertyValue>
+          </Property>
         </Frame>
-      </Form>
+        <Frame direction="row" gap={'15%'}>
+          <Property>
+            <PropertyName>CEP</PropertyName>
+            <PropertyValue>{locationData?.cep}</PropertyValue>
+          </Property>
+          <Property>
+            <PropertyName>Cidade/UF</PropertyName>
+            <PropertyValue>
+              {cepData?.localidade + '/' + cepData?.uf}
+            </PropertyValue>
+          </Property>
+        </Frame>
+        <Frame direction="row" gap={'0'}>
+          <Property style={{width:"100%"}}>
+            <PropertyName style={{minWidth:"17.5%"} }>Endereço</PropertyName>
+            <PropertyValue style={{overflow:"hidden", minWidth:"80%", WebkitMaskImage:"linear-gradient(90deg, #000,  90%, transparent)"}}>{locationData?.endereco}</PropertyValue>
+          </Property>
+        </Frame>
+        <Frame direction="row" gap={'15%'}>
+          <Property>
+            <PropertyName>Latitude</PropertyName>
+            <PropertyValue>{locationData?.latitude}</PropertyValue>
+          </Property>
+          <Property>
+            <PropertyName>Longitude</PropertyName>
+            <PropertyValue>{locationData?.longitude}</PropertyValue>
+          </Property>
+        </Frame>
+        <Frame direction="column" gap={'0'}>
+          <img style={{width:"100%", height:"auto", padding:"0"}} src={src}></img>
+        </Frame>
+      </Frame>
     </Modal>
   );
 };
 
-export { EditLocationModal };
+export { ShowLocationModal };

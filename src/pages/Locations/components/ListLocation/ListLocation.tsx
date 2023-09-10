@@ -7,6 +7,7 @@ import { locationController } from '../../../../services/location/location-contr
 import { useAuth } from '../../../../context/auth/AuthProvider';
 import imageList from '../../../../assets/image3.png';
 import { Loading } from '../../../../components/Loading/Loading';
+import { set } from 'react-hook-form';
 
 interface LocationList {
   content: {
@@ -16,10 +17,14 @@ interface LocationList {
   }[];
 }
 interface Props {
-  onOpenDeleteModal: () => void;
-  onOpenEditModal: () => void;
+  setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedId: React.Dispatch<React.SetStateAction<number>>;
+
 }
-export function ListLocation({ onOpenDeleteModal, onOpenEditModal }: Props) {
+export function ListLocation({ setSelectedId, setShowAddModal,setShowDeleteModal, setShowEditModal, setShowShowModal }: Props) {
   const { accessToken } = useAuth();
   const { data, isLoading } = useQuery<LocationList>('location', () =>
     locationController(accessToken)
@@ -42,6 +47,21 @@ export function ListLocation({ onOpenDeleteModal, onOpenEditModal }: Props) {
 
   filteredLocations?.sort((a, b) => a.name.localeCompare(b.name));
 
+  const handleOpenDeleteModal = (id: number | undefined) => {
+    setShowDeleteModal(true);
+    setSelectedId(id as number);
+  };
+
+  const handleOpenEditModal = (id: number | undefined) => {
+    setSelectedId(id as number);
+    setShowEditModal(true);
+  };
+
+  const handleOpenShowModal = (id: number | undefined) => {
+    setSelectedId(id as number);
+    setShowShowModal(true);
+  };
+
   return (
     <Styled.Container>
       <Styled.FilterContainer>
@@ -62,7 +82,7 @@ export function ListLocation({ onOpenDeleteModal, onOpenEditModal }: Props) {
       <Styled.LocationListContainer>
         <Styled.LocationHeader>Local</Styled.LocationHeader>
         {filteredLocations?.map((location, index) => (
-          <div key={location.id}>
+          <div key={location.id} onClick={() => handleOpenShowModal(location.id)}>
             {index === 0 ||
             location.name.charAt(0).toUpperCase() !==
               filteredLocations[index - 1].name.charAt(0).toUpperCase() ? (
@@ -77,11 +97,11 @@ export function ListLocation({ onOpenDeleteModal, onOpenEditModal }: Props) {
                 {location.isActive ? 'Aprovado' : 'Pendente'}
               </Styled.LocationStatusText>
               <Styled.LocationStatusIcon approved={location.isActive} />
-              <Styled.EditButton onClick={onOpenEditModal}>
+              <Styled.EditButton onClick={() => handleOpenEditModal(location.id)}>
                 <TeamIcon />
               </Styled.EditButton>
               <Styled.DeleteButton
-                onClick={() => onOpenDeleteModal(location.id)}
+                onClick={() => handleOpenDeleteModal(location.id)}
               >
                 <BinIcon />
               </Styled.DeleteButton>

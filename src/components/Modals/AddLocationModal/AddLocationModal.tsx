@@ -75,7 +75,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
       setShowModal={setShowModal}
     >
       <Form handleSubmit={handleSubmit} onSubmit={(data) => onSubmit(data)}>
-        <Frame direction="column" gap={16}>
+        <Frame direction="column" gap={'16px'}>
           <Input
             label="Nome"
             {...register('name', {})}
@@ -99,7 +99,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
             )}
             name="type"
           ></Controller>
-          <Frame direction="row" gap={18}>
+          <Frame direction="row" gap={'18px'}>
             <Input
               label="CEP"
               {...register('cep', {})}
@@ -107,10 +107,10 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
               error={errors.cep}
             />
           </Frame>
-          <Frame data-testid="img" direction="row" gap={0}>
+          <Frame data-testid="img" direction="row" gap={'0px'}>
             <ModalImg src="" onFileChange={handleFileChange} />
           </Frame>
-          <Frame direction="row" gap={18}>
+          <Frame direction="row" gap={'18px'}>
             <Button
               grow
               onClick={() => setShowModal(false)}

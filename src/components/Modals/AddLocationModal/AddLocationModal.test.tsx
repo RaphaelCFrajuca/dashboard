@@ -64,6 +64,6 @@ describe('AddLocationModal', () => {
     fireEvent.click(sendButton);
 
     const allErrors = await screen.findAllByTestId('input-error');
-    expect(allErrors).toHaveLength(3); 
+    expect(allErrors).toHaveLength(3);
   });
 });

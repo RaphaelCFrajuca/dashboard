@@ -1,28 +1,19 @@
 import Sidebar from '../../components/sidebar/Sidebar';
 import Header from '../../components/header/Header';
 import * as Style from '../Home/Home.styles';
+import { ShowLocationModal } from '../../components/Modals/ShowLocationModal/ShowLocationModal';
+import { EditLocationModal } from '../../components/Modals/EditLocationModal/EditLocationModal';
 import { AddLocationModal } from '../../components/Modals/AddLocationModal/AddLocationModal';
 import { useState } from 'react';
-import { ListLocation } from './components/ListLocation/ListLocation';
-import { SearchList } from './components/SearchList/SearchList';
 import { DeleteLocationModal } from '../../components/Modals/DeleteLocationModal/DeleteLocationModal';
-import { EditLocationModal } from '../../components/Modals/EditLocationModal/EditLocationModal';
+import { ListLocation } from './components/ListLocation/ListLocation';
 
-export const Locations = () => {
-  const [isAddLocationModalOpen, setIsAddLocationModalOpen] = useState(false);
-  const [isDeleteLocationModalOpen, setIsDeleteLocationModalOpen] =
-    useState(false);
-  const [isEditLocationModalOpen, setIsEditLocationModalOpen] = useState(false);
-
-  const handleAddLocationClick = () => {
-    setIsAddLocationModalOpen(true);
-  };
-  const handleDeleteLocationClick = () => {
-    setIsDeleteLocationModalOpen(true);
-  };
-  const handleEditLocationClick = () => {
-    setIsEditLocationModalOpen(true);
-  };
+const Locations = () => {
+  const [showShowodal, setShowShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showdeleteModal, setShowdeleteModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [selectedId, setSelectedId] = useState<number>(2);
 
   return (
     <>
@@ -31,23 +22,32 @@ export const Locations = () => {
         <Style.HeaderContentContainer>
           <Header />
           <Style.Content>
-            <SearchList onOpenModal={handleAddLocationClick} />
-            <ListLocation
-              onOpenDeleteModal={handleDeleteLocationClick}
-              onOpenEditModal={handleEditLocationClick}
+          <ListLocation
+              setShowShowModal={setShowShowModal}
+              setShowEditModal={setShowEditModal}
+              setShowAddModal={setShowAddModal}
+              setShowDeleteModal={setShowdeleteModal}
+              setSelectedId={setSelectedId}
             />
-            <AddLocationModal
-              showmodal={isAddLocationModalOpen}
-              setShowModal={setIsAddLocationModalOpen}
-            />
-            <DeleteLocationModal
-              showmodal={isDeleteLocationModalOpen}
-              setShowModal={setIsDeleteLocationModalOpen}
+            <ShowLocationModal
+              showmodal={showShowodal}
+              setShowModal={setShowShowModal}
+              setShowEditModal={setShowEditModal}
+              setShowAddModal={setShowAddModal}
+              id={selectedId}
             />
             <EditLocationModal
-              showmodal={isEditLocationModalOpen}
-              setShowModal={setIsEditLocationModalOpen}
-              id={1}
+              id={selectedId}
+              showmodal={showEditModal}
+              setShowModal={setShowEditModal}
+            />
+            <AddLocationModal
+              showmodal={showAddModal}
+              setShowModal={setShowAddModal}
+            />
+            <DeleteLocationModal
+              showmodal={showdeleteModal}
+              setShowModal={setShowdeleteModal}
             />
           </Style.Content>
         </Style.HeaderContentContainer>
@@ -55,3 +55,5 @@ export const Locations = () => {
     </>
   );
 };
+
+export default Locations;

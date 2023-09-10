@@ -19,15 +19,15 @@ const DeleteLocationModal = ({
 
   return (
     <Modal showModal={showmodal} setShowModal={setShowModal}>
-      <Frame direction="column" gap={30}>
-        <Frame direction="column" gap={10}>
+      <Frame direction="column" gap={'30px'}>
+        <Frame direction="column" gap={'10px'}>
           <Title>Excluir Local</Title>
           <p>
             Tem certeza de que deseja excluir o local <b>'{location.name}'</b>{' '}
             permanentemente? Essa ação não poderá ser desfeita.
           </p>
         </Frame>
-        <Frame direction="row" gap={16}>
+        <Frame direction="row" gap={'16px'}>
           <Button
             grow
             onClick={() => setShowModal(false)}

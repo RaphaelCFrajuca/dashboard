@@ -22,7 +22,7 @@ import { updateLocation } from '../../../services/location/update-location-servi
 type IEditLocationModal = {
   showmodal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  id: number;
+  id: number | undefined;
 };
 
 const EditLocationModal = ({
@@ -31,9 +31,11 @@ const EditLocationModal = ({
   id,
 }: IEditLocationModal) => {
   const { accessToken } = useAuth();
-  const { data, status, refetch } = useQuery('location', () =>
-    getLocationById(accessToken, id)
-  );
+  const location = useQuery({
+    queryKey: ['location'],
+    queryFn: () => getLocationById(accessToken, id),
+    enabled: false,
+  });
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
@@ -85,24 +87,26 @@ const EditLocationModal = ({
     { value: '3', label: 'Casa Noturna' },
   ];
 
-  const src = data?.imgUrl ? data?.imgUrl : '';
+  const src = location.data?.imgUrl ? localStorage.data?.imgUrl : '';
 
   useEffect(() => {
-    if (data) {
+    if (location.data) {
       reset({
-        name: data.name,
-        endereco: data.endereco,
-        type: convertValue(data.type),
-        cep: data.cep,
-        latitude: data.latitude,
-        longitude: data.longitude,
+        name: location.data.name,
+        endereco: location.data.endereco,
+        type: convertValue(location.data.type),
+        cep: location.data.cep,
+        latitude: location.data.latitude,
+        longitude: location.data.longitude,
       });
     }
-  }, [data, status, reset]);
+  }, [location.data, location.status]);
 
   useEffect(() => {
-    refetch();
-  }, [showmodal]);
+   if(id){
+      location.refetch();
+      }
+  }, [showmodal, id]);
   return (
     <Modal
       header={
@@ -138,10 +142,10 @@ const EditLocationModal = ({
                   setTypeNumber(value.value);
                 }}
                 previousValue={
-                  data
+                  location.data
                     ? ({
-                        label: data?.type,
-                        value: convertValue(data?.type),
+                        label: location.data?.type,
+                        value: convertValue(location.data?.type),
                       } as Option)
                     : null
                 }

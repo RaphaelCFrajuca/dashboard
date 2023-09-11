@@ -27,7 +27,7 @@ type IShowLocationModal = {
   showmodal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
-  id: number;
+  id: number | undefined;
 };
 
 const ShowLocationModal = ({
@@ -37,23 +37,33 @@ const ShowLocationModal = ({
   id,
 }: IShowLocationModal) => {
   const { accessToken } = useAuth();
-  const location = useQuery('location', () => getLocationById(accessToken, id));
+  
 
   const [locationData, setLocationData] = useState<Location | null>(null);
   const [cepData, setCepData] = useState<TranslatedCep | null>(null);
   const cep = locationData?.cep;
   const src = locationData?.imgUrl ? locationData?.imgUrl : '';
 
+  const location = useQuery({
+    queryKey: ['location', locationData],
+    queryFn: () => getLocationById(accessToken, id),
+    enabled: false,
+  });
+
   const translatedCep = useQuery({
     queryKey: ['translatedCep', cep],
     queryFn: () => translateCep(cep),
-    enabled: !!cep,
+    enabled: false,
   });
+ 
 
   useEffect(() => {
+    if(id){
     location.refetch();
+    if(cep)
     translatedCep.refetch();
-  }, [showmodal]);
+    }
+  }, [showmodal, id, cep]);
 
   useEffect(() => {
     if (location.data) {
@@ -75,7 +85,7 @@ const ShowLocationModal = ({
         setCepData(translatedCep.data);
       }
     }
-  }, [location.data, translatedCep.data, showmodal]);
+  }, [location.data, translatedCep.data]);
 
   const handleEdit = () => () => {
     setShowModal(false);
@@ -133,7 +143,7 @@ const ShowLocationModal = ({
                 overflow: 'hidden',
                 minWidth: '80%',
                 WebkitMaskImage:
-                  'linear-gradient(90deg, #000,  90%, transparent)',
+                  'linear-gradient(90deg, #000,  95%, transparent)',
               }}
             >
               {locationData?.endereco}

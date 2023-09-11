@@ -50,7 +50,7 @@ export const PropertyValue = styled.span`
   letter-spacing: 0em;
   text-align: left;
   white-space: nowrap;
-
+  width: 80%;
   :hover {
     overflow: visible;
     white-space: normal;

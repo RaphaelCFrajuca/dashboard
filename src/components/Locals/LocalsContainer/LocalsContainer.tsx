@@ -4,7 +4,7 @@ import searchIcon from '../../../assets/Icons/Searchicons.svg';
 import React, { useState, useEffect } from 'react';
 import {
   LocationList,
-  PartialLocation,
+  LocationListItem
   getAllLocations,
 } from '../../../services/location/all-location-service';
 import { useAuth } from '../../../context/auth/AuthProvider';
@@ -43,7 +43,7 @@ const LocalsContainer: React.FC = () => {
   const { data, status } = useQuery('locationList', () =>
     getAllLocations(accessToken)
   );
-  const [locationList, setLocationList] = useState<PartialLocation[] | null>(
+  const [locationList, setLocationList] = useState<LocationListItem[] | null>(
     null
   );
   useEffect(() => {

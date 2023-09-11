@@ -17,14 +17,12 @@ const Locations = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showdeleteModal, setShowdeleteModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
-  const [selectedId, setSelectedId] = useState<number>(0);
+  const [selectedId, setSelectedId] = useState<number | undefined>();
   const { accessToken } = useAuth();
 
   const locationList = useQuery<LocationList>('locationList', () =>
     getAllLocations(accessToken)
   );
-
-  console.log(locationList.data);
 
   useEffect(() => {
     if (!showShowodal && !showEditModal && !showdeleteModal && !showAddModal)

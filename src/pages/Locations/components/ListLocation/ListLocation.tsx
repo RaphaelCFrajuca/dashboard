@@ -15,7 +15,7 @@ interface Props {
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedId: React.Dispatch<React.SetStateAction<number>>;
+  setSelectedId: React.Dispatch<React.SetStateAction<number | undefined>>;
   locationList: UseQueryResult<LocationList, unknown>;
 }
 export function ListLocation({
@@ -28,6 +28,7 @@ export function ListLocation({
 }: Props) {
   
   const [selectedLetter, setSelectedLetter] = useState('');
+  
 
   const handleLetterChange = (letter: string) => {
     setSelectedLetter(letter);
@@ -36,7 +37,7 @@ export function ListLocation({
   if (locationList.isLoading) {
     return <Loading />;
   }
-
+  
   const filteredLocations = locationList.data?.content?.filter(
     (location) =>
       selectedLetter === '' ||
@@ -45,19 +46,23 @@ export function ListLocation({
 
   filteredLocations?.sort((a, b) => a.name.localeCompare(b.name));
 
-  const handleOpenDeleteModal = (id: number | undefined) => {
-    setShowDeleteModal(true);
+  const handleOpenDeleteModal = (id: number | undefined, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     setSelectedId(id as number);
+    setShowDeleteModal(true);
   };
 
-  const handleOpenEditModal = (id: number | undefined) => {
+  const handleOpenEditModal = (id: number | undefined, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     setSelectedId(id as number);
     setShowEditModal(true);
   };
 
   const handleOpenShowModal = (id: number | undefined) => {
+
     setSelectedId(id as number);
     setShowShowModal(true);
+
   };
 
   return (
@@ -83,13 +88,7 @@ export function ListLocation({
           <div
             key={location.id}
           >
-            {index === 0 ||
-            location.name.charAt(0).toUpperCase() !==
-              filteredLocations[index - 1].name.charAt(0).toUpperCase() ? (
-              <Styled.LocationTitle>
-                {location.name.charAt(0).toUpperCase()}
-              </Styled.LocationTitle>
-            ) : null}
+            
             <Styled.LocationItemContainer onClick={() => handleOpenShowModal(location.id)}>
               <Styled.LocationImage src={imageList} />
               <Styled.LocationName>{location.name}</Styled.LocationName>
@@ -98,12 +97,14 @@ export function ListLocation({
               </Styled.LocationStatusText>
               <Styled.LocationStatusIcon approved={location.isActive} />
               <Styled.EditButton
-                onClick={() => handleOpenEditModal(location.id)}
+                onClick={(e) => handleOpenEditModal(location.id, e)}
+              
               >
                 <TeamIcon />
               </Styled.EditButton>
               <Styled.DeleteButton
-                onClick={() => handleOpenDeleteModal(location.id)}
+                onClick={(e) => handleOpenDeleteModal(location.id, e)}
+                
               >
                 <BinIcon />
               </Styled.DeleteButton>

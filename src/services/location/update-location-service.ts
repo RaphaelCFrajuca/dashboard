@@ -4,7 +4,7 @@ import { baseUrl } from '../../utils/ baseUrl';
 export const updateLocation = async (
   token: string | null,
   formData: FormData,
-  id: number
+  id: number | undefined
 ) => {
   const response = await axios
     .put(`${baseUrl}/is-it-safe/location/update/${id}`, formData, {

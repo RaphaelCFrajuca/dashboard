@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { baseUrl } from '../../utils/ baseUrl';
+
 export const updateLocation = async (
   token: string | null,
   formData: FormData,

@@ -2,8 +2,6 @@
 import { Button } from '../../Button/Button';
 import { Frame } from '../../../layout';
 import { Modal } from '../Modal/Modal';
-import { SelectComponent } from '../../Select/Select';
-import { BigInput } from '../../Input/BigInput';
 import { Title } from './DeleteLocationModal.styles';
 
 type IDeleteLocationModal = {

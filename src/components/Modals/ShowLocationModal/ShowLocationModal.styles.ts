@@ -11,22 +11,21 @@ export const BelowTitle = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  span{
+  span {
     font-size: 12px;
     font-weight: 400;
   }
-  
 `;
 export const EditDelete = styled.div`
-display: flex;
-flex-direction: row;
+  display: flex;
+  flex-direction: row;
   color: #b9b3da;
 `;
 
 export const Title = styled.h4`
   font-size: 1.2em;
   font-weight: 700;
-  color: #241B5E;
+  color: #241b5e;
 `;
 
 export const CloseIcon = styled.div`
@@ -42,7 +41,6 @@ export const PropertyName = styled.span`
   letter-spacing: 0.15000000596046448px;
   text-align: left;
   min-width: 50%;
-
 `;
 export const PropertyValue = styled.span`
   color: #241b5e;
@@ -51,14 +49,13 @@ export const PropertyValue = styled.span`
   line-height: 18px;
   letter-spacing: 0em;
   text-align: left;
-  white-space:nowrap;
-  
-  :hover{
-    overflow:visible;
-    white-space:normal;
-    -webkit-mask-image:"linear-gradient(90deg, #000,  100%, transparent)"
+  white-space: nowrap;
+
+  :hover {
+    overflow: visible;
+    white-space: normal;
+    -webkit-mask-image: 'linear-gradient(90deg, #000,  100%, transparent)';
   }
-  
 `;
 
 export const Property = styled.div`

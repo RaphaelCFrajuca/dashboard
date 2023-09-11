@@ -48,8 +48,8 @@ export function ListLocation({
 
   const handleOpenDeleteModal = (id: number | undefined, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
-    setSelectedId(id as number);
     setShowDeleteModal(true);
+    setSelectedId(id as number);
   };
 
   const handleOpenEditModal = (id: number | undefined, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -88,7 +88,13 @@ export function ListLocation({
           <div
             key={location.id}
           >
-            
+            {index === 0 ||
+            location.name.charAt(0).toUpperCase() !==
+              filteredLocations[index - 1].name.charAt(0).toUpperCase() ? (
+              <Styled.LocationTitle>
+                {location.name.charAt(0).toUpperCase()}
+              </Styled.LocationTitle>
+            ) : null}
             <Styled.LocationItemContainer onClick={() => handleOpenShowModal(location.id)}>
               <Styled.LocationImage src={imageList} />
               <Styled.LocationName>{location.name}</Styled.LocationName>

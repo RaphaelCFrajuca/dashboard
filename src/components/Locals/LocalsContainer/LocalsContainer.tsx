@@ -4,7 +4,7 @@ import searchIcon from '../../../assets/Icons/Searchicons.svg';
 import React, { useState, useEffect } from 'react';
 import {
   LocationList,
-  LocationListItem
+  LocationListItem,
   getAllLocations,
 } from '../../../services/location/all-location-service';
 import { useAuth } from '../../../context/auth/AuthProvider';

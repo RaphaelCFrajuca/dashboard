@@ -1,13 +1,7 @@
-import { Controller, useForm, FieldError, set } from 'react-hook-form';
-import { useState, useEffect, SetStateAction } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useState, useEffect } from 'react';
 import { ReactComponent as CloseIcon } from '../../../assets/Icons/Closeicons.svg';
 import { ReactComponent as EditIcon } from '../../../assets/Icons/Editicons.svg';
 import { ReactComponent as BinIcon } from '../../../assets/Icons/Bin.svg';
-import ModalImg from '../../ModalImg/ModalImg';
-import { Button } from '../../Button/Button';
-import { Input } from '../../Input/Input';
-import { Form } from '../../Form/Form';
 import { Frame } from '../../../layout';
 import { Modal } from '../Modal/Modal';
 import {
@@ -24,13 +18,15 @@ import {
   Location,
 } from '../../../services/location/location-by-id-service';
 import { useQuery } from 'react-query';
-import { TranslatedCep, translateCep } from '../../../services/cep/cep-translation-service';
+import {
+  TranslatedCep,
+  translateCep,
+} from '../../../services/cep/cep-translation-service';
 
 type IShowLocationModal = {
   showmodal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
   id: number;
 };
 
@@ -38,16 +34,15 @@ const ShowLocationModal = ({
   showmodal,
   setShowModal,
   setShowEditModal,
-  setShowAddModal,
   id,
 }: IShowLocationModal) => {
   const { accessToken } = useAuth();
   const location = useQuery('location', () => getLocationById(accessToken, id));
 
   const [locationData, setLocationData] = useState<Location | null>(null);
-  const [cepData, setCepData] = useState< TranslatedCep | null>(null);
+  const [cepData, setCepData] = useState<TranslatedCep | null>(null);
   const cep = locationData?.cep;
-  const src = locationData?.imgUrl? locationData?.imgUrl : "";
+  const src = locationData?.imgUrl ? locationData?.imgUrl : '';
 
   const translatedCep = useQuery({
     queryKey: ['translatedCep', cep],
@@ -81,21 +76,15 @@ const ShowLocationModal = ({
       }
     }
   }, [location.data, translatedCep.data, showmodal]);
- 
-   const handleEdit = () => () => {
-    
+
+  const handleEdit = () => () => {
     setShowModal(false);
-    setShowAddModal(false);
     setShowEditModal(true);
-  
   };
 
   const handleDelete = () => () => {
-    setSelectedId(id as number);
     setShowModal(false);
-    setShowAddModal(false);
     setShowEditModal(false);
-  
   };
   return (
     <Modal
@@ -103,12 +92,11 @@ const ShowLocationModal = ({
         <>
           <TitleContainer>
             <Title>{locationData?.name}</Title>
-            
           </TitleContainer>
           <EditDelete>
             <BinIcon onClick={handleDelete()}></BinIcon>
-            <EditIcon  onClick={handleEdit()}></EditIcon>
-            </EditDelete>
+            <EditIcon onClick={handleEdit()}></EditIcon>
+          </EditDelete>
           <CloseIcon
             data-testid="close-modal"
             onClick={() => setShowModal(false)}
@@ -138,9 +126,18 @@ const ShowLocationModal = ({
           </Property>
         </Frame>
         <Frame direction="row" gap={'0'}>
-          <Property style={{width:"100%"}}>
-            <PropertyName style={{minWidth:"17.5%"} }>Endereço</PropertyName>
-            <PropertyValue style={{overflow:"hidden", minWidth:"80%", WebkitMaskImage:"linear-gradient(90deg, #000,  90%, transparent)"}}>{locationData?.endereco}</PropertyValue>
+          <Property style={{ width: '100%' }}>
+            <PropertyName style={{ minWidth: '17.5%' }}>Endereço</PropertyName>
+            <PropertyValue
+              style={{
+                overflow: 'hidden',
+                minWidth: '80%',
+                WebkitMaskImage:
+                  'linear-gradient(90deg, #000,  90%, transparent)',
+              }}
+            >
+              {locationData?.endereco}
+            </PropertyValue>
           </Property>
         </Frame>
         <Frame direction="row" gap={'15%'}>
@@ -154,7 +151,10 @@ const ShowLocationModal = ({
           </Property>
         </Frame>
         <Frame direction="column" gap={'0'}>
-          <img style={{width:"100%", height:"auto", padding:"0"}} src={src}></img>
+          <img
+            style={{ width: '100%', height: 'auto', padding: '0' }}
+            src={src}
+          ></img>
         </Frame>
       </Frame>
     </Modal>

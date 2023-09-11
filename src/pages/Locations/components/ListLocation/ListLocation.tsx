@@ -7,39 +7,37 @@ import { locationController } from '../../../../services/location/location-contr
 import { useAuth } from '../../../../context/auth/AuthProvider';
 import imageList from '../../../../assets/image3.png';
 import { Loading } from '../../../../components/Loading/Loading';
-import { set } from 'react-hook-form';
+import { LocationList } from '../../../../services/location/all-location-service';
+import { UseQueryResult } from 'react-query';
 
-interface LocationList {
-  content: {
-    id: number;
-    name: string;
-    isActive: boolean;
-  }[];
-}
 interface Props {
   setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedId: React.Dispatch<React.SetStateAction<number>>;
-
+  locationList: UseQueryResult<LocationList, unknown>;
 }
-export function ListLocation({ setSelectedId, setShowAddModal,setShowDeleteModal, setShowEditModal, setShowShowModal }: Props) {
-  const { accessToken } = useAuth();
-  const { data, isLoading } = useQuery<LocationList>('location', () =>
-    locationController(accessToken)
-  );
+export function ListLocation({
+  setSelectedId,
+  setShowAddModal,
+  setShowDeleteModal,
+  setShowEditModal,
+  setShowShowModal,
+  locationList,
+}: Props) {
+  
   const [selectedLetter, setSelectedLetter] = useState('');
 
   const handleLetterChange = (letter: string) => {
     setSelectedLetter(letter);
   };
 
-  if (isLoading) {
+  if (locationList.isLoading) {
     return <Loading />;
   }
 
-  const filteredLocations = data?.content?.filter(
+  const filteredLocations = locationList.data?.content?.filter(
     (location) =>
       selectedLetter === '' ||
       location.name.toLowerCase().startsWith(selectedLetter.toLowerCase())
@@ -81,8 +79,10 @@ export function ListLocation({ setSelectedId, setShowAddModal,setShowDeleteModal
       </Styled.FilterContainer>
       <Styled.LocationListContainer>
         <Styled.LocationHeader>Local</Styled.LocationHeader>
-        {filteredLocations?.map((location, index) => (
-          <div key={location.id} onClick={() => handleOpenShowModal(location.id)}>
+        {locationList.data?.content?.map((location, index) => (
+          <div
+            key={location.id}
+          >
             {index === 0 ||
             location.name.charAt(0).toUpperCase() !==
               filteredLocations[index - 1].name.charAt(0).toUpperCase() ? (
@@ -90,14 +90,16 @@ export function ListLocation({ setSelectedId, setShowAddModal,setShowDeleteModal
                 {location.name.charAt(0).toUpperCase()}
               </Styled.LocationTitle>
             ) : null}
-            <Styled.LocationItemContainer>
+            <Styled.LocationItemContainer onClick={() => handleOpenShowModal(location.id)}>
               <Styled.LocationImage src={imageList} />
               <Styled.LocationName>{location.name}</Styled.LocationName>
               <Styled.LocationStatusText>
                 {location.isActive ? 'Aprovado' : 'Pendente'}
               </Styled.LocationStatusText>
               <Styled.LocationStatusIcon approved={location.isActive} />
-              <Styled.EditButton onClick={() => handleOpenEditModal(location.id)}>
+              <Styled.EditButton
+                onClick={() => handleOpenEditModal(location.id)}
+              >
                 <TeamIcon />
               </Styled.EditButton>
               <Styled.DeleteButton

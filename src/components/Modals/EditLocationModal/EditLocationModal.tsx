@@ -1,9 +1,7 @@
 import { Controller, useForm, FieldError, set } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  editLocationFormSchema,
-} from '../../../zodSchemas/EditLocationSchema';
+import { editLocationFormSchema } from '../../../zodSchemas/EditLocationSchema';
 import { ReactComponent as CloseIcon } from '../../../assets/Icons/Closeicons.svg';
 import ModalImg from '../../ModalImg/ModalImg';
 import { Button } from '../../Button/Button';
@@ -14,7 +12,10 @@ import { Modal } from '../Modal/Modal';
 import { Option, SelectComponent } from '../../Select/Select';
 import { Title, TitleContainer } from './EditLocationModal.styles';
 import { useAuth } from '../../../context/auth/AuthProvider';
-import { getLocationById, Location } from '../../../services/location/location-by-id-service';
+import {
+  getLocationById,
+  Location,
+} from '../../../services/location/location-by-id-service';
 import { useQuery } from 'react-query';
 import { updateLocation } from '../../../services/location/update-location-service';
 
@@ -83,7 +84,7 @@ const EditLocationModal = ({
     { value: '2', label: 'Restaurante' },
     { value: '3', label: 'Casa Noturna' },
   ];
-  
+
   const src = data?.imgUrl ? data?.imgUrl : '';
 
   useEffect(() => {

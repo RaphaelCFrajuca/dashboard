@@ -41,5 +41,3 @@ export const editLocationFormSchema = z.object({
     )
     .pipe(z.coerce.string()),
 });
-
-

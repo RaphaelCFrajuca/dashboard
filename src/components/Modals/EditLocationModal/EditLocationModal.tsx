@@ -87,7 +87,7 @@ const EditLocationModal = ({
     { value: '3', label: 'Casa Noturna' },
   ];
 
-  const src = location.data?.imgUrl ? localStorage.data?.imgUrl : '';
+  const src = location.data?.imgUrl ? location.data?.imgUrl : '';
 
   useEffect(() => {
     if (location.data) {

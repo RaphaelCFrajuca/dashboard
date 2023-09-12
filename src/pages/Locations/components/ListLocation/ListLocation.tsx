@@ -15,9 +15,10 @@ interface Props {
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedId: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setSelectedId: React.Dispatch<React.SetStateAction<number>>;
   locationList: UseQueryResult<LocationList, unknown>;
 }
+
 export function ListLocation({
   setSelectedId,
   setShowAddModal,
@@ -26,9 +27,7 @@ export function ListLocation({
   setShowShowModal,
   locationList,
 }: Props) {
-  
   const [selectedLetter, setSelectedLetter] = useState('');
-  
 
   const handleLetterChange = (letter: string) => {
     setSelectedLetter(letter);
@@ -37,7 +36,7 @@ export function ListLocation({
   if (locationList.isLoading) {
     return <Loading />;
   }
-  
+
   const filteredLocations = locationList.data?.content?.filter(
     (location) =>
       selectedLetter === '' ||
@@ -46,78 +45,76 @@ export function ListLocation({
 
   filteredLocations?.sort((a, b) => a.name.localeCompare(b.name));
 
-  const handleOpenDeleteModal = (id: number | undefined, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.stopPropagation();
+  const handleOpenDeleteModal = (id: number | undefined) => {
     setShowDeleteModal(true);
     setSelectedId(id as number);
   };
 
-  const handleOpenEditModal = (id: number | undefined, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.stopPropagation();
+  const handleOpenEditModal = (id: number | undefined) => {
     setSelectedId(id as number);
     setShowEditModal(true);
   };
 
   const handleOpenShowModal = (id: number | undefined) => {
-
     setSelectedId(id as number);
     setShowShowModal(true);
-
   };
 
   return (
     <Styled.Container>
-      <Styled.FilterContainer>
-        <Styled.FilterTitle>
-          <button onClick={() => handleLetterChange('')}>todos</button>
-          {Array.from({ length: 26 }, (_, index) => (
-            <button
-              key={index}
-              onClick={() =>
-                handleLetterChange(String.fromCharCode(65 + index))
-              }
-            >
-              {String.fromCharCode(65 + index)}
-            </button>
+      <Styled.Content>
+        <Styled.FilterContainer>
+          <Styled.FilterTitle>
+            <button onClick={() => handleLetterChange('')}>todos</button>
+            {Array.from({ length: 26 }, (_, index) => (
+              <button
+                key={index}
+                onClick={() =>
+                  handleLetterChange(String.fromCharCode(65 + index))
+                }
+              >
+                {String.fromCharCode(65 + index)}
+              </button>
+            ))}
+          </Styled.FilterTitle>
+        </Styled.FilterContainer>
+        <Styled.LocationListContainer>
+          <Styled.LocationHeader>Local</Styled.LocationHeader>
+          {filteredLocations?.map((location, index) => (
+            <div key={location.id}>
+              {index === 0 ||
+              location.name.charAt(0).toUpperCase() !==
+                filteredLocations[index - 1].name.charAt(0).toUpperCase() ? (
+                <Styled.LocationTitle>
+                  {location.name.charAt(0).toUpperCase()}
+                </Styled.LocationTitle>
+              ) : null}
+              <Styled.LocationItemContainer>
+                <Styled.LocationImage src={imageList} />
+                <Styled.LocationName
+                  onClick={() => handleOpenShowModal(location.id)}
+                >
+                  {location.name}
+                </Styled.LocationName>
+                <Styled.LocationStatusText>
+                  {location.isActive ? 'Aprovado' : 'Pendente'}
+                </Styled.LocationStatusText>
+                <Styled.LocationStatusIcon approved={location.isActive} />
+                <Styled.EditButton
+                  onClick={() => handleOpenEditModal(location.id)}
+                >
+                  <TeamIcon />
+                </Styled.EditButton>
+                <Styled.DeleteButton
+                  onClick={() => handleOpenDeleteModal(location.id)}
+                >
+                  <BinIcon />
+                </Styled.DeleteButton>
+              </Styled.LocationItemContainer>
+            </div>
           ))}
-        </Styled.FilterTitle>
-      </Styled.FilterContainer>
-      <Styled.LocationListContainer>
-        <Styled.LocationHeader>Local</Styled.LocationHeader>
-        {locationList.data?.content?.map((location, index) => (
-          <div
-            key={location.id}
-          >
-            {index === 0 ||
-            location.name.charAt(0).toUpperCase() !==
-              filteredLocations[index - 1].name.charAt(0).toUpperCase() ? (
-              <Styled.LocationTitle>
-                {location.name.charAt(0).toUpperCase()}
-              </Styled.LocationTitle>
-            ) : null}
-            <Styled.LocationItemContainer onClick={() => handleOpenShowModal(location.id)}>
-              <Styled.LocationImage src={imageList} />
-              <Styled.LocationName>{location.name}</Styled.LocationName>
-              <Styled.LocationStatusText>
-                {location.isActive ? 'Aprovado' : 'Pendente'}
-              </Styled.LocationStatusText>
-              <Styled.LocationStatusIcon approved={location.isActive} />
-              <Styled.EditButton
-                onClick={(e) => handleOpenEditModal(location.id, e)}
-              
-              >
-                <TeamIcon />
-              </Styled.EditButton>
-              <Styled.DeleteButton
-                onClick={(e) => handleOpenDeleteModal(location.id, e)}
-                
-              >
-                <BinIcon />
-              </Styled.DeleteButton>
-            </Styled.LocationItemContainer>
-          </div>
-        ))}
-      </Styled.LocationListContainer>
+        </Styled.LocationListContainer>
+      </Styled.Content>
     </Styled.Container>
   );
 }

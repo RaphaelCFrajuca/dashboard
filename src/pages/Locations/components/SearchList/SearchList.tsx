@@ -1,25 +1,39 @@
 import React, { useState } from 'react';
 import { ReactComponent as Filtericons } from '../../../../assets/Icons/Filtericons.svg';
 import { ReactComponent as Downicons } from '../../../../assets/Icons/Downicons.svg';
-import { ReactComponent as Search2 } from '../../../../assets/Icons/Search2.svg';
+import { ReactComponent as Searchicons } from '../../../../assets/Icons/Searchicons.svg';
 import * as Styled from './SearchList.styles';
 
 interface Props {
-  onOpenModal: () => void;
+  onOpenAddModal: () => void;
 }
 
-export function SearchList({ onOpenModal }: Props) {
+export function SearchList({ onOpenAddModal }: Props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen((prevState) => !prevState);
+  };
+
+  const handleSearchInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSearchTerm(event.target.value);
   };
 
   return (
     <Styled.Container>
       <Styled.Title>Locais</Styled.Title>
       <Styled.Content>
-        <Styled.SearchInput type="text" placeholder="Buscar" />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Searchicons width={24} height={24} />
+          <Styled.SearchInput
+            type="text"
+            placeholder="Buscar"
+            onChange={handleSearchInputChange}
+          />
+        </div>
         <Styled.DropdownContainer onClick={handleDropdownToggle}>
           <Styled.DropdownButton>
             <Filtericons width={24} height={24} />
@@ -35,7 +49,7 @@ export function SearchList({ onOpenModal }: Props) {
             </Styled.DropdownMenu>
           )}
         </Styled.DropdownContainer>
-        <Styled.AddButton onClick={onOpenModal}>+ADD</Styled.AddButton>
+        <Styled.AddButton onClick={onOpenAddModal}>+ADD</Styled.AddButton>
       </Styled.Content>
     </Styled.Container>
   );

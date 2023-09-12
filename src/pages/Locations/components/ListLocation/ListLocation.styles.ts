@@ -4,7 +4,9 @@ interface LocationStatusProps {
   approved: boolean;
 }
 
-export const Container = styled.div`
+export const Container = styled.div``;
+
+export const Content = styled.div`
   height: 666px;
   margin: 0 48px;
   background-color: #fdfcff;
@@ -97,6 +99,7 @@ export const LocationName = styled.p`
   font-weight: 700;
   line-height: 16px;
   letter-spacing: 0.15px;
+  cursor: pointer;
 `;
 
 export const LocationHeader = styled.span`

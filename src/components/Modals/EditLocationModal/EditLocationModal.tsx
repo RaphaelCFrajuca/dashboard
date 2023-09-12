@@ -1,7 +1,10 @@
-import { Controller, useForm, FieldError, set } from 'react-hook-form';
+import { Controller, useForm, FieldError } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { editLocationFormSchema } from '../../../zodSchemas/EditLocationSchema';
+import {
+  EditLocationFormSchemaType,
+  editLocationFormSchema,
+} from '../../../zodSchemas/EditLocationSchema';
 import { ReactComponent as CloseIcon } from '../../../assets/Icons/Closeicons.svg';
 import ModalImg from '../../ModalImg/ModalImg';
 import { Button } from '../../Button/Button';
@@ -10,7 +13,12 @@ import { Form } from '../../Form/Form';
 import { Frame } from '../../../layout';
 import { Modal } from '../Modal/Modal';
 import { Option, SelectComponent } from '../../Select/Select';
-import { Title, TitleContainer } from './EditLocationModal.styles';
+import {
+  Title,
+  TitleContainer,
+  SuccessMessage,
+  ErrorMessage,
+} from './EditLocationModal.styles';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import {
   getLocationById,
@@ -22,7 +30,7 @@ import { updateLocation } from '../../../services/location/update-location-servi
 type IEditLocationModal = {
   showmodal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  id: number | undefined;
+  id: number;
 };
 
 const EditLocationModal = ({
@@ -31,28 +39,31 @@ const EditLocationModal = ({
   id,
 }: IEditLocationModal) => {
   const { accessToken } = useAuth();
-  const location = useQuery({
-    queryKey: ['location'],
-    queryFn: () => getLocationById(accessToken, id),
-    enabled: false,
-  });
+  const { data, status, refetch } = useQuery('location', () =>
+    getLocationById(accessToken, id)
+  );
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
+
+  const [submissionStatus, setSubmissionStatus] = useState<
+    'success' | 'error' | 'none'
+  >('none');
 
   const handleFileChange = (file: File) => {
     setSelectedFile(file);
   };
 
   const convertValue = (value: string) => {
-    if (value === 'Bar') {
-      return '1';
-    } else if (value === 'Restaurante') {
-      return '2';
-    } else if (value === 'Casa Noturna') {
-      return '3';
-    } else {
-      return '';
+    switch (value) {
+      case 'Bar':
+        return '1';
+      case 'Restaurante':
+        return '2';
+      case 'Casa Noturna':
+        return '3';
+      default:
+        return '';
     }
   };
 
@@ -62,14 +73,13 @@ const EditLocationModal = ({
     control,
     reset,
     formState: { errors },
-  } = useForm<Location>({
+  } = useForm<EditLocationFormSchemaType>({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
     resolver: zodResolver(editLocationFormSchema),
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: EditLocationFormSchemaType) => {
     const formData = new FormData();
     formData.append('name', data.name);
     formData.append('endereco', data.endereco);
@@ -78,35 +88,56 @@ const EditLocationModal = ({
     formData.append('cep', data.cep);
     formData.append('latitude', data.latitude);
     formData.append('longitude', data.longitude);
-    updateLocation(accessToken, formData, id);
-    setShowModal(false);
+
+    updateLocation(accessToken, formData, id)
+      .then(() => {
+        setSubmissionStatus('success');
+      })
+      .catch((error) => {
+        setSubmissionStatus('error');
+        console.error('Erro ao atualizar o local:', error);
+      });
   };
+
   const types: Option[] = [
     { value: '1', label: 'Bar' },
     { value: '2', label: 'Restaurante' },
     { value: '3', label: 'Casa Noturna' },
   ];
 
-  const src = location.data?.imgUrl ? localStorage.data?.imgUrl : '';
+  const src = data?.imgUrl || '';
 
   useEffect(() => {
-    if (location.data) {
+    if (data) {
       reset({
-        name: location.data.name,
-        endereco: location.data.endereco,
-        type: convertValue(location.data.type),
-        cep: location.data.cep,
-        latitude: location.data.latitude,
-        longitude: location.data.longitude,
+        name: data.name,
+        endereco: data.endereco,
+        type: convertValue(data.type),
+        cep: data.cep,
+        latitude: data.latitude,
+        longitude: data.longitude,
       });
     }
-  }, [location.data, location.status]);
+  }, [data, status, reset]);
 
   useEffect(() => {
-   if(id){
-      location.refetch();
-      }
-  }, [showmodal, id]);
+    refetch();
+  }, [showmodal]);
+
+  const closeModal = () => {
+    setSubmissionStatus('none');
+    setShowModal(false);
+  };
+
+  useEffect(() => {
+    if (submissionStatus === 'success' || submissionStatus === 'error') {
+      const timer = setTimeout(() => {
+        closeModal();
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [submissionStatus]);
   return (
     <Modal
       header={
@@ -117,7 +148,7 @@ const EditLocationModal = ({
           <CloseIcon
             data-testid="close-modal"
             onClick={() => setShowModal(false)}
-          ></CloseIcon>
+          />
         </>
       }
       showModal={showmodal}
@@ -125,6 +156,19 @@ const EditLocationModal = ({
     >
       <Form handleSubmit={handleSubmit} onSubmit={onSubmit}>
         <Frame direction="column" gap={'16px'}>
+          {submissionStatus === 'success' && (
+            <Modal showModal={true} setShowModal={closeModal}>
+              <SuccessMessage>Local atualizado com sucesso!</SuccessMessage>
+            </Modal>
+          )}
+          {submissionStatus === 'error' && (
+            <Modal showModal={true} setShowModal={closeModal}>
+              <ErrorMessage>
+                Ocorreu um erro ao atualizar o local. Por favor, tente
+                novamente.
+              </ErrorMessage>
+            </Modal>
+          )}
           <Input
             label="Nome"
             {...register('name', {})}
@@ -142,17 +186,17 @@ const EditLocationModal = ({
                   setTypeNumber(value.value);
                 }}
                 previousValue={
-                  location.data
+                  data
                     ? ({
-                        label: location.data?.type,
-                        value: convertValue(location.data?.type),
+                        label: data?.type,
+                        value: convertValue(data?.type),
                       } as Option)
                     : null
                 }
               />
             )}
             name="type"
-          ></Controller>
+          />
           <Input
             label="Endereço"
             {...register('endereco', {})}

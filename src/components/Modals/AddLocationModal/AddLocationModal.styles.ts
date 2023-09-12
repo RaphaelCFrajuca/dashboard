@@ -18,3 +18,15 @@ export const CloseIcon = styled.div`
   right: 0px;
   cursor: pointer;
 `;
+export const SuccessMessage = styled.h4`
+  color: green;
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-align: center;
+`;
+export const ErrorMessage = styled.h4`
+  color: red;
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-align: center;
+`;

@@ -1,5 +1,5 @@
 import { Controller, useForm, FieldError } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   AddLocationFormSchemaType,
@@ -13,7 +13,12 @@ import { Form } from '../../Form/Form';
 import { Frame } from '../../../layout';
 import { Modal } from '../Modal/Modal';
 import { Option, SelectComponent } from '../../Select/Select';
-import { Title, TitleContainer } from './AddLocationModal.styles';
+import {
+  ErrorMessage,
+  SuccessMessage,
+  Title,
+  TitleContainer,
+} from './AddLocationModal.styles';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import { saveLocation } from '../../../services/location/save-location-service';
 
@@ -26,6 +31,9 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
   const { accessToken } = useAuth();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
+  const [submissionStatus, setSubmissionStatus] = useState<
+    'success' | 'error' | 'none'
+  >('none');
 
   const handleFileChange = (file: File) => {
     setSelectedFile(file);
@@ -43,15 +51,38 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
     resolver: zodResolver(addLocationFormSchema),
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: AddLocationFormSchemaType) => {
     const formData = new FormData();
     formData.append('name', data.name);
     formData.append('locationTypeId', typeNumber);
     formData.append('file', selectedFile as File);
     formData.append('cep', data.cep);
-    saveLocation(accessToken, formData);
+
+    saveLocation(accessToken, formData)
+      .then(() => {
+        setSubmissionStatus('success');
+      })
+      .catch((error) => {
+        setSubmissionStatus('error');
+        console.error('Erro ao atualizar o local:', error);
+      });
   };
+
+  const closeModal = () => {
+    setSubmissionStatus('none');
+    setShowModal(false);
+  };
+
+  useEffect(() => {
+    if (submissionStatus === 'success' || submissionStatus === 'error') {
+      const timer = setTimeout(() => {
+        closeModal();
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [submissionStatus]);
+
   const types: Option[] = [
     { value: '1', label: 'Bar' },
     { value: '2', label: 'Restaurante' },
@@ -76,6 +107,19 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
     >
       <Form handleSubmit={handleSubmit} onSubmit={(data) => onSubmit(data)}>
         <Frame direction="column" gap={'16px'}>
+          {submissionStatus === 'success' && (
+            <Modal showModal={true} setShowModal={closeModal}>
+              <SuccessMessage>Local atualizado com sucesso!</SuccessMessage>
+            </Modal>
+          )}
+          {submissionStatus === 'error' && (
+            <Modal showModal={true} setShowModal={closeModal}>
+              <ErrorMessage>
+                Ocorreu um erro ao atualizar o local. Por favor, tente
+                novamente.
+              </ErrorMessage>
+            </Modal>
+          )}
           <Input
             label="Nome"
             {...register('name', {})}
@@ -99,14 +143,12 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
             )}
             name="type"
           ></Controller>
-          <Frame direction="row" gap={'18px'}>
-            <Input
-              label="CEP"
-              {...register('cep', {})}
-              data-testid="input-cep"
-              error={errors.cep}
-            />
-          </Frame>
+          <Input
+            label="CEP"
+            {...register('cep', {})}
+            data-testid="input-cep"
+            error={errors.cep}
+          />
           <Frame data-testid="img" direction="row" gap={'0px'}>
             <ModalImg src="" onFileChange={handleFileChange} />
           </Frame>

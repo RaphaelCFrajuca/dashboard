@@ -4,13 +4,15 @@ import * as Style from '../Home/Home.styles';
 import { ShowLocationModal } from '../../components/Modals/ShowLocationModal/ShowLocationModal';
 import { EditLocationModal } from '../../components/Modals/EditLocationModal/EditLocationModal';
 import { AddLocationModal } from '../../components/Modals/AddLocationModal/AddLocationModal';
-import { useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { DeleteLocationModal } from '../../components/Modals/DeleteLocationModal/DeleteLocationModal';
 import { ListLocation } from './components/ListLocation/ListLocation';
-import  {LocationList, getAllLocations}  from '../..../../../services/location/all-location-service';
-
+import {
+  LocationList,
+  getAllLocations,
+} from '../..../../../services/location/all-location-service';
 
 const Locations = () => {
   const [showShowodal, setShowShowModal] = useState(false);

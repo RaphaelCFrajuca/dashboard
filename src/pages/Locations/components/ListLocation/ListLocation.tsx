@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { ReactComponent as BinIcon } from '../../../../assets/Icons/Binn.svg';
 import { ReactComponent as TeamIcon } from '../../../../assets/Icons/Team.svg';
 import * as Styled from './ListLocation.styles';
-import { useQuery } from 'react-query';
 import imageList from '../../../../assets/image3.png';
 import { Loading } from '../../../../components/Loading/Loading';
 import { LocationList } from '../../../../services/location/all-location-service';
@@ -13,14 +12,12 @@ interface Props {
   setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedId: React.Dispatch<React.SetStateAction<number>>;
   locationList: UseQueryResult<LocationList, unknown>;
 }
 
 export function ListLocation({
   setSelectedId,
-  setShowAddModal,
   setShowDeleteModal,
   setShowEditModal,
   setShowShowModal,
@@ -30,31 +27,26 @@ export function ListLocation({
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(12);
 
-  // Mova a declaração de filteredLocations para antes de usá-la
   const filteredLocations = locationList.data?.content?.filter(
     (location) =>
       selectedLetter === '' ||
       location.name.toLowerCase().startsWith(selectedLetter.toLowerCase())
   );
-
+  const totalPages = Math.ceil((filteredLocations?.length || 0) / itemsPerPage);
   filteredLocations?.sort((a, b) => a.name.localeCompare(b.name));
 
-  // Calcular o índice inicial e final dos itens visíveis
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const visibleLocations = filteredLocations?.slice(startIndex, endIndex);
-
-  const handleLetterChange = (letter: string) => {
-    setSelectedLetter(letter);
-    setCurrentPage(1); // Resetar a página para 1 quando a letra é alterada
-  };
 
   if (locationList.isLoading) {
     return <Loading />;
   }
 
-  // Calcular o número total de páginas
-  const totalPages = Math.ceil((filteredLocations?.length || 0) / itemsPerPage);
+  const handleLetterChange = (letter: string) => {
+    setSelectedLetter(letter);
+    setCurrentPage(1);
+  };
 
   const handleOpenDeleteModal = (id: number | undefined) => {
     setShowDeleteModal(true);

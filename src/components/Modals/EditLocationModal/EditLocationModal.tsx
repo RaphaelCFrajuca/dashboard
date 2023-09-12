@@ -103,9 +103,9 @@ const EditLocationModal = ({
   }, [location.data, location.status]);
 
   useEffect(() => {
-   if(id){
+    if (id) {
       location.refetch();
-      }
+    }
   }, [showmodal, id]);
   return (
     <Modal

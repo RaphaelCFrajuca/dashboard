@@ -24,7 +24,7 @@ export const getAllLocations = async (token: string | null) => {
     },
   };
   const locationListData: LocationList = await axios
-    .get(`${baseUrl}/is-it-safe/location/dashboard/find-all?size=2000`, config)
+    .get(`${baseUrl}/is-it-safe/location/dashboard/find-all`, config)
     .then((res) => res.data)
     .catch((err: AxiosError) => {
       throw new Error(err.message);

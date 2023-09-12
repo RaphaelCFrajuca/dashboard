@@ -26,9 +26,7 @@ export function ListLocation({
   setShowShowModal,
   locationList,
 }: Props) {
-  
   const [selectedLetter, setSelectedLetter] = useState('');
-  
 
   const handleLetterChange = (letter: string) => {
     setSelectedLetter(letter);
@@ -37,7 +35,7 @@ export function ListLocation({
   if (locationList.isLoading) {
     return <Loading />;
   }
-  
+
   const filteredLocations = locationList.data?.content?.filter(
     (location) =>
       selectedLetter === '' ||
@@ -46,23 +44,27 @@ export function ListLocation({
 
   filteredLocations?.sort((a, b) => a.name.localeCompare(b.name));
 
-  const handleOpenDeleteModal = (id: number | undefined, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleOpenDeleteModal = (
+    id: number | undefined,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.stopPropagation();
     setSelectedId(id as number);
     setShowDeleteModal(true);
   };
 
-  const handleOpenEditModal = (id: number | undefined, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleOpenEditModal = (
+    id: number | undefined,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.stopPropagation();
     setSelectedId(id as number);
     setShowEditModal(true);
   };
 
   const handleOpenShowModal = (id: number | undefined) => {
-
     setSelectedId(id as number);
     setShowShowModal(true);
-
   };
 
   return (
@@ -85,11 +87,10 @@ export function ListLocation({
       <Styled.LocationListContainer>
         <Styled.LocationHeader>Local</Styled.LocationHeader>
         {locationList.data?.content?.map((location, index) => (
-          <div
-            key={location.id}
-          >
-            
-            <Styled.LocationItemContainer onClick={() => handleOpenShowModal(location.id)}>
+          <div key={location.id}>
+            <Styled.LocationItemContainer
+              onClick={() => handleOpenShowModal(location.id)}
+            >
               <Styled.LocationImage src={imageList} />
               <Styled.LocationName>{location.name}</Styled.LocationName>
               <Styled.LocationStatusText>
@@ -98,13 +99,11 @@ export function ListLocation({
               <Styled.LocationStatusIcon approved={location.isActive} />
               <Styled.EditButton
                 onClick={(e) => handleOpenEditModal(location.id, e)}
-              
               >
                 <TeamIcon />
               </Styled.EditButton>
               <Styled.DeleteButton
                 onClick={(e) => handleOpenDeleteModal(location.id, e)}
-                
               >
                 <BinIcon />
               </Styled.DeleteButton>

@@ -1,6 +1,7 @@
 import Sidebar from '../../components/sidebar/Sidebar';
 import Header from '../../components/header/Header';
 import * as Style from '../Home/Home.styles';
+import * as Styled from './Locations.styles';
 import { ShowLocationModal } from '../../components/Modals/ShowLocationModal/ShowLocationModal';
 import { EditLocationModal } from '../../components/Modals/EditLocationModal/EditLocationModal';
 import { AddLocationModal } from '../../components/Modals/AddLocationModal/AddLocationModal';
@@ -39,7 +40,7 @@ const Locations = () => {
         <Sidebar></Sidebar>
         <Style.HeaderContentContainer>
           <Header />
-          <Style.Content>
+          <Styled.Content>
             <SearchList onOpenAddModal={() => setShowAddModal(true)} />
             <ListLocation
               setShowShowModal={setShowShowModal}
@@ -74,7 +75,7 @@ const Locations = () => {
               }
               id={selectedId}
             />
-          </Style.Content>
+          </Styled.Content>
         </Style.HeaderContentContainer>
       </Style.PageContainer>
     </>

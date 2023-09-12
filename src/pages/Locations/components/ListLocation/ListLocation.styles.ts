@@ -13,6 +13,7 @@ export const Content = styled.div`
   display: flex;
   gap: 36px;
   overflow-y: auto;
+  padding-top: 12px;
 
   ::-webkit-scrollbar {
     width: 12px;
@@ -42,6 +43,12 @@ export const FilterContainer = styled.div`
     background-color: #3f3384;
   }
 `;
+export const FilterTitle = styled.h1`
+  display: flex;
+  flex-direction: column;
+  width: 60px;
+  height: 666px;
+`;
 
 export const LocationListContainer = styled.ul`
   list-style: none;
@@ -61,13 +68,6 @@ export const LocationTitle = styled.h1`
   background: var(--neutros-100, #faf9ff);
 
   padding-left: 24px;
-`;
-
-export const FilterTitle = styled.h1`
-  display: flex;
-  flex-direction: column;
-  width: 60px;
-  height: 666px;
 `;
 
 export const TitleContainer = styled.div`

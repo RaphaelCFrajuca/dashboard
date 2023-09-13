@@ -85,13 +85,17 @@ export const LocationItemContainer = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px;
+  padding: 5px;
   border-top: 1px solid var(--neutros-200, #efecfd);
   padding-left: 24px;
+  height: 80px;
 `;
 
 export const LocationImage = styled.img`
   padding-right: 24px;
+  width: auto;
+  height: 80%;
+  max-width: 90px;
 `;
 
 export const LocationName = styled.p`

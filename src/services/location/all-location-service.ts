@@ -6,6 +6,7 @@ export interface LocationListItem {
   name: string;
   endereco: string;
   locationType: string;
+  imgUrl: string | null;
   pendingValidation: boolean;
   isActive: boolean;
 }

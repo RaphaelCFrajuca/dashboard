@@ -4,16 +4,19 @@ interface LocationStatusProps {
   approved: boolean;
 }
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  margin: 0 37px;
+  background-color: #fdfcff;
+`;
 
 export const Content = styled.div`
   height: 666px;
-  margin: 0 48px;
   background-color: #fdfcff;
   display: flex;
   gap: 36px;
   overflow-y: auto;
   padding-top: 12px;
+  margin-inline: 24px;
 
   ::-webkit-scrollbar {
     width: 12px;

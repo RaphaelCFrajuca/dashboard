@@ -1,4 +1,4 @@
-import { Controller, useForm, FieldError } from 'react-hook-form';
+import { Controller, useForm, FieldError, set } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { editLocationFormSchema } from '../../../zodSchemas/EditLocationSchema';
@@ -13,9 +13,8 @@ import { Option, SelectComponent } from '../../Select/Select';
 import {
   Title,
   TitleContainer,
-  SuccessMessage,
-  ErrorMessage,
 } from './EditLocationModal.styles';
+import { EditConfirmationModal } from '../EditConfirmationModal/EditConfirmationModal';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import {
   getLocationById,
@@ -44,10 +43,9 @@ const EditLocationModal = ({
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
+  const [hasError , setHasError] = useState<boolean>(false);
+  const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
 
-  const [submissionStatus, setSubmissionStatus] = useState<
-    'success' | 'error' | 'none'
-  >('none');
 
   const handleFileChange = (file: File) => {
     setSelectedFile(file);
@@ -86,15 +84,22 @@ const EditLocationModal = ({
     formData.append('file', selectedFile as File);
     formData.append('cep', data.cep);
     formData.append('latitude', data.latitude);
-
-    updateLocation(accessToken, formData, id)
-      .then(() => {
-        setSubmissionStatus('success');
+    formData.append('longitude', data.longitude);
+    const updateStatus = updateLocation(accessToken, formData, id);
+    updateStatus
+      .then(() => {;
+        setHasError(false);
+        setShowSubmitModal(true);
       })
-      .catch((error) => {
-        setSubmissionStatus('error');
-        console.error('Erro ao atualizar o local:', error);
+      .catch(() => {
+        setHasError(true)
+        setShowSubmitModal(true);
       });
+      setTimeout(() => {
+        setShowSubmitModal(false);
+        setShowModal(false);
+        
+      }, 2000);
   };
 
   const types: Option[] = [
@@ -118,32 +123,16 @@ const EditLocationModal = ({
     }
   }, [location.data, location.status]);
 
-  // useEffect(() => {
-  //   refetch();
-  // }, [showmodal]);
-
   useEffect(() => {
     if (id) {
       location.refetch();
     }
   }, [showmodal, id]);
 
-  const closeModal = () => {
-    setSubmissionStatus('none');
-    setShowModal(false);
-  };
-
-  useEffect(() => {
-    if (submissionStatus === 'success' || submissionStatus === 'error') {
-      const timer = setTimeout(() => {
-        closeModal();
-      }, 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [submissionStatus]);
   return (
     <Modal
+      
+
       header={
         <>
           <TitleContainer>
@@ -158,21 +147,13 @@ const EditLocationModal = ({
       showModal={showmodal}
       setShowModal={setShowModal}
     >
+      <EditConfirmationModal
+        hasError={hasError}
+        showmodal={showSubmitModal}
+        setShowEditModal={setShowModal}
+      ></EditConfirmationModal>
       <Form handleSubmit={handleSubmit} onSubmit={onSubmit}>
         <Frame direction="column" gap={'16px'}>
-          {submissionStatus === 'success' && (
-            <Modal showModal={true} setShowModal={closeModal}>
-              <SuccessMessage>Local atualizado com sucesso!</SuccessMessage>
-            </Modal>
-          )}
-          {submissionStatus === 'error' && (
-            <Modal showModal={true} setShowModal={closeModal}>
-              <ErrorMessage>
-                Ocorreu um erro ao atualizar o local. Por favor, tente
-                novamente.
-              </ErrorMessage>
-            </Modal>
-          )}
           <Input
             label="Nome"
             {...register('name', {})}

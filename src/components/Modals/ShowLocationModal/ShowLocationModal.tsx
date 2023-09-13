@@ -15,6 +15,7 @@ import {
   TranslatedCep,
   translateCep,
 } from '../../../services/cep/cep-translation-service';
+import { EditConfirmationModal } from '../EditConfirmationModal/EditConfirmationModal';
 
 type IShowLocationModal = {
   showmodal: boolean;
@@ -33,6 +34,7 @@ const ShowLocationModal = ({
 
   const [locationData, setLocationData] = useState<Location | null>(null);
   const [cepData, setCepData] = useState<TranslatedCep | null>(null);
+  const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
   const cep = locationData?.cep;
   const src = locationData?.imgUrl ? locationData?.imgUrl : '';
 
@@ -118,7 +120,9 @@ const ShowLocationModal = ({
           </Frame>
           <Frame direction="row" gap={'18px'} style={{ paddingTop: '20px' }}>
             <Styles.StatusContainer>
-              <span>{locationData?.pendingValidation?"Pendente":"Aprovado"}</span>
+              <span>
+                {locationData?.pendingValidation ? 'Pendente' : 'Aprovado'}
+              </span>
               <Styles.LocationStatusIcon
                 approved={!locationData?.pendingValidation as boolean}
               />

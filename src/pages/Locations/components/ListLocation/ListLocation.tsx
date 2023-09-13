@@ -90,7 +90,10 @@ export function ListLocation({
         <Styled.LocationListContainer>
           <Styled.LocationHeader>Local</Styled.LocationHeader>
           {visibleLocations?.map((location, index) => (
-            <div key={location.id}>
+            <div
+              key={location.id}
+              onClick={() => handleOpenShowModal(location.id)}
+            >
               {index === 0 ||
               location.name.charAt(0).toUpperCase() !==
                 (
@@ -102,11 +105,7 @@ export function ListLocation({
               ) : null}
               <Styled.LocationItemContainer>
                 <Styled.LocationImage src={imageList} />
-                <Styled.LocationName
-                  onClick={() => handleOpenShowModal(location.id)}
-                >
-                  {location.name}
-                </Styled.LocationName>
+                <Styled.LocationName>{location.name}</Styled.LocationName>
                 <Styled.LocationStatusText>
                   {location.pendingValidation ? 'Pendente' : ' Aprovado'}
                 </Styled.LocationStatusText>

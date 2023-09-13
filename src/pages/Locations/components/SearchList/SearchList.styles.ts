@@ -6,7 +6,7 @@ export const Container = styled.div`
   justify-content: space-between;
   background-color: #fdfcff;
   padding: 24px 16px;
-  margin: 0 48px;
+  margin: 0 37px;
   height: 65px;
   border-bottom: 1px solid #efecfd;
   margin-top: 39px;
@@ -68,7 +68,7 @@ export const DropdownButton = styled.button`
   line-height: 24px;
   display: flex;
   align-items: center;
-  width: 140px;
+  /* width: 140px; */
   height: 34px;
 
   &.open {
@@ -83,6 +83,7 @@ export const DowniconsContainer = styled.svg<DowniconProps>`
   width: 24px;
   height: 24px;
   transition: transform 0.3s;
+  margin-inline: 10px;
 
   transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
 `;

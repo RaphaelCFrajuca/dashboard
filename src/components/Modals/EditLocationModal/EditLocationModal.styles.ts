@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const TitleContainer = styled.div`
   width: 90%;
@@ -17,4 +17,30 @@ export const CloseIcon = styled.div`
   position: absolute;
   right: 0px;
   cursor: pointer;
+`;
+
+const fillAnimation = keyframes`
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+`;
+
+// Estiliza a barra de carregamento
+export const LoadingBar = styled.div`
+  width: 100%;
+  height: 4px;
+  background-color: #007bff;
+  position: absolute;
+  margin-bottom: 16px;
+
+  &::before {
+    content: '';
+    display: block;
+    height: 100%;
+    background-color: #ccc;
+    animation: ${fillAnimation} 2s linear forwards;
+  }
 `;

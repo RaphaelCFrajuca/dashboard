@@ -1,6 +1,6 @@
 import Sidebar from '../../components/sidebar/Sidebar';
 import Header from '../../components/header/Header';
-import * as Style from '../Home/Home.styles';
+import * as Styled from './Locations.styles';
 import { ShowLocationModal } from '../../components/Modals/ShowLocationModal/ShowLocationModal';
 import { EditLocationModal } from '../../components/Modals/EditLocationModal/EditLocationModal';
 import { AddLocationModal } from '../../components/Modals/AddLocationModal/AddLocationModal';
@@ -13,15 +13,15 @@ import {
   LocationList,
   getAllLocations,
 } from '../..../../../services/location/all-location-service';
+import { SearchList } from './components/SearchList/SearchList';
 
 const Locations = () => {
   const [showShowodal, setShowShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showdeleteModal, setShowdeleteModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
-  const [selectedId, setSelectedId] = useState<number | undefined>();
+  const [selectedId, setSelectedId] = useState<number>(0);
   const { accessToken } = useAuth();
-
   const locationList = useQuery<LocationList>('locationList', () =>
     getAllLocations(accessToken)
   );
@@ -33,15 +33,15 @@ const Locations = () => {
 
   return (
     <>
-      <Style.PageContainer>
+      <Styled.Container>
         <Sidebar></Sidebar>
-        <Style.HeaderContentContainer>
+        <Styled.HeaderContentContainer>
           <Header />
-          <Style.Content>
+          <Styled.Content>
+            <SearchList onOpenAddModal={() => setShowAddModal(true)} />
             <ListLocation
               setShowShowModal={setShowShowModal}
               setShowEditModal={setShowEditModal}
-              setShowAddModal={setShowAddModal}
               setShowDeleteModal={setShowdeleteModal}
               setSelectedId={setSelectedId}
               locationList={locationList}
@@ -64,10 +64,16 @@ const Locations = () => {
             <DeleteLocationModal
               showmodal={showdeleteModal}
               setShowModal={setShowdeleteModal}
+              locationName={
+                locationList.data?.content?.find(
+                  (location) => location.id === selectedId
+                )?.name as string
+              }
+              id={selectedId}
             />
-          </Style.Content>
-        </Style.HeaderContentContainer>
-      </Style.PageContainer>
+          </Styled.Content>
+        </Styled.HeaderContentContainer>
+      </Styled.Container>
     </>
   );
 };

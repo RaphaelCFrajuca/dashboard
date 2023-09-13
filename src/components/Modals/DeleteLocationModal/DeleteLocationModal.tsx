@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import { Button } from '../../Button/Button';
 import { Frame } from '../../../layout';
 import { Modal } from '../Modal/Modal';
@@ -7,14 +6,17 @@ import { Title } from './DeleteLocationModal.styles';
 type IDeleteLocationModal = {
   showmodal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  locationName: string;
+  id: number;
 };
 
 const DeleteLocationModal = ({
   showmodal,
   setShowModal,
+  locationName,
 }: IDeleteLocationModal) => {
   const location = {
-    name: 'Teste',
+    name: locationName,
   };
 
   return (

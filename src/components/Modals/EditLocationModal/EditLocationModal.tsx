@@ -10,7 +10,11 @@ import { Form } from '../../Form/Form';
 import { Frame } from '../../../layout';
 import { Modal } from '../Modal/Modal';
 import { Option, SelectComponent } from '../../Select/Select';
-import { Title, TitleContainer } from './EditLocationModal.styles';
+import {
+  Title,
+  TitleContainer,
+} from './EditLocationModal.styles';
+import { EditConfirmationModal } from '../EditConfirmationModal/EditConfirmationModal';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import {
   getLocationById,
@@ -39,20 +43,24 @@ const EditLocationModal = ({
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
+  const [hasError , setHasError] = useState<boolean>(false);
+  const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
+
 
   const handleFileChange = (file: File) => {
     setSelectedFile(file);
   };
 
   const convertValue = (value: string) => {
-    if (value === 'Bar') {
-      return '1';
-    } else if (value === 'Restaurante') {
-      return '2';
-    } else if (value === 'Casa Noturna') {
-      return '3';
-    } else {
-      return '';
+    switch (value) {
+      case 'Bar':
+        return '1';
+      case 'Restaurante':
+        return '2';
+      case 'Casa Noturna':
+        return '3';
+      default:
+        return '';
     }
   };
 
@@ -68,7 +76,6 @@ const EditLocationModal = ({
     resolver: zodResolver(editLocationFormSchema),
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new FormData();
     formData.append('name', data.name);
@@ -78,9 +85,23 @@ const EditLocationModal = ({
     formData.append('cep', data.cep);
     formData.append('latitude', data.latitude);
     formData.append('longitude', data.longitude);
-    updateLocation(accessToken, formData, id);
-    setShowModal(false);
+    const updateStatus = updateLocation(accessToken, formData, id);
+    updateStatus
+      .then(() => {;
+        setHasError(false);
+        setShowSubmitModal(true);
+      })
+      .catch(() => {
+        setHasError(true)
+        setShowSubmitModal(true);
+      });
+      setTimeout(() => {
+        setShowSubmitModal(false);
+        setShowModal(false);
+        
+      }, 2000);
   };
+
   const types: Option[] = [
     { value: '1', label: 'Bar' },
     { value: '2', label: 'Restaurante' },
@@ -107,8 +128,11 @@ const EditLocationModal = ({
       location.refetch();
     }
   }, [showmodal, id]);
+
   return (
     <Modal
+      
+
       header={
         <>
           <TitleContainer>
@@ -117,12 +141,17 @@ const EditLocationModal = ({
           <CloseIcon
             data-testid="close-modal"
             onClick={() => setShowModal(false)}
-          ></CloseIcon>
+          />
         </>
       }
       showModal={showmodal}
       setShowModal={setShowModal}
     >
+      <EditConfirmationModal
+        hasError={hasError}
+        showmodal={showSubmitModal}
+        setShowEditModal={setShowModal}
+      ></EditConfirmationModal>
       <Form handleSubmit={handleSubmit} onSubmit={onSubmit}>
         <Frame direction="column" gap={'16px'}>
           <Input
@@ -152,7 +181,7 @@ const EditLocationModal = ({
               />
             )}
             name="type"
-          ></Controller>
+          />
           <Input
             label="Endereço"
             {...register('endereco', {})}

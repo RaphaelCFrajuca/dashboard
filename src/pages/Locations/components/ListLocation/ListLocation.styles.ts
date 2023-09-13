@@ -5,12 +5,18 @@ interface LocationStatusProps {
 }
 
 export const Container = styled.div`
+  margin: 0 37px;
+  background-color: #fdfcff;
+`;
+
+export const Content = styled.div`
   height: 666px;
-  margin: 0 48px;
   background-color: #fdfcff;
   display: flex;
   gap: 36px;
   overflow-y: auto;
+  padding-top: 12px;
+  margin-inline: 24px;
 
   ::-webkit-scrollbar {
     width: 12px;
@@ -34,11 +40,16 @@ export const FilterContainer = styled.div`
     line-height: 250%;
     text-transform: uppercase;
 
-    padding-bottom: 8px;
+    padding-bottom: 9px;
 
     color: #ffffff;
     background-color: #3f3384;
   }
+`;
+export const FilterTitle = styled.h1`
+  display: flex;
+  flex-direction: column;
+  width: 60px;
 `;
 
 export const LocationListContainer = styled.ul`
@@ -59,13 +70,6 @@ export const LocationTitle = styled.h1`
   background: var(--neutros-100, #faf9ff);
 
   padding-left: 24px;
-`;
-
-export const FilterTitle = styled.h1`
-  display: flex;
-  flex-direction: column;
-  width: 60px;
-  height: 666px;
 `;
 
 export const TitleContainer = styled.div`
@@ -97,13 +101,14 @@ export const LocationName = styled.p`
   font-weight: 700;
   line-height: 16px;
   letter-spacing: 0.15px;
+  cursor: pointer;
 `;
 
 export const LocationHeader = styled.span`
   color: var(--primrias-100, #9d8df4);
   font-size: 10px;
   font-weight: 400;
-  line-height: 16px; /* 160% */
+  line-height: 16px;
   letter-spacing: 0.15px;
   padding-left: 24px;
 `;

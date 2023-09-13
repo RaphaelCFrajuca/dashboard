@@ -118,9 +118,9 @@ const ShowLocationModal = ({
           </Frame>
           <Frame direction="row" gap={'18px'} style={{ paddingTop: '20px' }}>
             <Styles.StatusContainer>
-              <span>Aprovado</span>
+              <span>{locationData?.pendingValidation?"Pendente":"Aprovado"}</span>
               <Styles.LocationStatusIcon
-                approved={locationData?.pendingValidation as boolean}
+                approved={!locationData?.pendingValidation as boolean}
               />
             </Styles.StatusContainer>
             <Styles.StatusContainer>

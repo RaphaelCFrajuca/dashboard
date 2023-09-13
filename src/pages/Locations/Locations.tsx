@@ -1,6 +1,5 @@
 import Sidebar from '../../components/sidebar/Sidebar';
 import Header from '../../components/header/Header';
-import * as Style from '../Home/Home.styles';
 import * as Styled from './Locations.styles';
 import { ShowLocationModal } from '../../components/Modals/ShowLocationModal/ShowLocationModal';
 import { EditLocationModal } from '../../components/Modals/EditLocationModal/EditLocationModal';
@@ -27,8 +26,6 @@ const Locations = () => {
     getAllLocations(accessToken)
   );
 
-  console.log(locationList.data);
-
   useEffect(() => {
     if (!showShowodal && !showEditModal && !showdeleteModal && !showAddModal)
       locationList.refetch();
@@ -36,16 +33,15 @@ const Locations = () => {
 
   return (
     <>
-      <Style.PageContainer>
+      <Styled.Container>
         <Sidebar></Sidebar>
-        <Style.HeaderContentContainer>
+        <Styled.HeaderContentContainer>
           <Header />
           <Styled.Content>
             <SearchList onOpenAddModal={() => setShowAddModal(true)} />
             <ListLocation
               setShowShowModal={setShowShowModal}
               setShowEditModal={setShowEditModal}
-              setShowAddModal={setShowAddModal}
               setShowDeleteModal={setShowdeleteModal}
               setSelectedId={setSelectedId}
               locationList={locationList}
@@ -76,8 +72,8 @@ const Locations = () => {
               id={selectedId}
             />
           </Styled.Content>
-        </Style.HeaderContentContainer>
-      </Style.PageContainer>
+        </Styled.HeaderContentContainer>
+      </Styled.Container>
     </>
   );
 };

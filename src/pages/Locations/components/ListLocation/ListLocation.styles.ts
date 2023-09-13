@@ -37,7 +37,7 @@ export const FilterContainer = styled.div`
     line-height: 250%;
     text-transform: uppercase;
 
-    padding-bottom: 8px;
+    padding-bottom: 9px;
 
     color: #ffffff;
     background-color: #3f3384;
@@ -47,7 +47,6 @@ export const FilterTitle = styled.h1`
   display: flex;
   flex-direction: column;
   width: 60px;
-  height: 666px;
 `;
 
 export const LocationListContainer = styled.ul`
@@ -106,7 +105,7 @@ export const LocationHeader = styled.span`
   color: var(--primrias-100, #9d8df4);
   font-size: 10px;
   font-weight: 400;
-  line-height: 16px; /* 160% */
+  line-height: 16px;
   letter-spacing: 0.15px;
   padding-left: 24px;
 `;

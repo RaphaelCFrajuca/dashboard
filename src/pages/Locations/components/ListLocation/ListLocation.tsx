@@ -94,9 +94,9 @@ export function ListLocation({
               <Styled.LocationImage src={imageList} />
               <Styled.LocationName>{location.name}</Styled.LocationName>
               <Styled.LocationStatusText>
-                {location.isActive ? 'Aprovado' : 'Pendente'}
+                {location.pendingValidation ? 'Pendente' : ' Aprovado'}
               </Styled.LocationStatusText>
-              <Styled.LocationStatusIcon approved={location.isActive} />
+              <Styled.LocationStatusIcon approved={!location.pendingValidation} />
               <Styled.EditButton
                 onClick={(e) => handleOpenEditModal(location.id, e)}
               >

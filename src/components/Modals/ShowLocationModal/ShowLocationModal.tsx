@@ -4,14 +4,7 @@ import { ReactComponent as EditIcon } from '../../../assets/Icons/Editicons.svg'
 import { ReactComponent as BinIcon } from '../../../assets/Icons/Bin.svg';
 import { Frame } from '../../../layout';
 import { Modal } from '../Modal/Modal';
-import {
-  Title,
-  TitleContainer,
-  Property,
-  PropertyName,
-  PropertyValue,
-  EditDelete,
-} from './ShowLocationModal.styles';
+import * as Styles from './ShowLocationModal.styles';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import {
   getLocationById,
@@ -37,7 +30,6 @@ const ShowLocationModal = ({
   id,
 }: IShowLocationModal) => {
   const { accessToken } = useAuth();
-  
 
   const [locationData, setLocationData] = useState<Location | null>(null);
   const [cepData, setCepData] = useState<TranslatedCep | null>(null);
@@ -55,13 +47,11 @@ const ShowLocationModal = ({
     queryFn: () => translateCep(cep),
     enabled: false,
   });
- 
 
   useEffect(() => {
-    if(id){
-    location.refetch();
-    if(cep)
-    translatedCep.refetch();
+    if (id) {
+      location.refetch();
+      if (cep) translatedCep.refetch();
     }
   }, [showmodal, id, cep]);
 
@@ -99,46 +89,77 @@ const ShowLocationModal = ({
   return (
     <Modal
       header={
-        <>
-          <TitleContainer>
-            <Title>{locationData?.name}</Title>
-          </TitleContainer>
-          <EditDelete>
-            <BinIcon onClick={handleDelete()}></BinIcon>
-            <EditIcon onClick={handleEdit()}></EditIcon>
-          </EditDelete>
-          <CloseIcon
-            data-testid="close-modal"
-            onClick={() => setShowModal(false)}
-          ></CloseIcon>
-        </>
+        <Frame direction="column" gap={'0px'} style={{ width: '100%' }}>
+          <Frame
+            direction="row"
+            gap={'0px'}
+            style={{ justifyContent: 'space-between', alignItems: 'center' }}
+          >
+            <Styles.Id>{'#' + locationData?.id}</Styles.Id>
+            <CloseIcon
+              data-testid="close-modal"
+              onClick={() => setShowModal(false)}
+            ></CloseIcon>
+          </Frame>
+          <Styles.TitleContainer>
+            <Styles.Title>{locationData?.name}</Styles.Title>
+            <Styles.EditDelete>
+              <BinIcon onClick={handleDelete()}></BinIcon>
+              <EditIcon onClick={handleEdit()}></EditIcon>
+            </Styles.EditDelete>
+          </Styles.TitleContainer>
+          <Frame direction="row" gap={'18px'} style={{ paddingTop: '3px' }}>
+            <Styles.TextUnderTitle>
+              {locationData?.averageGrade + ' Nota Média'}
+            </Styles.TextUnderTitle>
+            <Styles.TextUnderTitle>
+              {locationData?.totalReviews + ' Avaliações'}
+            </Styles.TextUnderTitle>
+          </Frame>
+          <Frame direction="row" gap={'18px'} style={{ paddingTop: '20px' }}>
+            <Styles.StatusContainer>
+              <span>{locationData?.pendingValidation?"Pendente":"Aprovado"}</span>
+              <Styles.LocationStatusIcon
+                approved={!locationData?.pendingValidation as boolean}
+              />
+            </Styles.StatusContainer>
+            <Styles.StatusContainer>
+              <span>Visível</span>
+              <Styles.LocationStatusIcon
+                approved={locationData?.isActive as boolean}
+              />
+            </Styles.StatusContainer>
+          </Frame>
+        </Frame>
       }
       showModal={showmodal}
       setShowModal={setShowModal}
     >
       <Frame direction="column" gap={'16px'}>
         <Frame direction="row" gap={'18px'}>
-          <Property>
-            <PropertyName>Tipo de local</PropertyName>
-            <PropertyValue>{locationData?.type}</PropertyValue>
-          </Property>
+          <Styles.Property>
+            <Styles.PropertyName>Tipo de local</Styles.PropertyName>
+            <Styles.PropertyValue>{locationData?.type}</Styles.PropertyValue>
+          </Styles.Property>
         </Frame>
         <Frame direction="row" gap={'15%'}>
-          <Property>
-            <PropertyName>CEP</PropertyName>
-            <PropertyValue>{locationData?.cep}</PropertyValue>
-          </Property>
-          <Property>
-            <PropertyName>Cidade/UF</PropertyName>
-            <PropertyValue>
+          <Styles.Property>
+            <Styles.PropertyName>CEP</Styles.PropertyName>
+            <Styles.PropertyValue>{locationData?.cep}</Styles.PropertyValue>
+          </Styles.Property>
+          <Styles.Property>
+            <Styles.PropertyName>Cidade/UF</Styles.PropertyName>
+            <Styles.PropertyValue>
               {cepData?.localidade + '/' + cepData?.uf}
-            </PropertyValue>
-          </Property>
+            </Styles.PropertyValue>
+          </Styles.Property>
         </Frame>
         <Frame direction="row" gap={'0'}>
-          <Property style={{ width: '100%' }}>
-            <PropertyName style={{ minWidth: '17.5%' }}>Endereço</PropertyName>
-            <PropertyValue
+          <Styles.Property style={{ width: '100%' }}>
+            <Styles.PropertyName style={{ minWidth: '17.5%' }}>
+              Endereço
+            </Styles.PropertyName>
+            <Styles.PropertyValue
               style={{
                 overflow: 'hidden',
                 minWidth: '80%',
@@ -147,18 +168,26 @@ const ShowLocationModal = ({
               }}
             >
               {locationData?.endereco}
-            </PropertyValue>
-          </Property>
+            </Styles.PropertyValue>
+          </Styles.Property>
         </Frame>
         <Frame direction="row" gap={'15%'}>
-          <Property>
-            <PropertyName>Latitude</PropertyName>
-            <PropertyValue>{locationData?.latitude}</PropertyValue>
-          </Property>
-          <Property>
-            <PropertyName>Longitude</PropertyName>
-            <PropertyValue>{locationData?.longitude}</PropertyValue>
-          </Property>
+          <Styles.Property>
+            <Styles.PropertyName style={{ minWidth: '35%' }}>
+              Latitude
+            </Styles.PropertyName>
+            <Styles.PropertyValue>
+              {locationData?.latitude}
+            </Styles.PropertyValue>
+          </Styles.Property>
+          <Styles.Property>
+            <Styles.PropertyName style={{ minWidth: '40%' }}>
+              Longitude
+            </Styles.PropertyName>
+            <Styles.PropertyValue>
+              {locationData?.longitude}
+            </Styles.PropertyValue>
+          </Styles.Property>
         </Frame>
         <Frame direction="column" gap={'0'}>
           <img

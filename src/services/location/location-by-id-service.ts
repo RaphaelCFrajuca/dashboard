@@ -16,7 +16,10 @@ export type Location = {
   reviews: number;
 };
 
-export const getLocationById = async (token: string | null, id: number | undefined) => {
+export const getLocationById = async (
+  token: string | null,
+  id: number | undefined
+) => {
   const locationData: Location = await axios
     .get(`${baseUrl}/is-it-safe/location/dashboard/${id}`, {
       headers: {

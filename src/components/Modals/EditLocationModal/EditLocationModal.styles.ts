@@ -19,12 +19,6 @@ export const CloseIcon = styled.div`
   cursor: pointer;
 `;
 
-// export const SuccessMessage = styled.h4`
-//   color: green;
-//   font-size: 16px;
-//   margin-bottom: 10px;
-//   text-align: center;
-
 export const ErrorMessage = styled.h4`
   color: red;
   font-size: 16px;
@@ -41,7 +35,6 @@ const fillAnimation = keyframes`
   }
 `;
 
-// Estiliza o contêiner que envolve a mensagem de sucesso e a barra de carregamento
 export const SuccessContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -49,7 +42,6 @@ export const SuccessContainer = styled.div`
   text-align: center;
 `;
 
-// Estiliza a mensagem de sucesso
 export const SuccessMessage = styled.div`
   font-size: 18px;
   color: green;
@@ -59,16 +51,16 @@ export const SuccessMessage = styled.div`
 // Estiliza a barra de carregamento
 export const LoadingBar = styled.div`
   width: 100%;
-  height: 4px; /* Altura da barra de carregamento */
-  background-color: #007bff; /* Cor de fundo da barra de carregamento */
+  height: 4px;
+  background-color: #007bff;
   position: absolute;
-  margin-bottom: 16px; /* Espaço entre a mensagem de sucesso e a barra de carregamento */
+  margin-bottom: 16px;
 
   &::before {
     content: '';
     display: block;
     height: 100%;
-    background-color: #ccc; /* Cor de fundo antes do preenchimento */
-    animation: ${fillAnimation} 2s linear forwards; /* Duração e animação */
+    background-color: #ccc;
+    animation: ${fillAnimation} 2s linear forwards;
   }
 `;

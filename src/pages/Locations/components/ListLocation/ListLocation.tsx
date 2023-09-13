@@ -26,7 +26,6 @@ export function ListLocation({
   const [selectedLetter, setSelectedLetter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(12);
-
   const filteredLocations = locationList.data?.content?.filter(
     (location) =>
       selectedLetter === '' ||
@@ -48,12 +47,19 @@ export function ListLocation({
     setCurrentPage(1);
   };
 
-  const handleOpenDeleteModal = (id: number | undefined) => {
-    setShowDeleteModal(true);
+  const handleOpenDeleteModal = (
+    id: number | undefined,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
     setSelectedId(id as number);
+    setShowDeleteModal(true);
   };
-
-  const handleOpenEditModal = (id: number | undefined) => {
+  const handleOpenEditModal = (
+    id: number | undefined,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
     setSelectedId(id as number);
     setShowEditModal(true);
   };
@@ -108,12 +114,12 @@ export function ListLocation({
                   approved={!location.pendingValidation}
                 />
                 <Styled.EditButton
-                  onClick={() => handleOpenEditModal(location.id)}
+                  onClick={(e) => handleOpenEditModal(location.id, e)}
                 >
                   <TeamIcon />
                 </Styled.EditButton>
                 <Styled.DeleteButton
-                  onClick={() => handleOpenDeleteModal(location.id)}
+                  onClick={(e) => handleOpenDeleteModal(location.id, e)}
                 >
                   <BinIcon />
                 </Styled.DeleteButton>

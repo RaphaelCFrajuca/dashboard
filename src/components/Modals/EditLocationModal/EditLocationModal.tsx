@@ -149,8 +149,8 @@ const EditLocationModal = ({
     >
       <EditConfirmationModal
         hasError={hasError}
+        setShowModal={setShowSubmitModal}
         showmodal={showSubmitModal}
-        setShowEditModal={setShowModal}
       ></EditConfirmationModal>
       <Form handleSubmit={handleSubmit} onSubmit={onSubmit}>
         <Frame direction="column" gap={'16px'}>

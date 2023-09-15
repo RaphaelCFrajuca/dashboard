@@ -2,7 +2,6 @@ import axios, { AxiosError } from 'axios';
 import { baseUrl } from '../../utils/ baseUrl';
 
 export const saveLocation = async (token: string | null, data: FormData) => {
-  console.log(data);
   const response = await axios
     .post(`${baseUrl}/is-it-safe/location/save`, data, {
       headers: {

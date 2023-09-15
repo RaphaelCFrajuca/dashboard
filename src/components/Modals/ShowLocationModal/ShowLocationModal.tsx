@@ -15,7 +15,6 @@ import {
   TranslatedCep,
   translateCep,
 } from '../../../services/cep/cep-translation-service';
-import { EditConfirmationModal } from '../EditConfirmationModal/EditConfirmationModal';
 
 type IShowLocationModal = {
   showmodal: boolean;

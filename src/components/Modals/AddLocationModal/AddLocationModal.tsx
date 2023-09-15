@@ -13,9 +13,8 @@ import { Form } from '../../Form/Form';
 import { Frame } from '../../../layout';
 import { Modal } from '../Modal/Modal';
 import { Option, SelectComponent } from '../../Select/Select';
+import  {ConfirmationModal}  from './../ConfirmationModal/ConfirmationModal';
 import {
-  ErrorMessage,
-  SuccessMessage,
   Title,
   TitleContainer,
 } from './AddLocationModal.styles';
@@ -31,9 +30,9 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
   const { accessToken } = useAuth();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
-  const [submissionStatus, setSubmissionStatus] = useState<
-    'success' | 'error' | 'none'
-  >('none');
+  const [hasError , setHasError] = useState<boolean>(false);
+  const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
+
 
   const handleFileChange = (file: File) => {
     setSelectedFile(file);
@@ -57,31 +56,23 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
     formData.append('locationTypeId', typeNumber);
     formData.append('file', selectedFile as File);
     formData.append('cep', data.cep);
-
-    saveLocation(accessToken, formData)
-      .then(() => {
-        setSubmissionStatus('success');
-      })
-      .catch((error) => {
-        setSubmissionStatus('error');
-        console.error('Erro ao atualizar o local:', error);
-      });
+    const save = saveLocation(accessToken, formData);
+    save
+    .then(() => {;
+      setHasError(false);
+      setShowSubmitModal(true);
+    })
+    .catch(() => {
+      setHasError(true)
+      setShowSubmitModal(true);
+    });
+    setTimeout(() => {
+      setShowSubmitModal(false);
+      setShowModal(false);
+      
+    }, 2000);
   };
 
-  const closeModal = () => {
-    setSubmissionStatus('none');
-    setShowModal(false);
-  };
-
-  useEffect(() => {
-    if (submissionStatus === 'success' || submissionStatus === 'error') {
-      const timer = setTimeout(() => {
-        closeModal();
-      }, 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [submissionStatus]);
 
   const types: Option[] = [
     { value: '1', label: 'Bar' },
@@ -105,21 +96,12 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
       showModal={showmodal}
       setShowModal={setShowModal}
     >
+      <ConfirmationModal
+        hasError={hasError}
+        setShowModal={setShowSubmitModal}
+        showmodal={showSubmitModal}/>
       <Form handleSubmit={handleSubmit} onSubmit={(data) => onSubmit(data)}>
         <Frame direction="column" gap={'16px'}>
-          {submissionStatus === 'success' && (
-            <Modal showModal={true} setShowModal={closeModal}>
-              <SuccessMessage>Local atualizado com sucesso!</SuccessMessage>
-            </Modal>
-          )}
-          {submissionStatus === 'error' && (
-            <Modal showModal={true} setShowModal={closeModal}>
-              <ErrorMessage>
-                Ocorreu um erro ao atualizar o local. Por favor, tente
-                novamente.
-              </ErrorMessage>
-            </Modal>
-          )}
           <Input
             label="Nome"
             {...register('name', {})}

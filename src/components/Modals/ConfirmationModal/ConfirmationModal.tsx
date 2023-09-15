@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
 import { Modal } from '../Modal/Modal';
-import { ErrorMessage, SuccessMessage } from './EditConfirmationModal.styles';
+import { ErrorMessage, SuccessMessage } from './ConfirmationModal.styles';
 import { set } from 'react-hook-form';
 
-type IEditConfirmationModal = {
+type IConfirmationModal = {
   showmodal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   hasError?: boolean;
 };
 
-const EditConfirmationModal = ({
+const ConfirmationModal = ({
   showmodal,
   setShowModal,
   hasError,
-}: IEditConfirmationModal) => {
+}: IConfirmationModal) => {
   return (
     <Modal showModal={showmodal} setShowModal={setShowModal}>
       {hasError ? (
@@ -21,10 +21,10 @@ const EditConfirmationModal = ({
           Ocorreu um erro ao atualizar o local. Por favor, tente novamente.
       </ErrorMessage>
     ):(
-      <SuccessMessage>Local atualizado com sucesso!</SuccessMessage>
+      <SuccessMessage>Alterações feitas com sucesso</SuccessMessage>
     )}
     </Modal>
   );
 };
 
-export { EditConfirmationModal };
+export { ConfirmationModal };

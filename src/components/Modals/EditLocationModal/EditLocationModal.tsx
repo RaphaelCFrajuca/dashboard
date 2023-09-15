@@ -14,7 +14,7 @@ import {
   Title,
   TitleContainer,
 } from './EditLocationModal.styles';
-import { EditConfirmationModal } from '../EditConfirmationModal/EditConfirmationModal';
+import { ConfirmationModal } from '../ConfirmationModal/ConfirmationModal';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import {
   getLocationById,
@@ -76,6 +76,7 @@ const EditLocationModal = ({
     resolver: zodResolver(editLocationFormSchema),
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new FormData();
     formData.append('name', data.name);
@@ -147,11 +148,11 @@ const EditLocationModal = ({
       showModal={showmodal}
       setShowModal={setShowModal}
     >
-      <EditConfirmationModal
+      <ConfirmationModal
         hasError={hasError}
         setShowModal={setShowSubmitModal}
         showmodal={showSubmitModal}
-      ></EditConfirmationModal>
+      ></ConfirmationModal>
       <Form handleSubmit={handleSubmit} onSubmit={onSubmit}>
         <Frame direction="column" gap={'16px'}>
           <Input

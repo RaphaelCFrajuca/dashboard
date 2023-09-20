@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useAuth } from '../../../context/auth/AuthProvider';
-import { locationRequest } from '../../../services/location/location-service';
+import { locationRequest, locationPendingValidationRequest } from '../../../services/location/location-service';
 import { Chart } from 'chart.js/auto';
 import { ReactComponent as Righticons } from '../../../assets/Icons/Righticons.svg';
 import { ReactComponent as Lefticons } from '../../../assets/Icons/Lefticons.svg';

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { locationRequest } from '../../services/location/location-service.ts';
+import { locationRequest } from '../../services/location/location-service'
 import { userRequest } from '../../services/user/user-service';
 import { reviewNumberRequest } from '../../services/review-number/review-number-service'; // Importe a função reviewNumberRequest
 import { useAuth } from '../../context/auth/AuthProvider';

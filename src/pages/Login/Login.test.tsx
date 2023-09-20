@@ -14,7 +14,7 @@ describe('Login', () => {
   it('should render the login form', () => {
     render(
       <Router>
-        <Login setIsLoggedIn={() => {}} />
+        <Login/>
       </Router>
     );
     const emailInput = screen.getByTestId('email');
@@ -29,7 +29,7 @@ describe('Login', () => {
   it('should display an error message if email is not valid', async () => {
     render(
       <Router>
-        <Login setIsLoggedIn={() => {}} />
+        <Login/>
       </Router>
     );
     const emailInput = screen.getByTestId('email');
@@ -49,7 +49,7 @@ describe('Login', () => {
   it('should display an error message if password is too short', async () => {
     render(
       <Router>
-        <Login setIsLoggedIn={() => {}} />
+        <Login/>
       </Router>
     );
     const passwordInput = screen.getByTestId('password');

@@ -10,10 +10,7 @@ import { Form } from '../../Form/Form';
 import { Frame } from '../../../layout';
 import { Modal } from '../Modal/Modal';
 import { Option, SelectComponent } from '../../Select/Select';
-import {
-  Title,
-  TitleContainer,
-} from './EditLocationModal.styles';
+import { Title, TitleContainer } from './EditLocationModal.styles';
 import { ConfirmationModal } from '../ConfirmationModal/ConfirmationModal';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import {
@@ -43,9 +40,8 @@ const EditLocationModal = ({
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
-  const [hasError , setHasError] = useState<boolean>(false);
+  const [hasError, setHasError] = useState<boolean>(false);
   const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
-
 
   const handleFileChange = (file: File) => {
     setSelectedFile(file);
@@ -88,19 +84,18 @@ const EditLocationModal = ({
     formData.append('longitude', data.longitude);
     const updateStatus = updateLocation(accessToken, formData, id);
     updateStatus
-      .then(() => {;
+      .then(() => {
         setHasError(false);
         setShowSubmitModal(true);
       })
       .catch(() => {
-        setHasError(true)
+        setHasError(true);
         setShowSubmitModal(true);
       });
-      setTimeout(() => {
-        setShowSubmitModal(false);
-        setShowModal(false);
-        
-      }, 2000);
+    setTimeout(() => {
+      setShowSubmitModal(false);
+      setShowModal(false);
+    }, 2000);
   };
 
   const types: Option[] = [
@@ -132,8 +127,6 @@ const EditLocationModal = ({
 
   return (
     <Modal
-      
-
       header={
         <>
           <TitleContainer>

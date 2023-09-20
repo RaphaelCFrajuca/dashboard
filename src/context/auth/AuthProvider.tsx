@@ -5,49 +5,40 @@ import React, {
   ReactNode,
   useMemo,
   useContext,
-  useEffect,
 } from 'react';
-
-import {
-  getRefreshToken,
-  RefreshTokenResponse,
-} from '../../services/refresh-token/refresh-token-service';
-import jwtDecode from 'jwt-decode';
 
 export interface AuthContextType {
   accessToken: string | null;
   refreshToken: string | null;
-  setAccessToken: (token: string) => void;
-  setRefreshToken: (token: string) => void;
+  persist: boolean;
+  setAccessToken: (token: string | null) => void;
+  setRefreshToken: (token: string | null) => void;
+  setPersist: (persist: boolean) => void;
   handleLogout: () => void;
-}
-
-interface JwtPayload {
-  sub: string;
-  roles: string;
-  iat: number;
-  exp: number;
 }
 
 const AuthContext = createContext<AuthContextType>({
   accessToken: '',
   refreshToken: '',
+  persist: false,
   setAccessToken: () => {},
   setRefreshToken: () => {},
   handleLogout: () => {},
+  setPersist: () => {},
 });
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [accessToken, setAccessToken] = useState<string | null>(
-    localStorage.getItem('access_token')
-  );
-  const [refreshToken, setRefreshToken] = useState<string | null>(
-    localStorage.getItem('refresh_token')
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+
+  const [refreshToken, setRefreshToken] = useState<string | null>(null);
+
+  const [persist, setPersist] = useState<boolean>(
+    localStorage.getItem('persist') === 'true' ? true : false
   );
 
-  const handleSetAccessToken = (token: string) => {
+  const handleSetAccessToken = (token: string | null) => {
     if (token) {
       setAccessToken(token);
       localStorage.setItem('access_token', token);
@@ -56,7 +47,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const handleSetRefreshToken = (token: string) => {
+  const handleSetRefreshToken = (token: string | null) => {
     if (token) {
       setRefreshToken(token);
       localStorage.setItem('refresh_token', token);
@@ -68,48 +59,30 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const handleLogout = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    setAccessToken('');
-    setRefreshToken('');
+    setAccessToken(null);
+    setRefreshToken(null);
+    setPersist(false);
   };
-
-  useEffect(() => {
-    const handleTokenRefresh = async () => {
-      const now = Date.now() / 1000;
-
-      if (!!accessToken && accessToken !== refreshToken) {
-        const decodedToken: JwtPayload = jwtDecode(accessToken);
-        if (decodedToken.exp - now < 5 * 60) {
-          handleSetAccessToken(refreshToken ?? '');
-        }
-        return;
-      }
-
-      if (refreshToken) {
-        const decodedRefreshToken: JwtPayload = jwtDecode(refreshToken);
-
-        if (decodedRefreshToken.exp < now) {
-          handleLogout();
-        } else if (decodedRefreshToken.exp - now < 15 * 60) {
-          await getRefreshToken(refreshToken).then((res) => {
-            if (typeof res === 'string') {
-              handleSetRefreshToken(res);
-            }
-          });
-        }
-      }
-    };
-    handleTokenRefresh();
-  }, [accessToken, refreshToken, handleSetAccessToken, handleLogout]);
 
   const contextValues = useMemo(
     () => ({
       accessToken,
       refreshToken,
+      persist,
+      setPersist,
       handleLogout,
       setAccessToken: handleSetAccessToken,
       setRefreshToken: handleSetRefreshToken,
     }),
-    [accessToken, refreshToken, handleLogout]
+    [
+      accessToken,
+      refreshToken,
+      persist,
+      setPersist,
+      handleLogout,
+      handleSetAccessToken,
+      handleSetRefreshToken,
+    ]
   );
 
   return (

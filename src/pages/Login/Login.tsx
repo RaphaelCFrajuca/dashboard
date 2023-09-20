@@ -8,7 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ReactComponent as BlindIcon } from '../../assets/Icons/Blindicons.svg';
 import { ReactComponent as VisibilityIcon } from '../../assets/Icons/Visibilityicons.svg';
 import * as Styled from './Login.styles';
-import { locationPendingValidationRequest } from '../../services/location/location-service';
 
 const schema = z.object({
   username: z
@@ -22,11 +21,7 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-type LoginFormProps = {
-  setIsLoggedIn: (isLoggedIn: boolean) => void;
-};
-
-export const Login = ({ setIsLoggedIn }: LoginFormProps) => {
+export const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState<string>('');
@@ -37,7 +32,7 @@ export const Login = ({ setIsLoggedIn }: LoginFormProps) => {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
-  const { setAccessToken, setRefreshToken } = useAuth();
+  const { setAccessToken, setRefreshToken, setPersist } = useAuth();
 
   const getLogin = async (formData: FormValues) => {
     const userData = {
@@ -49,10 +44,10 @@ export const Login = ({ setIsLoggedIn }: LoginFormProps) => {
       const response: LoginResponse = await doLogin(userData);
 
       if (response.refresh_token) {
-        localStorage.setItem('refresh_token', response.refresh_token);
+        setPersist(true);
+        localStorage.setItem('persist', 'true');
         setAccessToken(response.token_jwt);
         setRefreshToken(response.refresh_token);
-        setIsLoggedIn(true);
         navigate('/');
       } else {
         setLoginError('Usuário ou senha incorretos.');

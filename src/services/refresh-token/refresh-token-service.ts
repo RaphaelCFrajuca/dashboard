@@ -14,11 +14,11 @@ export interface RefreshTokenResponse {
 }
 
 export async function getRefreshToken(
-  token: string
+  token: string | null
 ): Promise<RefreshTokenResponse> {
   const headers = {
     'Content-Type': 'application/json',
-    token,
+    Authorization: `Bearer ${token}`,
   };
 
   const response = await axios.post<RefreshTokenResponse>(
@@ -26,5 +26,6 @@ export async function getRefreshToken(
     {},
     { headers }
   );
+
   return response.data;
 }

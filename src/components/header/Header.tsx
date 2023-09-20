@@ -6,7 +6,6 @@ import { getLoggedUser } from '../../services/get-logged-user/get-logged-user-se
 import { ReactComponent as Down } from '../../assets/Icons/Downicons.svg';
 import profile from '../../assets/profile.png';
 import * as Style from './Header.styles';
-import { locationPendingValidationRequest } from '../../services/location/location-service';
 
 const Header = () => {
   const { accessToken, setAccessToken } = useAuth();

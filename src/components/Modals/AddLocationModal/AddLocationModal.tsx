@@ -13,11 +13,8 @@ import { Form } from '../../Form/Form';
 import { Frame } from '../../../layout';
 import { Modal } from '../Modal/Modal';
 import { Option, SelectComponent } from '../../Select/Select';
-import  {ConfirmationModal}  from './../ConfirmationModal/ConfirmationModal';
-import {
-  Title,
-  TitleContainer,
-} from './AddLocationModal.styles';
+import { ConfirmationModal } from './../ConfirmationModal/ConfirmationModal';
+import { Title, TitleContainer } from './AddLocationModal.styles';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import { saveLocation } from '../../../services/location/save-location-service';
 
@@ -30,9 +27,8 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
   const { accessToken } = useAuth();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
-  const [hasError , setHasError] = useState<boolean>(false);
+  const [hasError, setHasError] = useState<boolean>(false);
   const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
-
 
   const handleFileChange = (file: File) => {
     setSelectedFile(file);
@@ -58,21 +54,19 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
     formData.append('cep', data.cep);
     const save = saveLocation(accessToken, formData);
     save
-    .then(() => {;
-      setHasError(false);
-      setShowSubmitModal(true);
-    })
-    .catch(() => {
-      setHasError(true)
-      setShowSubmitModal(true);
-    });
+      .then(() => {
+        setHasError(false);
+        setShowSubmitModal(true);
+      })
+      .catch(() => {
+        setHasError(true);
+        setShowSubmitModal(true);
+      });
     setTimeout(() => {
       setShowSubmitModal(false);
       setShowModal(false);
-      
     }, 2000);
   };
-
 
   const types: Option[] = [
     { value: '1', label: 'Bar' },
@@ -99,7 +93,8 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
       <ConfirmationModal
         hasError={hasError}
         setShowModal={setShowSubmitModal}
-        showmodal={showSubmitModal}/>
+        showmodal={showSubmitModal}
+      />
       <Form handleSubmit={handleSubmit} onSubmit={(data) => onSubmit(data)}>
         <Frame direction="column" gap={'16px'}>
           <Input

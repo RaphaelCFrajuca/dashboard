@@ -19,10 +19,10 @@ const ConfirmationModal = ({
       {hasError ? (
         <ErrorMessage>
           Ocorreu um erro ao atualizar o local. Por favor, tente novamente.
-      </ErrorMessage>
-    ):(
-      <SuccessMessage>Alterações feitas com sucesso</SuccessMessage>
-    )}
+        </ErrorMessage>
+      ) : (
+        <SuccessMessage>Alterações feitas com sucesso</SuccessMessage>
+      )}
     </Modal>
   );
 };

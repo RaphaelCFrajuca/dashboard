@@ -123,7 +123,7 @@ export function ChartReviewHome() {
                 },
 
                 ticks: {
-                  callback: (value) => value + 'k',
+                  callback: (value) => value,
                   font: {
                     size: 8,
                     family: 'Poppins',

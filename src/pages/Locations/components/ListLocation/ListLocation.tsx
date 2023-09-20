@@ -104,7 +104,9 @@ export function ListLocation({
                 </Styled.LocationTitle>
               ) : null}
               <Styled.LocationItemContainer>
-                <Styled.LocationImage src={location.imgUrl? location.imgUrl:imageList} />
+                <Styled.LocationImage
+                  src={location.imgUrl ? location.imgUrl : imageList}
+                />
                 <Styled.LocationName>{location.name}</Styled.LocationName>
                 <Styled.LocationStatusText>
                   {location.pendingValidation ? 'Pendente' : ' Aprovado'}

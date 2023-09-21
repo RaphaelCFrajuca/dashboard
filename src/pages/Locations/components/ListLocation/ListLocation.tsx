@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { ReactComponent as BinIcon } from '../../../../assets/Icons/Binn.svg';
-import { ReactComponent as TeamIcon } from '../../../../assets/Icons/Team.svg';
-import * as Styled from './ListLocation.styles';
-import imageList from '../../../../assets/image3.png';
 import { Loading } from '../../../../components/Loading/Loading';
 import { LocationList } from '../../../../services/location/all-location-service';
 import { UseQueryResult } from 'react-query';
 import { Pagination } from '../Pagination/Pagination';
+import { ReactComponent as BinIcon } from '../../../../assets/Icons/Bin.svg';
+import { ReactComponent as TeamIcon } from '../../../../assets/Icons/Team.svg';
+import imageList from '../../../../assets/imageList.png';
+import * as Styled from './ListLocation.styles';
 
 interface Props {
   setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,6 +14,7 @@ interface Props {
   setShowShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedId: React.Dispatch<React.SetStateAction<number>>;
   locationList: UseQueryResult<LocationList, unknown>;
+  searchTerm: string;
 }
 
 export function ListLocation({
@@ -22,15 +23,20 @@ export function ListLocation({
   setShowEditModal,
   setShowShowModal,
   locationList,
+  searchTerm,
 }: Props) {
   const [selectedLetter, setSelectedLetter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(12);
+
   const filteredLocations = locationList.data?.content?.filter(
     (location) =>
-      selectedLetter === '' ||
-      location.name.toLowerCase().startsWith(selectedLetter.toLowerCase())
+      (selectedLetter === '' ||
+        location.name.toLowerCase().startsWith(selectedLetter.toLowerCase())) &&
+      (searchTerm === '' ||
+        location.name.toLowerCase().includes(searchTerm.toLowerCase()))
   );
+
   const totalPages = Math.ceil((filteredLocations?.length || 0) / itemsPerPage);
   filteredLocations?.sort((a, b) => a.name.localeCompare(b.name));
 

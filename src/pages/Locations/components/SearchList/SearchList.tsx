@@ -6,11 +6,11 @@ import * as Styled from './SearchList.styles';
 
 interface Props {
   onOpenAddModal: () => void;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export function SearchList({ onOpenAddModal }: Props) {
+export function SearchList({ onOpenAddModal, setSearchTerm }: Props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen((prevState) => !prevState);
@@ -26,14 +26,14 @@ export function SearchList({ onOpenAddModal }: Props) {
     <Styled.Container>
       <Styled.Title>Locais</Styled.Title>
       <Styled.Content>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Styled.SearchInputContainer>
           <Searchicons width={24} height={24} />
           <Styled.SearchInput
             type="text"
             placeholder="Buscar"
             onChange={handleSearchInputChange}
           />
-        </div>
+        </Styled.SearchInputContainer>
         <Styled.DropdownContainer onClick={handleDropdownToggle}>
           <Styled.DropdownButton>
             <Filtericons width={24} height={24} style={{ marginLeft: '8px' }} />

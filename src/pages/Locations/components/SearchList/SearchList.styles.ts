@@ -15,6 +15,11 @@ export const Container = styled.div`
 export const Content = styled.div`
   display: flex;
 `;
+
+export const SearchInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 export const Title = styled.h1`
   color: var(--primrias-900, #241b5e);
 

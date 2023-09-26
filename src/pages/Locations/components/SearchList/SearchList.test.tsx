@@ -2,13 +2,13 @@ import { render, fireEvent } from '@testing-library/react';
 import { SearchList } from './SearchList';
 
 jest.mock('../../../../assets/Icons/Filtericons.svg', () => ({
-  ReactComponent: 'Filtericons',
+  ReactComponent: 'FilterIcon',
 }));
 jest.mock('../../../../assets/Icons/Downicons.svg', () => ({
-  ReactComponent: 'Downicons',
+  ReactComponent: 'DownIcon',
 }));
-jest.mock('../../../../assets/Icons/Searchicons.svg', () => ({
-  ReactComponent: 'Searchicons',
+jest.mock('../../../../assets/Icons/SearchIcon.svg', () => ({
+  ReactComponent: 'SearchIcon',
 }));
 
 const mockSetSearchTerm = jest.fn();
@@ -22,11 +22,9 @@ test('renders SearchList component correctly', () => {
     />
   );
 
-  // Verifica se o título está correto
   const titleElement = getByText('Locais');
   expect(titleElement).toBeInTheDocument();
 
-  // Verifica se o input de busca está presente
   const searchInput = getByPlaceholderText('Buscar');
   expect(searchInput).toBeInTheDocument();
 });

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ReactComponent as Filtericons } from '../../../../assets/Icons/Filtericons.svg';
-import { ReactComponent as Downicons } from '../../../../assets/Icons/Downicons.svg';
-import { ReactComponent as Searchicons } from '../../../../assets/Icons/Searchicons.svg';
+import { ReactComponent as FilterIcon } from '../../../../assets/Icons/Filtericons.svg';
+import { ReactComponent as DownIcon } from '../../../../assets/Icons/Downicons.svg';
+import { ReactComponent as SearchIcon } from '../../../../assets/Icons/SearchIcon.svg';
 import * as Styled from './SearchList.styles';
 
 interface Props {
@@ -27,7 +27,9 @@ export function SearchList({ onOpenAddModal, setSearchTerm }: Props) {
       <Styled.Title>Locais</Styled.Title>
       <Styled.Content>
         <Styled.SearchInputContainer>
-          <Searchicons width={24} height={24} />
+          <Styled.IconContainer>
+            <SearchIcon width={24} height={24} />
+          </Styled.IconContainer>
           <Styled.SearchInput
             type="text"
             placeholder="Buscar"
@@ -36,10 +38,10 @@ export function SearchList({ onOpenAddModal, setSearchTerm }: Props) {
         </Styled.SearchInputContainer>
         <Styled.DropdownContainer onClick={handleDropdownToggle}>
           <Styled.DropdownButton>
-            <Filtericons width={24} height={24} style={{ marginLeft: '8px' }} />
+            <FilterIcon width={24} height={24} style={{ marginLeft: '8px' }} />
             <Styled.DropdownButtonTitle>Filtro</Styled.DropdownButtonTitle>
             <Styled.DowniconsContainer isOpen={false}>
-              <Downicons width={24} height={24} />
+              <DownIcon width={24} height={24} />
             </Styled.DowniconsContainer>
           </Styled.DropdownButton>
           {isDropdownOpen && (

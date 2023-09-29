@@ -119,3 +119,11 @@ export const Id = styled.span`
   text-align: left;
   color: #190a33;
 `;
+
+export const LoadingContainer = styled.div`
+  position: absolute;
+  background-color: transparent;
+  top: 48%;
+  left: 48%;
+  backdrop-filter: blur(8px);
+`;

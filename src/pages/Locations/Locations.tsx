@@ -26,11 +26,11 @@ const Locations = () => {
   const locationList = useQuery<LocationList>('locationList', () =>
     getAllLocations(accessToken)
   );
-
+  
   useEffect(() => {
     if (!showShowodal && !showEditModal && !showdeleteModal && !showAddModal)
       locationList.refetch();
-  }, [showShowodal, showEditModal, showdeleteModal, showAddModal]);
+  }, []);
 
   return (
     <>

@@ -8,13 +8,13 @@ import * as Styles from './ShowLocationModal.styles';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import {
   getLocationById,
-  Location,
 } from '../../../services/location/location-by-id-service';
 import { useQuery } from 'react-query';
 import {
   TranslatedCep,
   translateCep,
 } from '../../../services/cep/cep-translation-service';
+import { Loading } from '../../Loading/Loading';
 
 type IShowLocationModal = {
   showmodal: boolean;
@@ -22,7 +22,6 @@ type IShowLocationModal = {
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
   id: number | undefined;
 };
-
 const ShowLocationModal = ({
   showmodal,
   setShowModal,
@@ -31,52 +30,41 @@ const ShowLocationModal = ({
 }: IShowLocationModal) => {
   const { accessToken } = useAuth();
 
-  const [locationData, setLocationData] = useState<Location | null>(null);
-  const [cepData, setCepData] = useState<TranslatedCep | null>(null);
-  const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
-  const cep = locationData?.cep;
-  const src = locationData?.imgUrl ? locationData?.imgUrl : '';
-
   const location = useQuery({
-    queryKey: ['location', locationData],
+    queryKey: ['location'],
     queryFn: () => getLocationById(accessToken, id),
     enabled: false,
   });
 
-  const translatedCep = useQuery({
-    queryKey: ['translatedCep', cep],
-    queryFn: () => translateCep(cep),
-    enabled: false,
-  });
+  
+  const src = location.data?.imgUrl ? location.data?.imgUrl : '';
+  const cep = location.data && location.data.cep;
 
-  useEffect(() => {
-    if (id) {
-      location.refetch();
-      if (cep) translatedCep.refetch();
-    }
-  }, [showmodal, id, cep]);
+const  translatedCep = useQuery({
+  queryKey: ['translatedCep'],
+  queryFn: () => translateCep(cep),
+  enabled: false,
+});
 
-  useEffect(() => {
-    if (location.data) {
-      setLocationData({
-        id: location.data.id,
-        name: location.data.name,
-        cep: location.data.cep,
-        endereco: location.data.endereco,
-        type: location.data.type,
-        imgUrl: location.data.imgUrl,
-        averageGrade: location.data.averageGrade,
-        totalReviews: location.data.totalReviews,
-        isActive: location.data.isActive,
-        pendingValidation: location.data.pendingValidation,
-        latitude: location.data.latitude,
-        longitude: location.data.longitude,
-      } as Location);
-      if (translatedCep.data) {
-        setCepData(translatedCep.data);
-      }
-    }
-  }, [location.data, translatedCep.data]);
+ 
+console.log(id)
+ console.log(location.data?.cep);
+
+  useEffect( () => {
+    const fetchLocation = async () => {
+      console.log('refetching location');
+     await location.refetch()
+     if(cep)
+      translatedCep.refetch()
+    console.log('refetched location');
+}
+if(location.isRefetching || location.isLoading || !id || translatedCep.isRefetching || translatedCep.isLoading){
+  return
+}else
+{fetchLocation()}
+}, [id, cep]);
+
+
 
   const handleEdit = () => () => {
     setShowModal(false);
@@ -88,6 +76,13 @@ const ShowLocationModal = ({
     setShowEditModal(false);
   };
   return (
+    <>
+      {location.isLoading || location.isRefetching || translatedCep.isLoading || translatedCep.isRefetching? 
+           <Styles.LoadingContainer>
+          <Loading ></Loading>
+        </Styles.LoadingContainer>
+   
+       : 
     <Modal
       header={
         <Frame direction="column" gap={'0px'} style={{ width: '100%' }}>
@@ -96,14 +91,14 @@ const ShowLocationModal = ({
             gap={'0px'}
             style={{ justifyContent: 'space-between', alignItems: 'center' }}
           >
-            <Styles.Id>{'#' + locationData?.id}</Styles.Id>
+            <Styles.Id>{'#' + location.data?.id}</Styles.Id>
             <CloseIcon
               data-testid="close-modal"
               onClick={() => setShowModal(false)}
             ></CloseIcon>
           </Frame>
           <Styles.TitleContainer>
-            <Styles.Title>{locationData?.name}</Styles.Title>
+            <Styles.Title>{location.data?.name}</Styles.Title>
             <Styles.EditDelete>
               <BinIcon onClick={handleDelete()}></BinIcon>
               <EditIcon onClick={handleEdit()}></EditIcon>
@@ -111,25 +106,25 @@ const ShowLocationModal = ({
           </Styles.TitleContainer>
           <Frame direction="row" gap={'18px'} style={{ paddingTop: '3px' }}>
             <Styles.TextUnderTitle>
-              {locationData?.averageGrade + ' Nota Média'}
+              {location.data?.averageGrade + ' Nota Média'}
             </Styles.TextUnderTitle>
             <Styles.TextUnderTitle>
-              {locationData?.totalReviews + ' Avaliações'}
+              {location.data?.totalReviews + ' Avaliações'}
             </Styles.TextUnderTitle>
           </Frame>
           <Frame direction="row" gap={'18px'} style={{ paddingTop: '20px' }}>
             <Styles.StatusContainer>
               <span>
-                {locationData?.pendingValidation ? 'Pendente' : 'Aprovado'}
+                {location.data?.pendingValidation ? 'Pendente' : 'Aprovado'}
               </span>
               <Styles.LocationStatusIcon
-                approved={!locationData?.pendingValidation as boolean}
+                approved={!location.data?.pendingValidation as boolean}
               />
             </Styles.StatusContainer>
             <Styles.StatusContainer>
               <span>Visível</span>
               <Styles.LocationStatusIcon
-                approved={locationData?.isActive as boolean}
+                approved={location.data?.isActive as boolean}
               />
             </Styles.StatusContainer>
           </Frame>
@@ -142,18 +137,18 @@ const ShowLocationModal = ({
         <Frame direction="row" gap={'18px'}>
           <Styles.Property>
             <Styles.PropertyName>Tipo de local</Styles.PropertyName>
-            <Styles.PropertyValue>{locationData?.type}</Styles.PropertyValue>
+            <Styles.PropertyValue>{location.data?.type}</Styles.PropertyValue>
           </Styles.Property>
         </Frame>
         <Frame direction="row" gap={'15%'}>
           <Styles.Property>
             <Styles.PropertyName>CEP</Styles.PropertyName>
-            <Styles.PropertyValue>{locationData?.cep}</Styles.PropertyValue>
+            <Styles.PropertyValue>{location.data?.cep}</Styles.PropertyValue>
           </Styles.Property>
           <Styles.Property>
             <Styles.PropertyName>Cidade/UF</Styles.PropertyName>
             <Styles.PropertyValue>
-              {cepData?.localidade + '/' + cepData?.uf}
+              {translatedCep.data?.localidade + '/' + translatedCep.data?.uf}
             </Styles.PropertyValue>
           </Styles.Property>
         </Frame>
@@ -170,7 +165,7 @@ const ShowLocationModal = ({
                   'linear-gradient(90deg, #000,  95%, transparent)',
               }}
             >
-              {locationData?.endereco}
+              {location.data?.endereco}
             </Styles.PropertyValue>
           </Styles.Property>
         </Frame>
@@ -180,7 +175,7 @@ const ShowLocationModal = ({
               Latitude
             </Styles.PropertyName>
             <Styles.PropertyValue>
-              {locationData?.latitude}
+              {location.data?.latitude}
             </Styles.PropertyValue>
           </Styles.Property>
           <Styles.Property>
@@ -188,7 +183,7 @@ const ShowLocationModal = ({
               Longitude
             </Styles.PropertyName>
             <Styles.PropertyValue>
-              {locationData?.longitude}
+              {location.data?.longitude}
             </Styles.PropertyValue>
           </Styles.Property>
         </Frame>
@@ -199,7 +194,9 @@ const ShowLocationModal = ({
           ></img>
         </Frame>
       </Frame>
-    </Modal>
+
+    </Modal>}
+    </>
   );
 };
 

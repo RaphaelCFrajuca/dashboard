@@ -11,12 +11,14 @@ type IModal = {
 
 const Modal = ({ header, children, showModal, setShowModal }: IModal) => {
   return (
-    <Container data-testid="modal-container" showModal={showModal}>
+    <>
+    {showModal && <Container data-testid="modal-container" >
       <Content>
         <Header>{header}</Header>
         {children}
       </Content>
-    </Container>
+    </Container>}
+    </>
   );
 };
 

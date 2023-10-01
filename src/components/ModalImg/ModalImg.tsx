@@ -44,7 +44,7 @@ const ModalImg: React.FC<ModalImgProps> = ({ src, onFileChange }) => {
     src ? setSrcImg(src) : setSrcImg('');
   }, [src]);
   return (
-    <ModalImageContainer>
+    <ModalImageContainer data-testid="modal-image-container">
       <ImageContainer hasError={hasError} srcImg={srcImg}>
         {srcImg ? (
           <div>
@@ -69,6 +69,7 @@ const ModalImg: React.FC<ModalImgProps> = ({ src, onFileChange }) => {
               accept=".jpg, .jpeg, .png, .webp"
               multiple={false}
               onChange={handleFileInputChange}
+              data-testid="file-input"
             />
             <CloseIcon
               style={{

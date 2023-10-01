@@ -119,11 +119,9 @@ const EditLocationModal = ({
     }
   }, [location.data, location.status]);
 
-  useEffect(() => {
-    if (id) {
-      location.refetch();
-    }
-  }, [showmodal, id]);
+
+
+
 
   return (
     <Modal
@@ -141,11 +139,6 @@ const EditLocationModal = ({
       showModal={showmodal}
       setShowModal={setShowModal}
     >
-      <ConfirmationModal
-        hasError={hasError}
-        setShowModal={setShowSubmitModal}
-        showmodal={showSubmitModal}
-      ></ConfirmationModal>
       <Form handleSubmit={handleSubmit} onSubmit={onSubmit}>
         <Frame direction="column" gap={'16px'}>
           <Input

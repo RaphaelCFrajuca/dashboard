@@ -38,6 +38,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
     register,
     handleSubmit,
     setValue,
+    reset,
     control,
     formState: { errors },
   } = useForm<AddLocationFormSchemaType>({
@@ -67,6 +68,8 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
       setShowModal(false);
     }, 2000);
   };
+
+
 
   const types: Option[] = [
     { value: '1', label: 'Bar' },

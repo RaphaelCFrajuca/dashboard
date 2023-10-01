@@ -51,6 +51,7 @@ export function ListLocation({
   const handleLetterChange = (letter: string) => {
     setSelectedLetter(letter);
     setCurrentPage(1);
+    window.scrollTo(0, 0);
   };
 
   const handleOpenDeleteModal = (
@@ -93,7 +94,7 @@ export function ListLocation({
             ))}
           </Styled.FilterTitle>
         </Styled.FilterContainer>
-        <Styled.LocationListContainer>
+        <Styled.LocationListContainer >
           <Styled.LocationHeader>Local</Styled.LocationHeader>
           {visibleLocations?.map((location, index) => (
             <div

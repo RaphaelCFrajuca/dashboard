@@ -125,5 +125,4 @@ export const LoadingContainer = styled.div`
   background-color: transparent;
   top: 48%;
   left: 48%;
-  backdrop-filter: blur(8px);
 `;

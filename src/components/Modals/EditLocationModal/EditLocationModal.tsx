@@ -119,10 +119,6 @@ const EditLocationModal = ({
     }
   }, [location.data, location.status]);
 
-
-
-
-
   return (
     <Modal
       header={

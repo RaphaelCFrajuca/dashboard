@@ -18,7 +18,7 @@ import { SearchList } from './components/SearchList/SearchList';
 const Locations = () => {
   const [showShowodal, setShowShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [showdeleteModal, setShowdeleteModal] = useState(false);
+  const [showdeleteModal, setShowDeleteModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedId, setSelectedId] = useState<number>(0);
   const [searchTerm, setSearchTerm] = useState('');
@@ -26,7 +26,7 @@ const Locations = () => {
   const locationList = useQuery<LocationList>('locationList', () =>
     getAllLocations(accessToken)
   );
-  
+
   useEffect(() => {
     if (!showShowodal && !showEditModal && !showdeleteModal && !showAddModal)
       locationList.refetch();
@@ -46,7 +46,7 @@ const Locations = () => {
             <ListLocation
               setShowShowModal={setShowShowModal}
               setShowEditModal={setShowEditModal}
-              setShowDeleteModal={setShowdeleteModal}
+              setShowDeleteModal={setShowDeleteModal}
               setSelectedId={setSelectedId}
               locationList={locationList}
               searchTerm={searchTerm}
@@ -55,6 +55,7 @@ const Locations = () => {
               showmodal={showShowodal}
               setShowModal={setShowShowModal}
               setShowEditModal={setShowEditModal}
+              setShowDeleteModal={setShowDeleteModal}
               id={selectedId}
             />
             <EditLocationModal
@@ -68,7 +69,7 @@ const Locations = () => {
             />
             <DeleteLocationModal
               showmodal={showdeleteModal}
-              setShowModal={setShowdeleteModal}
+              setShowModal={setShowDeleteModal}
               locationName={
                 locationList.data?.content?.find(
                   (location) => location.id === selectedId

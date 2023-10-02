@@ -94,7 +94,7 @@ export function ListLocation({
             ))}
           </Styled.FilterTitle>
         </Styled.FilterContainer>
-        <Styled.LocationListContainer >
+        <Styled.LocationListContainer>
           <Styled.LocationHeader>Local</Styled.LocationHeader>
           {visibleLocations?.map((location, index) => (
             <div

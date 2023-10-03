@@ -26,11 +26,6 @@ const Locations = () => {
   const locationList = useQuery<LocationList>('locationList', () =>
     getAllLocations(accessToken)
   );
-
-  useEffect(() => {
-      locationList.refetch();
-  }, [!showAddModal, !showEditModal, !showdeleteModal]);
-
   return (
     <>
       <Styled.Container>
@@ -60,15 +55,18 @@ const Locations = () => {
             <EditLocationModal
               id={selectedId}
               showmodal={showEditModal}
+              locationsRefresh={locationList.refetch}
               setShowModal={setShowEditModal}
             />
             <AddLocationModal
               showmodal={showAddModal}
+              locationsRefresh={locationList.refetch}
               setShowModal={setShowAddModal}
             />
             <DeleteLocationModal
               showmodal={showdeleteModal}
               setShowModal={setShowDeleteModal}
+              locationsRefresh={locationList.refetch}
               locationName={
                 locationList.data?.content?.find(
                   (location) => location.id === selectedId

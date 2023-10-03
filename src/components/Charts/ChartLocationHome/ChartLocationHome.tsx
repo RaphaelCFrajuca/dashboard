@@ -76,6 +76,11 @@ export function ChartLocationHome() {
       const labels = chartData.map((item) => item.label);
       const counts = chartData.map((item) => item.value);
 
+      const largestElement = (arr: string[]) => {
+        arr.sort((a, b) => a.localeCompare(b));
+        return arr[arr.length - 1];
+      };
+
       if (chartInstanceRef.current) {
         chartInstanceRef.current.destroy();
       }
@@ -116,9 +121,8 @@ export function ChartLocationHome() {
                 },
 
                 beginAtZero: true,
-                min: 1,
-                max: 6,
-
+                min: 0,
+                max: largestElement(labels),
                 grid: {
                   color: '#9D8DF4',
                   lineWidth: 0.7,
@@ -128,7 +132,7 @@ export function ChartLocationHome() {
                 ticks: {
                   stepSize: 1,
 
-                  callback: (value) => value + 'k',
+                  callback: (value) => value,
                   font: {
                     size: 8,
                     family: 'Poppins',

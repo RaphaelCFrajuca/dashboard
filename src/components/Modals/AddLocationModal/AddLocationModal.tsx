@@ -35,10 +35,8 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
   };
 
   const clearHide = () => {
-    reset(),
-    setShowModal(false)
-  }
-
+    reset(), setShowModal(false);
+  };
 
   const {
     register,
@@ -73,10 +71,8 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
       setShowSubmitModal(false);
       setShowModal(false);
     }, 2000);
-    clearHide()
+    clearHide();
   };
-
-
 
   const types: Option[] = [
     { value: '1', label: 'Bar' },

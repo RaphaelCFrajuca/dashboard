@@ -1,6 +1,6 @@
 import React from 'react';
-import { ReactComponent as Left } from '../../../../assets/Icons/Left.svg';
-import { ReactComponent as Right } from '../../../../assets/Icons/Right.svg';
+import { ReactComponent as LeftIcon } from '../../../../assets/Icons/Left.svg';
+import { ReactComponent as RightIcon } from '../../../../assets/Icons/Right.svg';
 import * as Styled from './Pagination.styles';
 
 interface PaginationProps {
@@ -45,7 +45,7 @@ export function Pagination({
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
         >
-          <Left />
+          <LeftIcon />
         </Styled.ButtonIcon>
 
         <Styled.NumberContainer>
@@ -64,7 +64,7 @@ export function Pagination({
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
         >
-          <Right />
+          <RightIcon />
         </Styled.ButtonIcon>
       </Styled.Content>
     );

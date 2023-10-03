@@ -28,9 +28,8 @@ const Locations = () => {
   );
 
   useEffect(() => {
-    if (!showShowodal && !showEditModal && !showdeleteModal && !showAddModal)
       locationList.refetch();
-  }, []);
+  }, [!showAddModal, !showEditModal, !showdeleteModal]);
 
   return (
     <>

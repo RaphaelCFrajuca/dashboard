@@ -9,7 +9,7 @@ jest.mock('../../../utils/ baseUrl.ts', () => ({
 }));
 jest.mock('../../../services/refresh-token/refresh-token-service');
 jest.mock('../../../services/location/location-by-id-service');
-
+jest.mock('../../../services/location/save-location-service');
 jest.mock('../../../assets/Icons/Closeicons.svg', () => ({
   ReactComponent: () => <div data-testid="close-icon" />,
 }));

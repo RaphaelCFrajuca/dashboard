@@ -155,7 +155,7 @@ export function ChartUserHome() {
           },
           options: {
             interaction: {
-              mode: 'y',
+              mode: 'nearest',
               intersect: false,
             },
             scales: {
@@ -175,7 +175,7 @@ export function ChartUserHome() {
                   stepSize: 1,
                   crossAlign: 'far',
                   maxTicksLimit: 5,
-                  callback: (value) => value,
+                  callback: (value) => value + 'k',
                   font: {
                     size: 8,
                     family: 'Poppins',

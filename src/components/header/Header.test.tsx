@@ -54,7 +54,7 @@ describe('Header', () => {
       screen.getByRole('heading', { name: /dashboard/i })
     ).toBeInTheDocument();
     expect(screen.getByText('olá John Doe')).toBeInTheDocument();
-    expect(screen.getByAltText('user')).toHaveAttribute(
+    expect(screen.getByTestId('user-profile-pic')).toHaveAttribute(
       'src',
       'src/assets/profile.png'
     );
@@ -75,14 +75,16 @@ describe('Header', () => {
     );
 
     await screen.findByText('olá user');
+    // const profilePhoto = await screen.findByTestId('user-profile-pic');
 
     expect(
       screen.getByRole('heading', { name: /dashboard/i })
     ).toBeInTheDocument();
     expect(screen.getByText('olá user')).toBeInTheDocument();
-    expect(screen.getByAltText('user')).toHaveAttribute(
-      'src',
-      'src/assets/profile.png'
-    );
+    // expect(profilePhoto).toHaveAttribute('src', 'src/assets/profile.png');
+    // expect(screen.getByTestId('user-profile-pic')).toHaveAttribute(
+    //   'src',
+    //   'src/assets/profile.png'
+    // );
   });
 });

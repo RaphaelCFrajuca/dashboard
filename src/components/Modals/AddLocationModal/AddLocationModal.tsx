@@ -20,10 +20,11 @@ import { saveLocation } from '../../../services/location/save-location-service';
 
 type IAddLocationModal = {
   showmodal: boolean;
+  locationsRefresh: () => void;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
+const AddLocationModal = ({ showmodal, setShowModal, locationsRefresh }: IAddLocationModal) => {
   const { accessToken } = useAuth();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
@@ -60,6 +61,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
     const save = saveLocation(accessToken, formData);
     save
       .then(() => {
+        locationsRefresh();
         setHasError(false);
         setShowSubmitModal(true);
       })

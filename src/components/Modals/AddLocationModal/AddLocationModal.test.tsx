@@ -22,7 +22,12 @@ describe('AddLocationModal', () => {
     render(
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <AddLocationModal showmodal={true} setShowModal={setShowModalMock} />
+          <AddLocationModal
+            showmodal={true}
+            setShowModal={setShowModalMock}
+            locationsRefresh={function (): void {
+            throw new Error('Function not implemented.');
+          } } />
         </AuthProvider>
       </QueryClientProvider>
     );

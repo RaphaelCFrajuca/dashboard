@@ -36,7 +36,9 @@ describe('EditLocationModal', () => {
             id={1}
             showmodal={true}
             setShowModal={setShowModalMock}
-          />
+             locationsRefresh={function (): void {
+              throw new Error('Function not implemented.');
+            } }          />
         </AuthProvider>
       </QueryClientProvider>
     );

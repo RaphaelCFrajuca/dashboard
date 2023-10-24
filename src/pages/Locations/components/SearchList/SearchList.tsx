@@ -37,7 +37,7 @@ export function SearchList({ onOpenAddModal }: Props) {
         <Styled.DropdownContainer onClick={handleDropdownToggle}>
           <Styled.DropdownButton>
             <Filtericons width={24} height={24} style={{ marginLeft: '8px' }} />
-            <Styled.DropdownButtonTitle>Filtro</Styled.DropdownButtonTitle>
+            <Styled.DropdownButtonTitle>Filtrar</Styled.DropdownButtonTitle>
             <Styled.DowniconsContainer isOpen={false}>
               <Downicons width={24} height={24} />
             </Styled.DowniconsContainer>

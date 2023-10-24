@@ -20,10 +20,11 @@ import { saveLocation } from '../../../services/location/save-location-service';
 
 type IAddLocationModal = {
   showmodal: boolean;
+  locationsRefresh: () => void;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
+const AddLocationModal = ({ showmodal, setShowModal, locationsRefresh }: IAddLocationModal) => {
   const { accessToken } = useAuth();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
@@ -34,10 +35,15 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
     setSelectedFile(file);
   };
 
+  const clearHide = () => {
+    reset(), setShowModal(false);
+  };
+
   const {
     register,
     handleSubmit,
     setValue,
+    reset,
     control,
     formState: { errors },
   } = useForm<AddLocationFormSchemaType>({
@@ -55,6 +61,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
     const save = saveLocation(accessToken, formData);
     save
       .then(() => {
+        locationsRefresh();
         setHasError(false);
         setShowSubmitModal(true);
       })
@@ -66,6 +73,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
       setShowSubmitModal(false);
       setShowModal(false);
     }, 2000);
+    clearHide();
   };
 
   const types: Option[] = [
@@ -83,7 +91,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
           </TitleContainer>
           <CloseIcon
             data-testid="close-modal"
-            onClick={() => setShowModal(false)}
+            onClick={() => clearHide()}
           ></CloseIcon>
         </>
       }
@@ -132,7 +140,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
           <Frame direction="row" gap={'18px'}>
             <Button
               grow
-              onClick={() => setShowModal(false)}
+              onClick={() => clearHide()}
               data-testid="button-cancel"
             >
               CANCELAR

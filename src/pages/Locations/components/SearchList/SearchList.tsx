@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { ReactComponent as Filtericons } from '../../../../assets/Icons/Filtericons.svg';
-import { ReactComponent as Downicons } from '../../../../assets/Icons/Downicons.svg';
-import { ReactComponent as Searchicons } from '../../../../assets/Icons/Searchicons.svg';
+import { ReactComponent as FilterIcon } from '../../../../assets/Icons/Filtericons.svg';
+import { ReactComponent as DownIcon } from '../../../../assets/Icons/Downicons.svg';
+import { ReactComponent as SearchIcon } from '../../../../assets/Icons/SearchIcon.svg';
 import * as Styled from './SearchList.styles';
 
 interface Props {
   onOpenAddModal: () => void;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export function SearchList({ onOpenAddModal }: Props) {
+export function SearchList({ onOpenAddModal, setSearchTerm }: Props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen((prevState) => !prevState);
@@ -26,20 +26,22 @@ export function SearchList({ onOpenAddModal }: Props) {
     <Styled.Container>
       <Styled.Title>Locais</Styled.Title>
       <Styled.Content>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Searchicons width={24} height={24} />
+        <Styled.SearchInputContainer>
+          <Styled.IconContainer>
+            <SearchIcon width={24} height={24} />
+          </Styled.IconContainer>
           <Styled.SearchInput
             type="text"
             placeholder="Buscar"
             onChange={handleSearchInputChange}
           />
-        </div>
+        </Styled.SearchInputContainer>
         <Styled.DropdownContainer onClick={handleDropdownToggle}>
           <Styled.DropdownButton>
             <Filtericons width={24} height={24} style={{ marginLeft: '8px' }} />
-            <Styled.DropdownButtonTitle>Filtrar</Styled.DropdownButtonTitle>
+            <Styled.DropdownButtonTitle>Filtro</Styled.DropdownButtonTitle>
             <Styled.DowniconsContainer isOpen={false}>
-              <Downicons width={24} height={24} />
+              <DownIcon width={24} height={24} />
             </Styled.DowniconsContainer>
           </Styled.DropdownButton>
           {isDropdownOpen && (

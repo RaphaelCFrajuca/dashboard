@@ -175,7 +175,7 @@ export function ChartUserHome() {
                   stepSize: 1,
                   crossAlign: 'far',
                   maxTicksLimit: 5,
-                  callback: (value) => value + 'k',
+                  callback: (value) => value,
                   font: {
                     size: 8,
                     family: 'Poppins',

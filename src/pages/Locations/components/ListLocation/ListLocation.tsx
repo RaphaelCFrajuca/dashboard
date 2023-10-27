@@ -78,64 +78,65 @@ export function ListLocation({
 
   return (
     <Styled.Container>
-      <Styled.Content>
+      <Styled.ContentContainer>
         <Styled.FilterContainer>
           <Styled.FilterTitle>
-            <button onClick={() => handleLetterChange('')}>todos</button>
             {Array.from({ length: 26 }, (_, index) => (
-              <button
+              <li
                 key={index}
                 onClick={() =>
                   handleLetterChange(String.fromCharCode(65 + index))
                 }
               >
                 {String.fromCharCode(65 + index)}
-              </button>
+              </li>
             ))}
           </Styled.FilterTitle>
         </Styled.FilterContainer>
-        <Styled.LocationListContainer>
-          <Styled.LocationHeader>Local</Styled.LocationHeader>
-          {visibleLocations?.map((location, index) => (
-            <div
-              key={location.id}
-              onClick={() => handleOpenShowModal(location.id)}
-            >
-              {index === 0 ||
-              location.name.charAt(0).toUpperCase() !==
-                (
-                  visibleLocations[index - 1]?.name.charAt(0) || ''
-                ).toUpperCase() ? (
-                <Styled.LocationTitle>
-                  {location.name.charAt(0).toUpperCase()}
-                </Styled.LocationTitle>
-              ) : null}
-              <Styled.LocationItemContainer>
-                <Styled.LocationImage
-                  src={location.imgUrl ? location.imgUrl : imageList}
-                />
-                <Styled.LocationName>{location.name}</Styled.LocationName>
-                <Styled.LocationStatusText>
-                  {location.pendingValidation ? 'Pendente' : ' Aprovado'}
-                </Styled.LocationStatusText>
-                <Styled.LocationStatusIcon
-                  approved={!location.pendingValidation}
-                />
-                <Styled.EditButton
-                  onClick={(e) => handleOpenEditModal(location.id, e)}
-                >
-                  <TeamIcon />
-                </Styled.EditButton>
-                <Styled.DeleteButton
-                  onClick={(e) => handleOpenDeleteModal(location.id, e)}
-                >
-                  <BinIcon />
-                </Styled.DeleteButton>
-              </Styled.LocationItemContainer>
-            </div>
-          ))}
-        </Styled.LocationListContainer>
-      </Styled.Content>
+        <Styled.Content>
+          <Styled.LocationListContainer>
+            <Styled.LocationHeader>Local</Styled.LocationHeader>
+            {visibleLocations?.map((location, index) => (
+              <div
+                key={location.id}
+                onClick={() => handleOpenShowModal(location.id)}
+              >
+                {index === 0 ||
+                location.name.charAt(0).toUpperCase() !==
+                  (
+                    visibleLocations[index - 1]?.name.charAt(0) || ''
+                  ).toUpperCase() ? (
+                  <Styled.LocationTitle>
+                    {location.name.charAt(0).toUpperCase()}
+                  </Styled.LocationTitle>
+                ) : null}
+                <Styled.LocationItemContainer>
+                  <Styled.LocationImage
+                    src={location.imgUrl ? location.imgUrl : imageList}
+                  />
+                  <Styled.LocationName>{location.name}</Styled.LocationName>
+                  <Styled.LocationStatusText>
+                    {location.pendingValidation ? 'Pendente' : ' Aprovado'}
+                  </Styled.LocationStatusText>
+                  <Styled.LocationStatusIcon
+                    approved={!location.pendingValidation}
+                  />
+                  <Styled.EditButton
+                    onClick={(e) => handleOpenEditModal(location.id, e)}
+                  >
+                    <TeamIcon />
+                  </Styled.EditButton>
+                  <Styled.DeleteButton
+                    onClick={(e) => handleOpenDeleteModal(location.id, e)}
+                  >
+                    <BinIcon />
+                  </Styled.DeleteButton>
+                </Styled.LocationItemContainer>
+              </div>
+            ))}
+          </Styled.LocationListContainer>
+        </Styled.Content>
+      </Styled.ContentContainer>
       <Pagination
         currentPage={currentPage}
         onPageChange={setCurrentPage}

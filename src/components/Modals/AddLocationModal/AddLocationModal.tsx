@@ -24,7 +24,11 @@ type IAddLocationModal = {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AddLocationModal = ({ showmodal, setShowModal, locationsRefresh }: IAddLocationModal) => {
+const AddLocationModal = ({
+  showmodal,
+  setShowModal,
+  locationsRefresh,
+}: IAddLocationModal) => {
   const { accessToken } = useAuth();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
@@ -58,8 +62,7 @@ const AddLocationModal = ({ showmodal, setShowModal, locationsRefresh }: IAddLoc
     formData.append('locationTypeId', typeNumber);
     formData.append('file', selectedFile as File);
     formData.append('cep', data.cep);
-    const save = saveLocation(accessToken, formData);
-    save
+    saveLocation(accessToken, formData)
       .then(() => {
         locationsRefresh();
         setHasError(false);

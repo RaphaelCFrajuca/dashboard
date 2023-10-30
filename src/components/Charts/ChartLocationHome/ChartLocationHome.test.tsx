@@ -1,18 +1,22 @@
 import { render, screen } from '@testing-library/react';
 import { ChartLocationHome } from './ChartLocationHome';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 jest.mock('../../../assets/Icons/Righticons.svg', () => 'RightIcon');
 jest.mock('../../../assets/Icons/Lefticons.svg', () => 'LeftIcon');
-
-jest.mock('react-query', () => ({
-  useQuery: jest.fn((key, fetchData) => ({
-    data: fetchData(),
-    isLoading: false,
-  })),
+jest.mock('../../../utils/ baseUrl.ts', () => ({
+  someUrl: 'http://www.url.com',
 }));
+jest.mock('../../../services/location/location-service.ts');
 
 describe('ChartLocation', () => {
-  test('renders loading state', () => {
+  let queryClient: QueryClient;
+
+  beforeEach(() => {
+    queryClient = new QueryClient();
+  });
+
+  test('renders loading state', async () => {
     jest.mock('react-query', () => ({
       useQuery: jest.fn((key, fetchData) => ({
         data: null,
@@ -20,8 +24,12 @@ describe('ChartLocation', () => {
       })),
     }));
 
-    render(<ChartLocationHome />);
-    const loadingText = screen.getByText('Loading...');
+    render(
+      <QueryClientProvider client={queryClient}>
+        <ChartLocationHome />
+      </QueryClientProvider>
+    );
+    const loadingText = await screen.findByTestId('spinner-container');
     expect(loadingText).toBeInTheDocument();
   });
 
@@ -48,6 +56,10 @@ describe('ChartLocation', () => {
       })),
     }));
 
-    render(<ChartLocationHome />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <ChartLocationHome />
+      </QueryClientProvider>
+    );
   });
 });

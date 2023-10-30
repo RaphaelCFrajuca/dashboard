@@ -9,7 +9,10 @@ jest.mock('../../../utils/ baseUrl.ts', () => ({
 }));
 jest.mock('../../../services/refresh-token/refresh-token-service');
 jest.mock('../../../services/location/location-by-id-service');
+
 jest.mock('../../../services/location/save-location-service');
+
+jest.mock('../../../services/location/all-location-service.ts');
 jest.mock('../../../assets/Icons/Closeicons.svg', () => ({
   ReactComponent: () => <div data-testid="close-icon" />,
 }));
@@ -22,7 +25,11 @@ describe('AddLocationModal', () => {
     render(
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <AddLocationModal showmodal={true} setShowModal={setShowModalMock} />
+          <AddLocationModal
+            showmodal={true}
+            setShowModal={setShowModalMock}
+            locationsRefresh={locationsRefreshMock}
+          />
         </AuthProvider>
       </QueryClientProvider>
     );
@@ -34,6 +41,7 @@ describe('AddLocationModal', () => {
   });
 
   const setShowModalMock = jest.fn();
+  const locationsRefreshMock = jest.fn();
 
   it('renders the modal header correctly', () => {
     const titleText = 'Novo Local';
@@ -53,7 +61,7 @@ describe('AddLocationModal', () => {
     const typeInput = await screen.findByTestId('type-select');
     const cepInput = await screen.findByTestId('input-cep');
     const imgInput = await screen.findByTestId('img');
-    const sendButton = screen.getByText('ENVIAR');
+    const sendButton = screen.getByTestId('button-send');
 
     expect(nameInput).toBeInTheDocument();
     expect(typeInput).toBeInTheDocument();

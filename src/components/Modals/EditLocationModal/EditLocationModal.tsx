@@ -138,7 +138,7 @@ const EditLocationModal = ({
       showModal={showmodal}
       setShowModal={setShowModal}
     >
-      <Form handleSubmit={handleSubmit} onSubmit={onSubmit}>
+      <Form handleSubmit={handleSubmit} onSubmit={onSubmit} data-testid="form-modal">
         <Frame direction="column" gap={'16px'}>
           <Input
             label="Nome"

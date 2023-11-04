@@ -10,7 +10,11 @@ import { Form } from '../../Form/Form';
 import { Frame } from '../../../layout';
 import { Modal } from '../Modal/Modal';
 import { Option, SelectComponent } from '../../Select/Select';
-import { Title, TitleContainer } from './EditLocationModal.styles';
+import {
+  LabelTextBox,
+  Title,
+  TitleContainer,
+} from './EditLocationModal.styles';
 import { ConfirmationModal } from '../ConfirmationModal/ConfirmationModal';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import {
@@ -19,6 +23,12 @@ import {
 } from '../../../services/location/location-by-id-service';
 import { useQuery } from 'react-query';
 import { updateLocation } from '../../../services/location/update-location-service';
+import { translateCep } from '../../../services/cep/cep-translation-service';
+import { Id } from '../ShowLocationModal/ShowLocationModal.styles';
+import {
+  LocationStatusIcon,
+  LocationStatusText,
+} from '../../../pages/Locations/components/ListLocation/ListLocation.styles';
 
 type IEditLocationModal = {
   showmodal: boolean;
@@ -41,6 +51,8 @@ const EditLocationModal = ({
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
   const [hasError, setHasError] = useState<boolean>(false);
+  const [city, setCity] = useState<string>('');
+  const [state, setState] = useState<string>('');
   const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
 
   const handleFileChange = (file: File) => {
@@ -63,6 +75,9 @@ const EditLocationModal = ({
   const {
     register,
     handleSubmit,
+    watch,
+    setError,
+    clearErrors,
     control,
     reset,
     formState: { errors },
@@ -71,6 +86,28 @@ const EditLocationModal = ({
     reValidateMode: 'onBlur',
     resolver: zodResolver(editLocationFormSchema),
   });
+
+  const cepValue = watch('cep');
+  const normalizedCep = cepValue?.replace(/\D/g, '');
+
+  useQuery(
+    ['translatedCep', normalizedCep],
+    () => translateCep(normalizedCep),
+    {
+      enabled: normalizedCep?.length === 8 && !errors.cep,
+      retry: false,
+      onSuccess: (data) => {
+        setCity(data.localidade);
+        setState(data.uf);
+        clearErrors('cep');
+      },
+      onError: () => {
+        if (!errors.cep) {
+          setError('cep', { type: 'manual', message: 'CEP Inválido' });
+        }
+      },
+    }
+  );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
@@ -146,6 +183,57 @@ const EditLocationModal = ({
         setShowModal={setShowSubmitModal}
         showmodal={showSubmitModal}
       ></ConfirmationModal>
+      <Frame
+        direction="row"
+        gap={'65%'}
+        style={{
+          justifyContent: 'flex-start',
+          height: '40px',
+          alignItems: 'center',
+          width: '100%',
+          marginBottom: '10px',
+        }}
+      >
+        <Frame
+          direction="row"
+          gap={'0px'}
+          style={{
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            color: '#b9b3da',
+            fontSize: '10px',
+            marginBottom: '10px',
+          }}
+        >
+          ID
+          <Id style={{ fontSize: '14px' }}>{'#' + location.data?.id}</Id>
+        </Frame>
+        <Frame
+          direction="row"
+          gap={'8px'}
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderRadius: '6px',
+            borderColor: '#9d8df4',
+            margin: '0',
+            padding: '8px 8px 5px 8px',
+            position: 'relative',
+          }}
+        >
+          <LabelTextBox>Status</LabelTextBox>
+          <LocationStatusText style={{ margin: '0', padding: '0' }}>
+            {location?.data?.pendingValidation ? 'Pendente' : ' Aprovado'}
+          </LocationStatusText>
+          <LocationStatusIcon
+            approved={!location.data?.pendingValidation}
+            style={{ margin: '0', padding: '0' }}
+          />
+        </Frame>
+      </Frame>
       <Form handleSubmit={handleSubmit} onSubmit={onSubmit}>
         <Frame direction="column" gap={'16px'}>
           <Input
@@ -182,12 +270,21 @@ const EditLocationModal = ({
             data-testid="input-endereco"
             error={errors.endereco as FieldError}
           />
-          <Frame direction="row" gap={'18px'}>
+          <Frame direction="row" gap={'10px'}>
             <Input
               label="CEP"
-              {...register('cep', {})}
+              {...register('cep')}
               data-testid="input-cep"
-              error={errors.cep as FieldError}
+              error={errors.cep}
+              style={{ width: '100px', boxSizing: 'border-box' }}
+            />
+            <Input label="Cidade" value={city} readOnly data-testid="city" />
+            <Input
+              label="UF"
+              value={state}
+              readOnly
+              data-testid="state"
+              style={{ width: '100%' }}
             />
           </Frame>
           <Frame direction="row" gap={'18px'}>
@@ -200,6 +297,7 @@ const EditLocationModal = ({
                   ? ({ message: 'O valor deve ser um número' } as FieldError)
                   : (errors.latitude as FieldError)
               }
+              style={{ width: '100%' }}
             />
             <Input
               label="Longitude"
@@ -210,6 +308,7 @@ const EditLocationModal = ({
                   ? ({ message: 'O valor deve ser um número' } as FieldError)
                   : (errors.longitude as FieldError)
               }
+              style={{ width: '100%' }}
             />
           </Frame>
           <Frame data-testid="img" direction="row" gap={'0px'}>

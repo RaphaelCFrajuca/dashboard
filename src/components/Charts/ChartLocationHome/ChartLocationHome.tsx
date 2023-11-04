@@ -128,7 +128,7 @@ export function ChartLocationHome() {
                 ticks: {
                   stepSize: 1,
 
-                  callback: (value) => value + 'k',
+                  callback: (value) => value,
                   font: {
                     size: 8,
                     family: 'Poppins',

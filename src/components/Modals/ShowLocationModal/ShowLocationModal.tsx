@@ -33,7 +33,6 @@ const ShowLocationModal = ({
 
   const [locationData, setLocationData] = useState<Location | null>(null);
   const [cepData, setCepData] = useState<TranslatedCep | null>(null);
-  const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
   const cep = locationData?.cep;
   const src = locationData?.imgUrl ? locationData?.imgUrl : '';
 
@@ -123,7 +122,7 @@ const ShowLocationModal = ({
                 {locationData?.pendingValidation ? 'Pendente' : 'Aprovado'}
               </span>
               <Styles.LocationStatusIcon
-                approved={!locationData?.pendingValidation as boolean}
+                approved={!locationData?.pendingValidation}
               />
             </Styles.StatusContainer>
             <Styles.StatusContainer>

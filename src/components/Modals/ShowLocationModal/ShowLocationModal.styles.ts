@@ -111,10 +111,9 @@ export const TextUnderTitle = styled.span`
   color: #b9b3da;
 `;
 
-export const Id = styled.span`
-  font-size: 10px;
+export const Id = styled.div`
+  font-size: 12px;
   font-weight: 400;
-  line-height: 10px;
   letter-spacing: 0em;
   text-align: left;
   color: #190a33;

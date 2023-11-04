@@ -13,6 +13,18 @@ export const Title = styled.h4`
   color: #362e5d;
 `;
 
+export const LabelTextBox = styled.label`
+  position: absolute;
+  color: #5b3cf1;
+  top: -12px;
+  left: 8px;
+  background-color: white;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 8px;
+  line-height: 24px;
+`;
+
 export const CloseIcon = styled.div`
   position: absolute;
   right: 0px;

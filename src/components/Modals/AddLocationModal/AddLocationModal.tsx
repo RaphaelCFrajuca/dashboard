@@ -17,6 +17,8 @@ import { ConfirmationModal } from './../ConfirmationModal/ConfirmationModal';
 import { Title, TitleContainer } from './AddLocationModal.styles';
 import { useAuth } from '../../../context/auth/AuthProvider';
 import { saveLocation } from '../../../services/location/save-location-service';
+import { useQuery } from 'react-query';
+import { translateCep } from '../../../services/cep/cep-translation-service';
 
 type IAddLocationModal = {
   showmodal: boolean;
@@ -29,7 +31,8 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
   const [typeNumber, setTypeNumber] = useState<string>('');
   const [hasError, setHasError] = useState<boolean>(false);
   const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
-
+  const [city, setCity] = useState<string>('');
+  const [state, setState] = useState<string>('');
   const handleFileChange = (file: File) => {
     setSelectedFile(file);
   };
@@ -38,12 +41,33 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
     register,
     handleSubmit,
     setValue,
+    watch,
+    setError,
+    clearErrors,
     control,
     formState: { errors },
   } = useForm<AddLocationFormSchemaType>({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
     resolver: zodResolver(addLocationFormSchema),
+  });
+
+  const cepValue = watch('cep')?.replace(/\D/g, '');
+
+  // Define the query inside your component
+  useQuery(['translatedCep', cepValue], () => translateCep(cepValue), {
+    enabled: cepValue?.length === 8 && !errors.cep,
+    retry: false,
+    onSuccess: (data) => {
+      setCity(data.localidade);
+      setState(data.uf);
+      clearErrors('cep');
+    },
+    onError: () => {
+      if (!errors.cep) {
+        setError('cep', { type: 'manual', message: 'CEP Inválido' });
+      }
+    },
   });
 
   const onSubmit = (data: AddLocationFormSchemaType) => {
@@ -96,7 +120,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
         showmodal={showSubmitModal}
       />
       <Form handleSubmit={handleSubmit} onSubmit={(data) => onSubmit(data)}>
-        <Frame direction="column" gap={'16px'}>
+        <Frame direction="column" gap={'16px'} style={{ width: '100%' }}>
           <Input
             label="Nome"
             {...register('name', {})}
@@ -120,12 +144,23 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
             )}
             name="type"
           ></Controller>
-          <Input
-            label="CEP"
-            {...register('cep', {})}
-            data-testid="input-cep"
-            error={errors.cep}
-          />
+          <Frame direction="row" gap="10px">
+            <Input
+              label="CEP"
+              {...register('cep')}
+              data-testid="input-cep"
+              error={errors.cep}
+              style={{ width: '100px', boxSizing: 'border-box' }}
+            />
+            <Input label="Cidade" value={city} readOnly data-testid="city" />
+            <Input
+              label="UF"
+              value={state}
+              readOnly
+              data-testid="state"
+              style={{ width: '100%' }}
+            />
+          </Frame>
           <Frame data-testid="img" direction="row" gap={'0px'}>
             <ModalImg src="" onFileChange={handleFileChange} />
           </Frame>

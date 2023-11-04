@@ -33,12 +33,14 @@ import {
 type IEditLocationModal = {
   showmodal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  locationsRefresh: () => void;
   id: number | undefined;
 };
 
 const EditLocationModal = ({
   showmodal,
   setShowModal,
+  locationsRefresh,
   id,
 }: IEditLocationModal) => {
   const { accessToken } = useAuth();
@@ -122,6 +124,7 @@ const EditLocationModal = ({
     const updateStatus = updateLocation(accessToken, formData, id);
     updateStatus
       .then(() => {
+        locationsRefresh();
         setHasError(false);
         setShowSubmitModal(true);
       })
@@ -155,12 +158,6 @@ const EditLocationModal = ({
       });
     }
   }, [location.data, location.status]);
-
-  useEffect(() => {
-    if (id) {
-      location.refetch();
-    }
-  }, [showmodal, id]);
 
   return (
     <Modal

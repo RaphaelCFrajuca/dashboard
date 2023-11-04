@@ -155,7 +155,7 @@ export function ChartUserHome() {
           },
           options: {
             interaction: {
-              mode: 'index',
+              mode: 'nearest',
               intersect: false,
             },
             scales: {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 import { ReactComponent as CloseIcon } from '../../../assets/Icons/Closeicons.svg';
 import { ReactComponent as EditIcon } from '../../../assets/Icons/Editicons.svg';
 import { ReactComponent as BinIcon } from '../../../assets/Icons/Bin.svg';
@@ -6,20 +6,16 @@ import { Frame } from '../../../layout';
 import { Modal } from '../Modal/Modal';
 import * as Styles from './ShowLocationModal.styles';
 import { useAuth } from '../../../context/auth/AuthProvider';
-import {
-  getLocationById,
-  Location,
-} from '../../../services/location/location-by-id-service';
+import { getLocationById } from '../../../services/location/location-by-id-service';
 import { useQuery } from 'react-query';
-import {
-  TranslatedCep,
-  translateCep,
-} from '../../../services/cep/cep-translation-service';
+import { translateCep } from '../../../services/cep/cep-translation-service';
+import { Loading } from '../../Loading/Loading';
 
 type IShowLocationModal = {
   showmodal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   id: number | undefined;
 };
 
@@ -27,65 +23,57 @@ const ShowLocationModal = ({
   showmodal,
   setShowModal,
   setShowEditModal,
+  setShowDeleteModal,
   id,
 }: IShowLocationModal) => {
   const { accessToken } = useAuth();
 
-  const [locationData, setLocationData] = useState<Location | null>(null);
-  const [cepData, setCepData] = useState<TranslatedCep | null>(null);
-  const cep = locationData?.cep;
-  const src = locationData?.imgUrl ? locationData?.imgUrl : '';
-
-  const location = useQuery({
-    queryKey: ['location', locationData],
-    queryFn: () => getLocationById(accessToken, id),
-    enabled: false,
-  });
-
-  const translatedCep = useQuery({
-    queryKey: ['translatedCep', cep],
-    queryFn: () => translateCep(cep),
-    enabled: false,
-  });
-
-  useEffect(() => {
-    if (id) {
-      location.refetch();
-      if (cep) translatedCep.refetch();
+  const locationQuery = useQuery(
+    ['location', id],
+    () => getLocationById(accessToken, id),
+    {
+      enabled: !!id && showmodal,
     }
-  }, [showmodal, id, cep]);
+  );
 
-  useEffect(() => {
-    if (location.data) {
-      setLocationData({
-        id: location.data.id,
-        name: location.data.name,
-        cep: location.data.cep,
-        endereco: location.data.endereco,
-        type: location.data.type,
-        imgUrl: location.data.imgUrl,
-        averageGrade: location.data.averageGrade,
-        totalReviews: location.data.totalReviews,
-        isActive: location.data.isActive,
-        pendingValidation: location.data.pendingValidation,
-        latitude: location.data.latitude,
-        longitude: location.data.longitude,
-      } as Location);
-      if (translatedCep.data) {
-        setCepData(translatedCep.data);
+  const translatedCepQuery = useQuery(
+    ['translatedCep', locationQuery.data?.cep],
+    () => {
+      if (locationQuery.data?.cep) {
+        return translateCep(locationQuery.data.cep);
       }
+    },
+    {
+      enabled: !!locationQuery.data?.cep && showmodal,
     }
-  }, [location.data, translatedCep.data]);
+  );
 
-  const handleEdit = () => () => {
+  const handleEdit = () => {
     setShowModal(false);
     setShowEditModal(true);
   };
 
-  const handleDelete = () => () => {
+  const handleDelete = () => {
     setShowModal(false);
-    setShowEditModal(false);
+    setShowDeleteModal(true);
   };
+
+  if (locationQuery.isLoading || translatedCepQuery.isLoading) {
+    return (
+      <Styles.LoadingContainer>
+        <Loading />
+      </Styles.LoadingContainer>
+    );
+  }
+
+  if (locationQuery.isError || translatedCepQuery.isError) {
+    return <div>Error loading data...</div>;
+  }
+
+  const locationData = locationQuery.data;
+  const cepData = translatedCepQuery.data;
+  const src = locationData?.imgUrl || '';
+
   return (
     <Modal
       header={
@@ -99,13 +87,14 @@ const ShowLocationModal = ({
             <CloseIcon
               data-testid="close-modal"
               onClick={() => setShowModal(false)}
-            ></CloseIcon>
+            />
           </Frame>
           <Styles.TitleContainer>
-            <Styles.Title>{locationData?.name}</Styles.Title>
+            <Styles.Title>
+              {locationData?.name}</Styles.Title>
             <Styles.EditDelete>
-              <BinIcon onClick={handleDelete()}></BinIcon>
-              <EditIcon onClick={handleEdit()}></EditIcon>
+              <BinIcon onClick={handleDelete} />
+              <EditIcon onClick={handleEdit} />
             </Styles.EditDelete>
           </Styles.TitleContainer>
           <Frame direction="row" gap={'18px'} style={{ paddingTop: '3px' }}>
@@ -127,9 +116,7 @@ const ShowLocationModal = ({
             </Styles.StatusContainer>
             <Styles.StatusContainer>
               <span>Visível</span>
-              <Styles.LocationStatusIcon
-                approved={locationData?.isActive as boolean}
-              />
+              <Styles.LocationStatusIcon approved={!!locationData?.isActive} />
             </Styles.StatusContainer>
           </Frame>
         </Frame>
@@ -141,7 +128,7 @@ const ShowLocationModal = ({
         <Frame direction="row" gap={'18px'}>
           <Styles.Property>
             <Styles.PropertyName>Tipo de local</Styles.PropertyName>
-            <Styles.PropertyValue>{locationData?.type}</Styles.PropertyValue>
+            <Styles.PropertyValue style={{minWidth: '100%'}}>{locationData?.type}</Styles.PropertyValue>
           </Styles.Property>
         </Frame>
         <Frame direction="row" gap={'15%'}>
@@ -164,9 +151,7 @@ const ShowLocationModal = ({
             <Styles.PropertyValue
               style={{
                 overflow: 'hidden',
-                minWidth: '80%',
-                WebkitMaskImage:
-                  'linear-gradient(90deg, #000,  95%, transparent)',
+                minWidth: '60%',
               }}
             >
               {locationData?.endereco}
@@ -192,10 +177,15 @@ const ShowLocationModal = ({
           </Styles.Property>
         </Frame>
         <Frame direction="column" gap={'0'}>
-          <img
-            style={{ width: '100%', height: 'auto', padding: '0' }}
-            src={src}
-          ></img>
+          {src ? (
+            <img
+              style={{ width: '100%', height: 'auto', padding: '0' }}
+              src={src}
+              alt="Location"
+            />
+          ) : (
+            <div></div>
+          )}
         </Frame>
       </Frame>
     </Modal>

@@ -5,6 +5,7 @@ export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
 `;
 
 export const Title = styled.h4`

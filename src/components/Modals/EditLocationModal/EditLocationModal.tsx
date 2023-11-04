@@ -1,5 +1,5 @@
 import { Controller, useForm, FieldError, set } from 'react-hook-form';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { editLocationFormSchema } from '../../../zodSchemas/EditLocationSchema';
 import { ReactComponent as CloseIcon } from '../../../assets/Icons/Closeicons.svg';
@@ -29,6 +29,7 @@ import {
   LocationStatusIcon,
   LocationStatusText,
 } from '../../../pages/Locations/components/ListLocation/ListLocation.styles';
+import { Loading } from '../../Loading/Loading';
 
 type IEditLocationModal = {
   showmodal: boolean;
@@ -42,11 +43,25 @@ const EditLocationModal = ({
   id,
 }: IEditLocationModal) => {
   const { accessToken } = useAuth();
-  const location = useQuery({
-    queryKey: ['location'],
-    queryFn: () => getLocationById(accessToken, id),
-    enabled: false,
-  });
+
+  const locationQuery = useQuery(
+    ['location', id],
+    () => getLocationById(accessToken, id),
+    {
+      enabled: !!id && showmodal,
+      onSuccess: (data) => {
+        reset({
+          name: data.name,
+          endereco: data.endereco,
+          type: convertValue(data.type),
+          cep: data.cep,
+          latitude: data.latitude,
+          longitude: data.longitude,
+        });
+      },
+    }
+  );
+  const src = locationQuery.data?.imgUrl || '';
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
@@ -59,18 +74,14 @@ const EditLocationModal = ({
     setSelectedFile(file);
   };
 
-  const convertValue = (value: string) => {
-    switch (value) {
-      case 'Bar':
-        return '1';
-      case 'Restaurante':
-        return '2';
-      case 'Casa Noturna':
-        return '3';
-      default:
-        return '';
-    }
-  };
+  function convertValue(value: string) {
+    const typeMap: { [key: string]: string } = {
+      Bar: '1',
+      Restaurante: '2',
+      'Casa Noturna': '3',
+    };
+    return typeMap[value] || '';
+  }
 
   const {
     register,
@@ -90,7 +101,7 @@ const EditLocationModal = ({
   const cepValue = watch('cep');
   const normalizedCep = cepValue?.replace(/\D/g, '');
 
-  useQuery(
+  const cepQuery = useQuery(
     ['translatedCep', normalizedCep],
     () => translateCep(normalizedCep),
     {
@@ -141,28 +152,16 @@ const EditLocationModal = ({
     { value: '3', label: 'Casa Noturna' },
   ];
 
-  const src = location.data?.imgUrl ? location.data?.imgUrl : '';
+  if (locationQuery.isLoading) {
+    return
+  }
 
-  useEffect(() => {
-    if (location.data) {
-      reset({
-        name: location.data.name,
-        endereco: location.data.endereco,
-        type: convertValue(location.data.type),
-        cep: location.data.cep,
-        latitude: location.data.latitude,
-        longitude: location.data.longitude,
-      });
-    }
-  }, [location.data, location.status]);
-
-  useEffect(() => {
-    if (id) {
-      location.refetch();
-    }
-  }, [showmodal, id]);
+  if (locationQuery.isError) {
+    return <div>Error loading data...</div>;
+  }
 
   return (
+
     <Modal
       header={
         <>
@@ -207,7 +206,7 @@ const EditLocationModal = ({
           }}
         >
           ID
-          <Id style={{ fontSize: '14px' }}>{'#' + location.data?.id}</Id>
+          <Id style={{ fontSize: '14px' }}>{'#' + locationQuery.data?.id}</Id>
         </Frame>
         <Frame
           direction="row"
@@ -226,10 +225,10 @@ const EditLocationModal = ({
         >
           <LabelTextBox>Status</LabelTextBox>
           <LocationStatusText style={{ margin: '0', padding: '0' }}>
-            {location?.data?.pendingValidation ? 'Pendente' : ' Aprovado'}
+            {locationQuery?.data?.pendingValidation ? 'Pendente' : ' Aprovado'}
           </LocationStatusText>
           <LocationStatusIcon
-            approved={!location.data?.pendingValidation}
+            approved={!locationQuery.data?.pendingValidation}
             style={{ margin: '0', padding: '0' }}
           />
         </Frame>
@@ -253,10 +252,10 @@ const EditLocationModal = ({
                   setTypeNumber(value.value);
                 }}
                 previousValue={
-                  location.data
+                  locationQuery.data
                     ? ({
-                        label: location.data?.type,
-                        value: convertValue(location.data?.type),
+                        label: locationQuery.data?.type,
+                        value: convertValue(locationQuery.data?.type),
                       } as Option)
                     : null
                 }

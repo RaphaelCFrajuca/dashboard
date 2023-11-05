@@ -16,7 +16,7 @@ import {
 import { SearchList } from './components/SearchList/SearchList';
 
 const Locations = () => {
-  const [showShowodal, setShowShowModal] = useState(false);
+  const [showShowModal, setShowShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showdeleteModal, setShowdeleteModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -28,9 +28,9 @@ const Locations = () => {
   );
 
   useEffect(() => {
-    if (!showShowodal && !showEditModal && !showdeleteModal && !showAddModal)
+    if (!showShowModal && !showEditModal && !showdeleteModal && !showAddModal)
       locationList.refetch();
-  }, [showShowodal, showEditModal, showdeleteModal, showAddModal]);
+  }, [showShowModal, showEditModal, showdeleteModal, showAddModal]);
 
   return (
       <Styled.Container>
@@ -51,7 +51,7 @@ const Locations = () => {
               searchTerm={searchTerm}
             />
             <ShowLocationModal
-              showmodal={showShowodal}
+              showmodal={showShowModal}
               setShowModal={setShowShowModal}
               setShowEditModal={setShowEditModal}
               setShowDeleteModal={setShowdeleteModal}

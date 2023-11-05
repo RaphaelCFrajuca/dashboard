@@ -23,7 +23,7 @@ export function ListLocation({
   setShowEditModal,
   setShowShowModal,
   locationList,
-  searchTerm,
+searchTerm
 }: Props) {
   const [selectedLetter, setSelectedLetter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);

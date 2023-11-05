@@ -12,12 +12,12 @@ jest.mock('../../../../assets/Icons/SearchIcon.svg', () => ({
 }));
 
 const mockSetSearchTerm = jest.fn();
-const mockOnOpenAddModal = jest.fn();
+const mockSetShowAddModal = jest.fn();
 
 test('renders SearchList component correctly', () => {
   const { getByText, getByPlaceholderText } = render(
     <SearchList
-      onOpenAddModal={mockOnOpenAddModal}
+      setShowAddModal={mockSetShowAddModal}
       setSearchTerm={mockSetSearchTerm}
     />
   );
@@ -32,7 +32,7 @@ test('renders SearchList component correctly', () => {
 test('calls setSearchTerm when search input changes', () => {
   const { getByPlaceholderText } = render(
     <SearchList
-      onOpenAddModal={mockOnOpenAddModal}
+      setShowAddModal={mockSetShowAddModal}
       setSearchTerm={mockSetSearchTerm}
     />
   );
@@ -44,10 +44,10 @@ test('calls setSearchTerm when search input changes', () => {
   expect(mockSetSearchTerm).toHaveBeenCalledWith('test');
 });
 
-test('calls onOpenAddModal when Add button is clicked', () => {
+test('calls setShowAddModal when Add button is clicked', () => {
   const { getByText } = render(
     <SearchList
-      onOpenAddModal={mockOnOpenAddModal}
+      setShowAddModal={mockSetShowAddModal}
       setSearchTerm={mockSetSearchTerm}
     />
   );
@@ -55,5 +55,5 @@ test('calls onOpenAddModal when Add button is clicked', () => {
   const addButton = getByText('+ADD');
   fireEvent.click(addButton);
 
-  expect(mockOnOpenAddModal).toHaveBeenCalled();
+  expect(mockSetShowAddModal).toHaveBeenCalled();
 });

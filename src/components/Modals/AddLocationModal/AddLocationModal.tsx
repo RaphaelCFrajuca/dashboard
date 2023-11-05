@@ -33,7 +33,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
   const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
   const [city, setCity] = useState<string>('');
   const [state, setState] = useState<string>('');
-  const handleFileChange = (file: File) => {
+  const handleFileChange = (file: File | null) => {
     setSelectedFile(file);
   };
 
@@ -41,7 +41,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
     reset(), setShowModal(false);
   };
 
-  const {
+  const {   
     register,
     handleSubmit,
     setValue,

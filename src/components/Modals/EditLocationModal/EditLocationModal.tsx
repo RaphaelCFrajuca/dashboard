@@ -29,7 +29,6 @@ import {
   LocationStatusIcon,
   LocationStatusText,
 } from '../../../pages/Locations/components/ListLocation/ListLocation.styles';
-import { Loading } from '../../Loading/Loading';
 
 type IEditLocationModal = {
   showmodal: boolean;
@@ -153,7 +152,7 @@ const EditLocationModal = ({
   ];
 
   if (locationQuery.isLoading) {
-    return
+    return <div></div>
   }
   
   if (locationQuery.isError) {

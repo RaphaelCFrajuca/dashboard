@@ -16,63 +16,69 @@ import {
 import { SearchList } from './components/SearchList/SearchList';
 
 const Locations = () => {
-  const [showShowModal, setShowShowModal] = useState(false);
+  const [showShowodal, setShowShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showdeleteModal, setShowdeleteModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedId, setSelectedId] = useState<number>(0);
+  const [searchTerm, setSearchTerm] = useState('');
   const { accessToken } = useAuth();
   const locationList = useQuery<LocationList>('locationList', () =>
     getAllLocations(accessToken)
   );
 
   useEffect(() => {
-    if (!showShowModal && !showEditModal && !showdeleteModal && !showAddModal)
+    if (!showShowodal && !showEditModal && !showdeleteModal && !showAddModal)
       locationList.refetch();
-  }, [showShowModal, showEditModal, showdeleteModal, showAddModal]);
+  }, [showShowodal, showEditModal, showdeleteModal, showAddModal]);
 
   return (
-    <Styled.Container>
-      <Sidebar></Sidebar>
-      <Styled.HeaderContentContainer>
-        <Header />
-        <Styled.Content>
-          <ListLocation
-            setShowShowModal={setShowShowModal}
-            setShowEditModal={setShowEditModal}
-            setShowDeleteModal={setShowdeleteModal}
-            setSelectedId={setSelectedId}
-            locationList={locationList}
-          />
-          <ShowLocationModal
-            showmodal={showShowModal}
-            setShowModal={setShowShowModal}
-            setShowEditModal={setShowEditModal}
-            setShowDeleteModal={setShowdeleteModal}
-            id={selectedId}
-          />
-          <EditLocationModal
-            id={selectedId}
-            showmodal={showEditModal}
-            setShowModal={setShowEditModal}
-          />
-          <AddLocationModal
-            showmodal={showAddModal}
-            setShowModal={setShowAddModal}
-          />
-          <DeleteLocationModal
-            showmodal={showdeleteModal}
-            setShowModal={setShowdeleteModal}
-            locationName={
-              locationList.data?.content?.find(
-                (location) => location.id === selectedId
-              )?.name as string
-            }
-            id={selectedId}
-          />
-        </Styled.Content>
-      </Styled.HeaderContentContainer>
-    </Styled.Container>
+      <Styled.Container>
+        <Sidebar></Sidebar>
+        <Styled.HeaderContentContainer>
+          <Header />
+          <Styled.Content>
+            <SearchList
+              onOpenAddModal={() => setShowAddModal(true)}
+              setSearchTerm={setSearchTerm}
+            />
+            <ListLocation
+              setShowShowModal={setShowShowModal}
+              setShowEditModal={setShowEditModal}
+              setShowDeleteModal={setShowdeleteModal}
+              setSelectedId={setSelectedId}
+              locationList={locationList}
+              searchTerm={searchTerm}
+            />
+            <ShowLocationModal
+              showmodal={showShowodal}
+              setShowModal={setShowShowModal}
+              setShowEditModal={setShowEditModal}
+              setShowDeleteModal={setShowdeleteModal}
+              id={selectedId}
+            />
+            <EditLocationModal
+              id={selectedId}
+              showmodal={showEditModal}
+              setShowModal={setShowEditModal}
+            />
+            <AddLocationModal
+              showmodal={showAddModal}
+              setShowModal={setShowAddModal}
+            />
+            <DeleteLocationModal
+              showmodal={showdeleteModal}
+              setShowModal={setShowdeleteModal}
+              locationName={
+                locationList.data?.content?.find(
+                  (location) => location.id === selectedId
+                )?.name as string
+              }
+              id={selectedId}
+            />
+          </Styled.Content>
+        </Styled.HeaderContentContainer>
+      </Styled.Container>
   );
 };
 

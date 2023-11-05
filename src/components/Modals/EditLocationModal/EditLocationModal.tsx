@@ -155,7 +155,7 @@ const EditLocationModal = ({
   if (locationQuery.isLoading) {
     return
   }
-
+  
   if (locationQuery.isError) {
     return <div>Error loading data...</div>;
   }

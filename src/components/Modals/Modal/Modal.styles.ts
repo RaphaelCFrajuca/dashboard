@@ -1,16 +1,12 @@
 import styled from 'styled-components';
 
-export type ModalProps = {
-  showModal: boolean;
-};
-
-export const Container = styled.div<ModalProps>`
+export const Container = styled.div`
   width: 100%;
   min-height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
-  display: ${(props) => (props.showModal ? 'flex' : 'none')};
+  display: flex;
   justify-content: center;
   align-items: center;
   background: rgba(24, 29, 32, 0.1);

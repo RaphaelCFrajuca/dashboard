@@ -37,6 +37,10 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
     setSelectedFile(file);
   };
 
+  const clearHide = () => {
+    reset(), setShowModal(false);
+  };
+
   const {
     register,
     handleSubmit,
@@ -44,6 +48,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
     watch,
     setError,
     clearErrors,
+    reset,
     control,
     formState: { errors },
   } = useForm<AddLocationFormSchemaType>({
@@ -90,6 +95,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
       setShowSubmitModal(false);
       setShowModal(false);
     }, 2000);
+    clearHide();
   };
 
   const types: Option[] = [
@@ -107,7 +113,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
           </TitleContainer>
           <CloseIcon
             data-testid="close-modal"
-            onClick={() => setShowModal(false)}
+            onClick={() => clearHide()}
           ></CloseIcon>
         </>
       }
@@ -167,7 +173,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
           <Frame direction="row" gap={'18px'}>
             <Button
               grow
-              onClick={() => setShowModal(false)}
+              onClick={() => clearHide()}
               data-testid="button-cancel"
             >
               CANCELAR

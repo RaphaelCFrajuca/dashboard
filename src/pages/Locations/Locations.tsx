@@ -37,7 +37,6 @@ const Locations = () => {
       <Styled.HeaderContentContainer>
         <Header />
         <Styled.Content>
-          <SearchList onOpenAddModal={() => setShowAddModal(true)} />
           <ListLocation
             setShowShowModal={setShowShowModal}
             setShowEditModal={setShowEditModal}

@@ -6,7 +6,6 @@ import { Title } from './DeleteLocationModal.styles';
 type IDeleteLocationModal = {
   showmodal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  locationsRefresh: () => void;
   locationName: string;
   id: number;
 };
@@ -14,7 +13,6 @@ type IDeleteLocationModal = {
 const DeleteLocationModal = ({
   showmodal,
   setShowModal,
-  locationsRefresh,
   locationName,
 }: IDeleteLocationModal) => {
   const location = {

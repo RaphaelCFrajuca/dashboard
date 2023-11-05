@@ -34,14 +34,12 @@ import { Loading } from '../../Loading/Loading';
 type IEditLocationModal = {
   showmodal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  locationsRefresh: () => void;
   id: number | undefined;
 };
 
 const EditLocationModal = ({
   showmodal,
   setShowModal,
-  locationsRefresh,
   id,
 }: IEditLocationModal) => {
   const { accessToken } = useAuth();
@@ -135,7 +133,6 @@ const EditLocationModal = ({
     const updateStatus = updateLocation(accessToken, formData, id);
     updateStatus
       .then(() => {
-        locationsRefresh();
         setHasError(false);
         setShowSubmitModal(true);
       })

@@ -24,16 +24,16 @@ const DeleteLocationModal = ({
     {
       enabled: !!id && showmodal,
     }
-
-  )
+  );
   return (
     <Modal showModal={showmodal} setShowModal={setShowModal}>
       <Frame direction="column" gap={'30px'}>
         <Frame direction="column" gap={'10px'}>
           <Title>Excluir Local</Title>
           <p>
-            Tem certeza de que deseja excluir o local <b>'{locationQuery.data?.name}'</b>{' '}
-            permanentemente? Essa ação não poderá ser desfeita.
+            Tem certeza de que deseja excluir o local{' '}
+            <b>'{locationQuery.data?.name}'</b> permanentemente? Essa ação não
+            poderá ser desfeita.
           </p>
         </Frame>
         <Frame direction="row" gap={'16px'}>

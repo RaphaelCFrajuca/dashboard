@@ -69,7 +69,7 @@ const EditLocationModal = ({
   const [state, setState] = useState<string>('');
   const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
 
-  const handleFileChange = (file: File) => {
+  const handleFileChange = (file: File | null) => {
     setSelectedFile(file);
   };
 
@@ -152,15 +152,14 @@ const EditLocationModal = ({
   ];
 
   if (locationQuery.isLoading) {
-    return <div></div>
+    return <div></div>;
   }
-  
+
   if (locationQuery.isError) {
     return <div>Error loading data...</div>;
   }
 
   return (
-
     <Modal
       header={
         <>

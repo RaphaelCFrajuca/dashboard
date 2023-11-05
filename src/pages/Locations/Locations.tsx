@@ -33,47 +33,47 @@ const Locations = () => {
   }, [showShowModal, showEditModal, showdeleteModal, showAddModal]);
 
   return (
-      <Styled.Container>
-        <Sidebar></Sidebar>
-        <Styled.HeaderContentContainer>
-          <Header />
-          <Styled.Content>
-            <SearchList
-              onOpenAddModal={() => setShowAddModal(true)}
-              setSearchTerm={setSearchTerm}
-            />
-            <ListLocation
-              setShowShowModal={setShowShowModal}
-              setShowEditModal={setShowEditModal}
-              setShowDeleteModal={setShowdeleteModal}
-              setSelectedId={setSelectedId}
-              locationList={locationList}
-              searchTerm={searchTerm}
-            />
-            <ShowLocationModal
-              showmodal={showShowModal}
-              setShowModal={setShowShowModal}
-              setShowEditModal={setShowEditModal}
-              setShowDeleteModal={setShowdeleteModal}
-              id={selectedId}
-            />
-            <EditLocationModal
-              id={selectedId}
-              showmodal={showEditModal}
-              setShowModal={setShowEditModal}
-            />
-            <AddLocationModal
-              showmodal={showAddModal}
-              setShowModal={setShowAddModal}
-            />
-            <DeleteLocationModal
-              id={selectedId}
-              showmodal={showdeleteModal}
-              setShowModal={setShowdeleteModal}
-            />
-          </Styled.Content>
-        </Styled.HeaderContentContainer>
-      </Styled.Container>
+    <Styled.Container>
+      <Sidebar></Sidebar>
+      <Styled.HeaderContentContainer>
+        <Header />
+        <Styled.Content>
+          <SearchList
+            setShowAddModal={setShowAddModal}
+            setSearchTerm={setSearchTerm}
+          />
+          <ListLocation
+            setShowShowModal={setShowShowModal}
+            setShowEditModal={setShowEditModal}
+            setShowDeleteModal={setShowdeleteModal}
+            setSelectedId={setSelectedId}
+            locationList={locationList}
+            searchTerm={searchTerm}
+          />
+          <ShowLocationModal
+            showmodal={showShowModal}
+            setShowModal={setShowShowModal}
+            setShowEditModal={setShowEditModal}
+            setShowDeleteModal={setShowdeleteModal}
+            id={selectedId}
+          />
+          <EditLocationModal
+            id={selectedId}
+            showmodal={showEditModal}
+            setShowModal={setShowEditModal}
+          />
+          <AddLocationModal
+            showmodal={showAddModal}
+            setShowModal={setShowAddModal}
+          />
+          <DeleteLocationModal
+            id={selectedId}
+            showmodal={showdeleteModal}
+            setShowModal={setShowdeleteModal}
+          />
+        </Styled.Content>
+      </Styled.HeaderContentContainer>
+    </Styled.Container>
   );
 };
 

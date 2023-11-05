@@ -33,13 +33,13 @@ export const Title = styled.div`
   overflow: hidden;
   width: 90%;
   text-overflow: ellipsis;
-  white-space: nowrap; 
+  white-space: nowrap;
   word-break: keep-all;
-  letter-spacing: 0.15px; 
+  letter-spacing: 0.15px;
   :hover {
     overflow: visible;
-    white-space: normal; 
-    word-break: break-all; 
+    white-space: normal;
+    word-break: break-all;
   }
 `;
 
@@ -67,12 +67,12 @@ export const PropertyValue = styled.span`
   overflow: hidden;
   min-width: 100%;
   text-overflow: ellipsis;
-  white-space: nowrap; 
+  white-space: nowrap;
   word-break: keep-all;
-  letter-spacing: 0.15px; 
+  letter-spacing: 0.15px;
   :hover {
     overflow: visible;
-    white-space: normal; 
+    white-space: normal;
   }
 `;
 

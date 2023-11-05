@@ -5,11 +5,11 @@ import { ReactComponent as SearchIcon } from '../../../../assets/Icons/SearchIco
 import * as Styled from './SearchList.styles';
 
 interface Props {
-  onOpenAddModal: () => void;
+  setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export function SearchList({ onOpenAddModal, setSearchTerm }: Props) {
+export function SearchList({ setShowAddModal, setSearchTerm }: Props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleDropdownToggle = () => {
@@ -51,7 +51,9 @@ export function SearchList({ onOpenAddModal, setSearchTerm }: Props) {
             </Styled.DropdownMenu>
           )}
         </Styled.DropdownContainer>
-        <Styled.AddButton onClick={onOpenAddModal}>+ADD</Styled.AddButton>
+        <Styled.AddButton onClick={() => setShowAddModal(true)}>
+          +ADD
+        </Styled.AddButton>
       </Styled.Content>
     </Styled.Container>
   );

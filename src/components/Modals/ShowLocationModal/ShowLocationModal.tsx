@@ -90,8 +90,7 @@ const ShowLocationModal = ({
             />
           </Frame>
           <Styles.TitleContainer>
-            <Styles.Title>
-              {locationData?.name}</Styles.Title>
+            <Styles.Title>{locationData?.name}</Styles.Title>
             <Styles.EditDelete>
               <BinIcon onClick={handleDelete} />
               <EditIcon onClick={handleEdit} />
@@ -128,7 +127,9 @@ const ShowLocationModal = ({
         <Frame direction="row" gap={'18px'}>
           <Styles.Property>
             <Styles.PropertyName>Tipo de local</Styles.PropertyName>
-            <Styles.PropertyValue style={{minWidth: '100%'}}>{locationData?.type}</Styles.PropertyValue>
+            <Styles.PropertyValue style={{ minWidth: '100%' }}>
+              {locationData?.type}
+            </Styles.PropertyValue>
           </Styles.Property>
         </Frame>
         <Frame direction="row" gap={'15%'}>

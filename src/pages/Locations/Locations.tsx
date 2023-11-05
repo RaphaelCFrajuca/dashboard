@@ -67,14 +67,9 @@ const Locations = () => {
               setShowModal={setShowAddModal}
             />
             <DeleteLocationModal
+              id={selectedId}
               showmodal={showdeleteModal}
               setShowModal={setShowdeleteModal}
-              locationName={
-                locationList.data?.content?.find(
-                  (location) => location.id === selectedId
-                )?.name as string
-              }
-              id={selectedId}
             />
           </Styled.Content>
         </Styled.HeaderContentContainer>

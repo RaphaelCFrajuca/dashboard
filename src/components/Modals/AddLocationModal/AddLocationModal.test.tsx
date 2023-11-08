@@ -28,7 +28,6 @@ describe('AddLocationModal', () => {
           <AddLocationModal
             showmodal={true}
             setShowModal={setShowModalMock}
-            locationsRefresh={locationsRefreshMock}
           />
         </AuthProvider>
       </QueryClientProvider>

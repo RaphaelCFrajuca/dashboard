@@ -10,13 +10,12 @@ export const BasicInput = styled.div`
   font-size: 14px;
   line-height: 21px;
   gap: 4px;
-  width: 100%;
 
   .form-input {
     border-width: 1px;
     border-style: solid;
-    width: 100%;
     height: 37px;
+    max-width: 100%;
     border-radius: 6px;
     border-color: #9d8df4;
     padding-left: 8px;
@@ -61,7 +60,7 @@ export const LabelInput = styled.label<IInput>`
   background-color: white;
   font-style: normal;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 10px;
   line-height: 24px;
 `;
 
@@ -69,4 +68,5 @@ export const ErrorMessage = styled.span`
   color: #eb3d3d;
   font-size: 12;
   font-weight: '400';
+  max-width: 100%;
 `;

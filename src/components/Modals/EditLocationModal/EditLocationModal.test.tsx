@@ -37,7 +37,6 @@ describe('EditLocationModal', () => {
             id={1}
             showmodal={true}
             setShowModal={setShowModalMock}
-            locationsRefresh={locationsRefreshMock}
           />
         </AuthProvider>
       </QueryClientProvider>

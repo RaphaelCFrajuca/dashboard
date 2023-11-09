@@ -14,11 +14,13 @@ import {
   getAllLocations,
 } from '../..../../../services/location/all-location-service';
 import { SearchList } from '../../components/Locations/SearchList/SearchList';
+import { DisableLocationModal } from '../../components/Modals/DisableLocationModal.tsx/DisableLocationModal';
 
 const Locations = () => {
   const [showShowModal, setShowShowModal] = useState(false);
+  const [showDisableModal, setShowDisableModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [showdeleteModal, setShowdeleteModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedId, setSelectedId] = useState<number>(0);
   const [searchTerm, setSearchTerm] = useState('');
@@ -28,9 +30,21 @@ const Locations = () => {
   );
 
   useEffect(() => {
-    if (!showShowModal && !showEditModal && !showdeleteModal && !showAddModal)
+    if (
+      !showShowModal &&
+      !showEditModal &&
+      !showDeleteModal &&
+      !showAddModal &&
+      showDisableModal
+    )
       locationList.refetch();
-  }, [showShowModal, showEditModal, showdeleteModal, showAddModal]);
+  }, [
+    showShowModal,
+    showEditModal,
+    showDeleteModal,
+    showAddModal,
+    showDisableModal,
+  ]);
 
   return (
     <Styled.Container>
@@ -45,7 +59,7 @@ const Locations = () => {
           <LocationList
             setShowShowModal={setShowShowModal}
             setShowEditModal={setShowEditModal}
-            setShowDeleteModal={setShowdeleteModal}
+            setShowDeleteModal={setShowDeleteModal}
             setSelectedId={setSelectedId}
             locationList={locationList}
             searchTerm={searchTerm}
@@ -54,7 +68,7 @@ const Locations = () => {
             showmodal={showShowModal}
             setShowModal={setShowShowModal}
             setShowEditModal={setShowEditModal}
-            setShowDeleteModal={setShowdeleteModal}
+            setShowDeleteModal={setShowDeleteModal}
             id={selectedId}
           />
           <EditLocationModal
@@ -68,8 +82,14 @@ const Locations = () => {
           />
           <DeleteLocationModal
             id={selectedId}
-            showmodal={showdeleteModal}
-            setShowModal={setShowdeleteModal}
+            showmodal={showDeleteModal}
+            setShowDisableModal={setShowDisableModal}
+            setShowModal={setShowDeleteModal}
+          />
+          <DisableLocationModal
+            id={selectedId}
+            showmodal={showDisableModal}
+            setShowModal={setShowDisableModal}
           />
         </Styled.Content>
       </Styled.HeaderContentContainer>

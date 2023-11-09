@@ -27,13 +27,13 @@ export type ILocationListItemProps = {
   isFirstItem: boolean;
 };
 
-export type ILocationListItemLI = React.DetailedHTMLProps<
+export type ILocationListItem = React.DetailedHTMLProps<
   React.LiHTMLAttributes<HTMLLIElement>,
   HTMLLIElement
 >;
 
 const LocationListItem: React.FC<
-  ILocationListItemProps & ILocationListItemLI
+  ILocationListItemProps & ILocationListItem
 > = ({ location, onEdit, onDelete, onShow, isFirstItem, ...liProps }) => {
   return (
     <li {...liProps} onClick={(e: any) => onShow(location.id, e)}>

@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 interface LocationStatusProps {
-    approved: boolean;
+  approved: boolean;
 }
 
 export const LocationTitle = styled.h1`
@@ -18,7 +18,7 @@ export const LocationTitle = styled.h1`
   padding-left: 24px;
 `;
 
-export const LocationItemContainer = styled.li`
+export const LocationListItemContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -1,9 +1,5 @@
 import styled from 'styled-components';
 
-interface LocationStatusProps {
-  approved: boolean;
-}
-
 export const Container = styled.div`
   margin: 0 37px;
   background-color: #fdfcff;
@@ -84,8 +80,6 @@ export const LocationListContainer = styled.ul`
   width: 100%;
 `;
 
-
-
 export const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -93,9 +87,7 @@ export const TitleContainer = styled.div`
   grid-column: span 12;
 `;
 
-export const TitleLocation = styled.h4`
-
-`;
+export const TitleLocation = styled.h4``;
 
 export const LocationHeader = styled.span`
   color: var(--primrias-100, #9d8df4);
@@ -105,5 +97,3 @@ export const LocationHeader = styled.span`
   letter-spacing: 0.15px;
   padding-left: 24px;
 `;
-
-

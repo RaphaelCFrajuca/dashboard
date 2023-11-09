@@ -8,12 +8,12 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { DeleteLocationModal } from '../../components/Modals/DeleteLocationModal/DeleteLocationModal';
-import { ListLocation } from './components/ListLocation/ListLocation';
+import { LocationList } from '../../components/Locations/LocationList/LocationList';
 import {
-  LocationList,
+  ILocationList,
   getAllLocations,
 } from '../..../../../services/location/all-location-service';
-import { SearchList } from './components/SearchList/SearchList';
+import { SearchList } from '../../components/Locations/SearchList/SearchList';
 
 const Locations = () => {
   const [showShowModal, setShowShowModal] = useState(false);
@@ -23,7 +23,7 @@ const Locations = () => {
   const [selectedId, setSelectedId] = useState<number>(0);
   const [searchTerm, setSearchTerm] = useState('');
   const { accessToken } = useAuth();
-  const locationList = useQuery<LocationList>('locationList', () =>
+  const locationList = useQuery<ILocationList>('locationList', () =>
     getAllLocations(accessToken)
   );
 
@@ -42,7 +42,7 @@ const Locations = () => {
             setShowAddModal={setShowAddModal}
             setSearchTerm={setSearchTerm}
           />
-          <ListLocation
+          <LocationList
             setShowShowModal={setShowShowModal}
             setShowEditModal={setShowEditModal}
             setShowDeleteModal={setShowdeleteModal}

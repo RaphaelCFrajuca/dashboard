@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { ImageContainer, ModalImageContainer } from './ModalImg.style';
-import { ReactComponent as CloseIcon } from '../../assets/Icons/Closeicons.svg';
-import { ErrorMessage } from '../Input/Input.style';
+import { ReactComponent as CloseIcon } from './../../../assets/Icons/Closeicons.svg';
+import { ErrorMessage } from '../../Input/Input.style';
 
 interface ModalImgProps {
   src: string;

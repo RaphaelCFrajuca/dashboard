@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { editLocationFormSchema } from '../../../zodSchemas/EditLocationSchema';
 import { ReactComponent as CloseIcon } from '../../../assets/Icons/Closeicons.svg';
-import ModalImg from '../../ModalImg/ModalImg';
+import ModalImg from '../ModalImg/ModalImg';
 import { Button } from '../../Button/Button';
 import { Input } from '../../Input/Input';
 import { Form } from '../../Form/Form';
@@ -28,7 +28,7 @@ import { Id } from '../ShowLocationModal/ShowLocationModal.styles';
 import {
   LocationStatusIcon,
   LocationStatusText,
-} from '../../../pages/Locations/components/ListLocation/ListLocation.styles';
+} from './../../Locations/LocationListItem/LocationListItem.styles';
 
 type IEditLocationModal = {
   showmodal: boolean;

@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import Loading from './../../Loading/Loading';
-import { ILocationList } from '../../../services/location/all-location-service';
+import { ILocationListResponse } from '../../../services/location/all-location-service';
 import { UseQueryResult } from 'react-query';
 import { Pagination } from '../Pagination/Pagination';
 import * as Styled from './LocationList.styles';
-import LocationListItem from '../LocationListItem/LocationListItem';
+import LocationListItem, {
+  ILocationListItemProps,
+} from '../LocationListItem/LocationListItem';
 
 interface Props {
   setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedId: React.Dispatch<React.SetStateAction<number>>;
-  locationList: UseQueryResult<ILocationList, unknown>;
+  locationList: UseQueryResult<ILocationListResponse, unknown>;
   searchTerm: string;
 }
 const LocationList: React.FC<Props> = ({
@@ -111,7 +113,7 @@ const LocationList: React.FC<Props> = ({
                 return (
                   <LocationListItem
                     key={location.id}
-                    location={location}
+                    location={location as ILocationListItemProps['location']}
                     onEdit={handleOpenEditModal}
                     onDelete={handleOpenDeleteModal}
                     onShow={handleOpenShowModal}

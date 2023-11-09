@@ -10,7 +10,7 @@ import { useAuth } from '../../context/auth/AuthProvider';
 import { DeleteLocationModal } from '../../components/Modals/DeleteLocationModal/DeleteLocationModal';
 import LocationList from '../../components/Locations/LocationList/LocationList';
 import {
-  ILocationList,
+  ILocationListResponse,
   getAllLocations,
 } from '../..../../../services/location/all-location-service';
 import { SearchList } from '../../components/Locations/SearchList/SearchList';
@@ -23,7 +23,7 @@ const Locations = () => {
   const [selectedId, setSelectedId] = useState<number>(0);
   const [searchTerm, setSearchTerm] = useState('');
   const { accessToken } = useAuth();
-  const locationList = useQuery<ILocationList>('locationList', () =>
+  const locationList = useQuery<ILocationListResponse>('locationList', () =>
     getAllLocations(accessToken)
   );
 

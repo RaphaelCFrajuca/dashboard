@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { DeleteLocationModal } from '../../components/Modals/DeleteLocationModal/DeleteLocationModal';
-import { LocationList } from '../../components/Locations/LocationList/LocationList';
+import LocationList from '../../components/Locations/LocationList/LocationList';
 import {
   ILocationList,
   getAllLocations,

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Loading } from '../../Loading/Loading';
+import Loading from './../../Loading/Loading';
 import { ILocationList } from '../../../services/location/all-location-service';
 import { UseQueryResult } from 'react-query';
 import { Pagination } from '../Pagination/Pagination';
 import * as Styled from './LocationList.styles';
-import { LocationItem } from '../LocationListItem/LocationListItem';
+import LocationListItem from '../LocationListItem/LocationListItem';
 
 interface Props {
   setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,15 +14,14 @@ interface Props {
   locationList: UseQueryResult<ILocationList, unknown>;
   searchTerm: string;
 }
-
-export function LocationList({
+const LocationList: React.FC<Props> = ({
   setSelectedId,
   setShowDeleteModal,
   setShowEditModal,
   setShowShowModal,
   locationList,
   searchTerm,
-}: Props) {
+}) => {
   const [selectedLetter, setSelectedLetter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(12);
@@ -85,6 +84,13 @@ export function LocationList({
                 onClick={() =>
                   handleLetterChange(String.fromCharCode(65 + index))
                 }
+                onKeyDown={(event) => {
+                  // Trigger the change on 'Enter' or 'Space' key press
+                  if (event.key === 'Enter' || event.key === 'Space') {
+                    handleLetterChange(String.fromCharCode(65 + index));
+                  }
+                }}
+                tabIndex={0} // Makes the element focusable
               >
                 {String.fromCharCode(65 + index)}
               </li>
@@ -94,26 +100,26 @@ export function LocationList({
         <Styled.Content>
           <Styled.LocationListContainer>
             <Styled.LocationHeader>Local</Styled.LocationHeader>
-              <ul>
-                {visibleLocations?.map((location, index) => {
-                  const isFirstItem =
-                    index === 0 ||
-                    location.name.charAt(0).toUpperCase() !==
-                      (
-                        visibleLocations[index - 1]?.name.charAt(0) || ''
-                      ).toUpperCase();
-                  return (
-                    <LocationItem
-                      key={location.id}
-                      location={location}
-                      onEdit={handleOpenEditModal}
-                      onDelete={handleOpenDeleteModal}
-                      onShow={handleOpenShowModal}
-                      isFirstItem={isFirstItem}
-                    />
-                  );
-                })}
-              </ul>
+            <ul>
+              {visibleLocations?.map((location, index) => {
+                const isFirstItem =
+                  index === 0 ||
+                  location.name.charAt(0).toUpperCase() !==
+                    (
+                      visibleLocations[index - 1]?.name.charAt(0) || ''
+                    ).toUpperCase();
+                return (
+                  <LocationListItem
+                    key={location.id}
+                    location={location}
+                    onEdit={handleOpenEditModal}
+                    onDelete={handleOpenDeleteModal}
+                    onShow={handleOpenShowModal}
+                    isFirstItem={isFirstItem}
+                  />
+                );
+              })}
+            </ul>
           </Styled.LocationListContainer>
         </Styled.Content>
       </Styled.ContentContainer>
@@ -124,4 +130,6 @@ export function LocationList({
       />
     </Styled.Container>
   );
-}
+};
+
+export default LocationList;

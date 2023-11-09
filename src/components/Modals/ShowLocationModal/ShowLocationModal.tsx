@@ -9,7 +9,7 @@ import { useAuth } from '../../../context/auth/AuthProvider';
 import { getLocationById } from '../../../services/location/location-by-id-service';
 import { useQuery } from 'react-query';
 import { translateCep } from '../../../services/cep/cep-translation-service';
-import { Loading } from '../../Loading/Loading';
+import Loading from '../../Loading/Loading';
 
 type IShowLocationModal = {
   showmodal: boolean;

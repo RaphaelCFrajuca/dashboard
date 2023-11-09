@@ -1,23 +1,21 @@
 import React, { useState } from 'react';
-import { Loading } from '../../../../components/Loading/Loading';
-import { LocationList } from '../../../../services/location/all-location-service';
+import { Loading } from '../../Loading/Loading';
+import { ILocationList } from '../../../services/location/all-location-service';
 import { UseQueryResult } from 'react-query';
 import { Pagination } from '../Pagination/Pagination';
-import { ReactComponent as BinIcon } from '../../../../assets/Icons/Bin.svg';
-import { ReactComponent as TeamIcon } from '../../../../assets/Icons/Team.svg';
-import imageList from '../../../../assets/imageList.png';
-import * as Styled from './ListLocation.styles';
+import * as Styled from './LocationList.styles';
+import { LocationItem } from '../LocationListItem/LocationListItem';
 
 interface Props {
   setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedId: React.Dispatch<React.SetStateAction<number>>;
-  locationList: UseQueryResult<LocationList, unknown>;
+  locationList: UseQueryResult<ILocationList, unknown>;
   searchTerm: string;
 }
 
-export function ListLocation({
+export function LocationList({
   setSelectedId,
   setShowDeleteModal,
   setShowEditModal,
@@ -96,44 +94,26 @@ export function ListLocation({
         <Styled.Content>
           <Styled.LocationListContainer>
             <Styled.LocationHeader>Local</Styled.LocationHeader>
-            {visibleLocations?.map((location, index) => (
-              <div
-                key={location.id}
-                onClick={() => handleOpenShowModal(location.id)}
-              >
-                {index === 0 ||
-                location.name.charAt(0).toUpperCase() !==
-                  (
-                    visibleLocations[index - 1]?.name.charAt(0) || ''
-                  ).toUpperCase() ? (
-                  <Styled.LocationTitle>
-                    {location.name.charAt(0).toUpperCase()}
-                  </Styled.LocationTitle>
-                ) : null}
-                <Styled.LocationItemContainer>
-                  <Styled.LocationImage
-                    src={location.imgUrl ? location.imgUrl : imageList}
-                  />
-                  <Styled.LocationName>{location.name}</Styled.LocationName>
-                  <Styled.LocationStatusText>
-                    {location.pendingValidation ? 'Pendente' : ' Aprovado'}
-                  </Styled.LocationStatusText>
-                  <Styled.LocationStatusIcon
-                    approved={!location.pendingValidation}
-                  />
-                  <Styled.EditButton
-                    onClick={(e) => handleOpenEditModal(location.id, e)}
-                  >
-                    <TeamIcon />
-                  </Styled.EditButton>
-                  <Styled.DeleteButton
-                    onClick={(e) => handleOpenDeleteModal(location.id, e)}
-                  >
-                    <BinIcon />
-                  </Styled.DeleteButton>
-                </Styled.LocationItemContainer>
-              </div>
-            ))}
+              <ul>
+                {visibleLocations?.map((location, index) => {
+                  const isFirstItem =
+                    index === 0 ||
+                    location.name.charAt(0).toUpperCase() !==
+                      (
+                        visibleLocations[index - 1]?.name.charAt(0) || ''
+                      ).toUpperCase();
+                  return (
+                    <LocationItem
+                      key={location.id}
+                      location={location}
+                      onEdit={handleOpenEditModal}
+                      onDelete={handleOpenDeleteModal}
+                      onShow={handleOpenShowModal}
+                      isFirstItem={isFirstItem}
+                    />
+                  );
+                })}
+              </ul>
           </Styled.LocationListContainer>
         </Styled.Content>
       </Styled.ContentContainer>

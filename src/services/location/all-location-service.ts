@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { baseUrl } from '../../utils/ baseUrl';
 
-export interface LocationListItem {
+export interface ILocationListItem {
   id: number;
   name: string;
   endereco: string;
@@ -11,7 +11,7 @@ export interface LocationListItem {
   isActive: boolean;
 }
 
-export interface LocationList {
+export interface ILocationList {
   content: LocationListItem[];
 }
 

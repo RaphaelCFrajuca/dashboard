@@ -1,18 +1,18 @@
 import { Controller, useForm, FieldError } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   AddLocationFormSchemaType,
   addLocationFormSchema,
 } from '../../../zodSchemas/AddLocationSchema';
 import { ReactComponent as CloseIcon } from '../../../assets/Icons/Closeicons.svg';
-import ModalImg from '../../ModalImg/ModalImg';
-import { Button } from '../../Button/Button';
-import { Input } from '../../Input/Input';
-import { Form } from '../../Form/Form';
+import ModalImg from '../ModalImg/ModalImg';
+import { Button } from '../../../components/Button/Button';
+import { Input } from '../../../components/Input/Input';
+import { Form } from '../../../components/Form/Form';
 import { Frame } from '../../../layout';
 import { Modal } from '../Modal/Modal';
-import { Option, SelectComponent } from '../../Select/Select';
+import { Option, SelectComponent } from '../../../components/Select/Select';
 import { ConfirmationModal } from './../ConfirmationModal/ConfirmationModal';
 import { Title, TitleContainer } from './AddLocationModal.styles';
 import { useAuth } from '../../../context/auth/AuthProvider';
@@ -41,7 +41,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
     reset(), setShowModal(false);
   };
 
-  const {   
+  const {
     register,
     handleSubmit,
     setValue,

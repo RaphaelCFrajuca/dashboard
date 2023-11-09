@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ReactComponent as FilterIcon } from '../../../../assets/Icons/Filtericons.svg';
-import { ReactComponent as DownIcon } from '../../../../assets/Icons/Downicons.svg';
-import { ReactComponent as SearchIcon } from '../../../../assets/Icons/SearchIcon.svg';
+import { ReactComponent as FilterIcon } from '../../../assets/Icons/Filtericons.svg';
+import { ReactComponent as DownIcon } from '../../../assets/Icons/Downicons.svg';
+import { ReactComponent as SearchIcon } from '../../../assets/Icons/SearchIcon.svg';
 import * as Styled from './SearchList.styles';
 
 interface Props {

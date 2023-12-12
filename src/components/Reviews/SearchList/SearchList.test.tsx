@@ -13,12 +13,14 @@ jest.mock('../../../../assets/Icons/SearchIcon.svg', () => ({
 
 const mockSetSearchTerm = jest.fn();
 const mockSetShowAddModal = jest.fn();
+const mockSetSelectedRatings = jest.fn();
 
 test('renders SearchList component correctly', () => {
   const { getByText, getByPlaceholderText } = render(
     <SearchList
-      setShowAddModal={mockSetShowAddModal}
       setSearchTerm={mockSetSearchTerm}
+      setSelectedRatings={mockSetSelectedRatings}
+      selectedRatings={[1, 2, 3, 4, 5]}
     />
   );
 
@@ -32,8 +34,9 @@ test('renders SearchList component correctly', () => {
 test('calls setSearchTerm when search input changes', () => {
   const { getByPlaceholderText } = render(
     <SearchList
-      setShowAddModal={mockSetShowAddModal}
       setSearchTerm={mockSetSearchTerm}
+      setSelectedRatings={mockSetSelectedRatings}
+      selectedRatings={[1, 2, 3, 4, 5]}
     />
   );
 
@@ -47,8 +50,9 @@ test('calls setSearchTerm when search input changes', () => {
 test('calls setShowAddModal when Add button is clicked', () => {
   const { getByText } = render(
     <SearchList
-      setShowAddModal={mockSetShowAddModal}
       setSearchTerm={mockSetSearchTerm}
+      setSelectedRatings={mockSetSelectedRatings}
+      selectedRatings={[1, 2, 3, 4, 5]}
     />
   );
 

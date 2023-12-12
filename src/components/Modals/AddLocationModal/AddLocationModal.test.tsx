@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { render, screen, fireEvent } from '@testing-library/react';
 import { AddLocationModal } from './AddLocationModal';
 import { QueryClientProvider, QueryClient } from 'react-query';
@@ -22,7 +23,11 @@ describe('AddLocationModal', () => {
     render(
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <AddLocationModal showmodal={true} setShowModal={setShowModalMock} />
+          <AddLocationModal
+            listRefetch={() => {}}
+            showmodal={true}
+            setShowModal={setShowModalMock}
+          />
         </AuthProvider>
       </QueryClientProvider>
     );

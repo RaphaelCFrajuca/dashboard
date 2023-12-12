@@ -4,7 +4,7 @@ import * as Styled from './Locations.styles';
 import { ShowLocationModal } from '../../components/Modals/ShowLocationModal/ShowLocationModal';
 import { EditLocationModal } from '../../components/Modals/EditLocationModal/EditLocationModal';
 import { AddLocationModal } from '../../components/Modals/AddLocationModal/AddLocationModal';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useAuth } from '../../context/auth/AuthProvider';
 import { DeleteLocationModal } from '../../components/Modals/DeleteLocationModal/DeleteLocationModal';
@@ -16,7 +16,6 @@ import {
 import { SearchList } from '../../components/Locations/SearchList/SearchList';
 const Locations = () => {
   const [showShowModal, setShowShowModal] = useState(false);
-  const [showDisableModal, setShowDisableModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -70,7 +69,6 @@ const Locations = () => {
           <DeleteLocationModal
             id={selectedId}
             showmodal={showDeleteModal}
-            setShowDisableModal={setShowDisableModal}
             setShowModal={setShowDeleteModal}
             listRefetch={ListRefetch}
           />

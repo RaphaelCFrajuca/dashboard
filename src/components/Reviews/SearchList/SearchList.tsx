@@ -7,7 +7,6 @@ import { IReviewListItemResponse } from '../../../services/review/all-reviews-se
 
 interface Props {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
-
   setSelectedRatings: React.Dispatch<React.SetStateAction<number[]>>;
   selectedRatings: number[];
 }

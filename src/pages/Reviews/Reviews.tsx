@@ -30,7 +30,6 @@ const Reviews = () => {
             setSearchTerm={setSearchTerm}
             setSelectedRatings={setSelectedRatings}
             selectedRatings={selectedRatings}
-            reviews={reviewsList.data?.content || []}
           />
           <ReviewsList
             setSelectedId={setSelectedId}

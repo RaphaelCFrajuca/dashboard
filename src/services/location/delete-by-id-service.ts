@@ -6,7 +6,7 @@ export const deleteLocationById = async (
   id: number | undefined
 ) => {
   const deleteStatus: boolean | string = await axios
-    .get(`${baseUrl}/is-it-safe/location/delete/${id}`, {
+    .delete(`${baseUrl}/is-it-safe/location/delete/${id}`, {
       headers: {
         Authorization: 'Bearer ' + token,
       },

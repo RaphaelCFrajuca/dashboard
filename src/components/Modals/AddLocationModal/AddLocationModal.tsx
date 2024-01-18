@@ -91,8 +91,7 @@ const AddLocationModal = ({
     formData.append('file', selectedFile as File);
     formData.append('cep', data.cep);
     formData.append('endereco', data.endereco);
-    const save = saveLocation(accessToken, formData);
-    save
+    saveLocation(accessToken, formData)
       .then(() => {
         listRefetch();
       })

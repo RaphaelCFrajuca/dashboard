@@ -31,6 +31,10 @@ jest.mock('../../assets/Icons/Volunteers.svg', () => ({
   ReactComponent: () => <div data-testid="volunteers-icon" />,
 }));
 
+jest.mock('../../assets/logo.png', () => ({
+  ReactComponent: () => <div data-testid="logo-icon" />,
+}));
+
 describe('Sidebar', () => {
   test('renders Sidebar component', () => {
     render(

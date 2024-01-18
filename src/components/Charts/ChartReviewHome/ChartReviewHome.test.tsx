@@ -1,6 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { ChartReviewHome } from './ChartReviewHome';
 
+jest.mock('../../../utils/ baseUrl.ts', () => ({
+  someUrl: 'http://www.url.com',
+}));
 jest.mock('../../../assets/Icons/Righticons.svg', () => 'RightIcon');
 jest.mock('../../../assets/Icons/Lefticons.svg', () => 'LeftIcon');
 

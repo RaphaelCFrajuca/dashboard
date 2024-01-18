@@ -192,7 +192,7 @@ export function ChartLocationHome() {
   };
 
   if (isLoading || !data || !data.chart || data.chart.length === 0) {
-    return <Loading />;
+    return <Loading data-testid="loading-spinner" />;
   }
   const { chart } = data;
 

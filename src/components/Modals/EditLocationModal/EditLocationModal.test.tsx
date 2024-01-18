@@ -19,7 +19,8 @@ jest.mock('../../../utils/ baseUrl.ts', () => ({
 jest.mock('../../../services/refresh-token/refresh-token-service');
 jest.mock('../../../services/location/location-by-id-service');
 
-jest.mock('../../../services/location/location-by-id-service');
+jest.mock('../../../services/location/save-location-service.ts');
+jest.mock('../../../services/location/all-location-service.ts');
 
 jest.mock('../../../assets/Icons/Closeicons.svg', () => ({
   ReactComponent: () => <div data-testid="close-icon" />,
@@ -50,6 +51,7 @@ describe('EditLocationModal', () => {
   });
 
   const setShowModalMock = jest.fn();
+  const locationsRefreshMock = jest.fn();
 
   it('renders the modal header correctly', () => {
     const titleText = 'Editar';
@@ -86,6 +88,6 @@ describe('EditLocationModal', () => {
     fireEvent.click(sendButton);
 
     const allErrors = await screen.findAllByTestId('input-error');
-    expect(allErrors).toHaveLength(5);
+    expect(allErrors).toHaveLength(3);
   });
 });

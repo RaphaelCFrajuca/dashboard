@@ -13,12 +13,18 @@ jest.mock('../../../../assets/Icons/SearchIcon.svg', () => ({
 
 const mockSetSearchTerm = jest.fn();
 const mockSetShowAddModal = jest.fn();
+const mockSetPendingValidationFilter = jest.fn();
+const mockSetIsFilteringByPendingValidation = jest.fn();
 
 test('renders SearchList component correctly', () => {
   const { getByText, getByPlaceholderText } = render(
     <SearchList
       setShowAddModal={mockSetShowAddModal}
       setSearchTerm={mockSetSearchTerm}
+      pendingValidationFilter={false}
+      setPendingValidationFilter={mockSetPendingValidationFilter}
+      isFilteringByPendingValidation={false}
+      setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
     />
   );
 
@@ -34,6 +40,10 @@ test('calls setSearchTerm when search input changes', () => {
     <SearchList
       setShowAddModal={mockSetShowAddModal}
       setSearchTerm={mockSetSearchTerm}
+      pendingValidationFilter={false}
+      setPendingValidationFilter={mockSetPendingValidationFilter}
+      isFilteringByPendingValidation={false}
+      setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
     />
   );
 
@@ -49,6 +59,10 @@ test('calls setShowAddModal when Add button is clicked', () => {
     <SearchList
       setShowAddModal={mockSetShowAddModal}
       setSearchTerm={mockSetSearchTerm}
+      pendingValidationFilter={false}
+      setPendingValidationFilter={mockSetPendingValidationFilter}
+      isFilteringByPendingValidation={false}
+      setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
     />
   );
 

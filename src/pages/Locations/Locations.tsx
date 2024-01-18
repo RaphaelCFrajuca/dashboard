@@ -24,6 +24,9 @@ const Locations = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedId, setSelectedId] = useState<number>(0);
   const [searchTerm, setSearchTerm] = useState('');
+  const [pendingValidationFilter, setPendingValidationFilter] = useState(true);
+  const [isFilteringByPendingValidation, setIsFilteringByPendingValidation] =
+    useState(false);
   const { accessToken } = useAuth();
   const locationList = useQuery<ILocationListResponse>('locationList', () =>
     getAllLocations(accessToken)
@@ -55,6 +58,12 @@ const Locations = () => {
           <SearchList
             setShowAddModal={setShowAddModal}
             setSearchTerm={setSearchTerm}
+            pendingValidationFilter={pendingValidationFilter}
+            setPendingValidationFilter={setPendingValidationFilter}
+            isFilteringByPendingValidation={isFilteringByPendingValidation}
+            setIsFilteringByPendingValidation={
+              setIsFilteringByPendingValidation
+            }
           />
           <LocationList
             setShowShowModal={setShowShowModal}
@@ -63,6 +72,8 @@ const Locations = () => {
             setSelectedId={setSelectedId}
             locationList={locationList}
             searchTerm={searchTerm}
+            pendingValidationFilter={pendingValidationFilter}
+            isFilteringByPendingValidation={isFilteringByPendingValidation}
           />
           <ShowLocationModal
             showmodal={showShowModal}

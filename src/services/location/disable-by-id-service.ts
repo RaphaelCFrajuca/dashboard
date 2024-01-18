@@ -6,7 +6,6 @@ export const disableLocationById = async (
   token: string | null,
   id: number | undefined
 ) => {
-  console.log(id);
   const disableStatus = await axios
     .put(
       `${baseUrl}/is-it-safe/location/update/${id}/deactivate`,
@@ -14,8 +13,7 @@ export const disableLocationById = async (
       {
         headers: {
           Authorization: 'Bearer ' + token,
-        },
-      }
+      },
     )
     .then((res) => console.log(res.data))
     .catch((err: AxiosError) => {

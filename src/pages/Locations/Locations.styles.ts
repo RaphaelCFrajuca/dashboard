@@ -10,10 +10,9 @@ export const Container = styled.div`
 `;
 export const Content = styled.div`
   width: 100%;
-  padding-left: 42px;
-  padding-right: 52px;
-  padding-bottom: 46px;
-  padding-top: 116px;
+  padding-left: 21px;
+  /* padding-bottom: 38px; */
+  padding-top: 39px;
   box-sizing: border-box;
   background-color: #faf9ff;
   display: grid;

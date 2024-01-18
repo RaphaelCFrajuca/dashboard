@@ -23,9 +23,14 @@ import { translateCep } from '../../../services/cep/cep-translation-service';
 type IAddLocationModal = {
   showmodal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  listRefetch: () => void;
 };
 
-const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
+const AddLocationModal = ({
+  showmodal,
+  setShowModal,
+  listRefetch,
+}: IAddLocationModal) => {
   const { accessToken } = useAuth();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
@@ -37,8 +42,12 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
     setSelectedFile(file);
   };
 
-  const clearHide = () => {
-    reset(), setShowModal(false);
+  const clear = () => {
+    setHasError(false);
+    setShowSubmitModal(false);
+    setShowModal(false);
+    setSelectedFile(null);
+    reset();
   };
 
   const {
@@ -81,21 +90,20 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
     formData.append('locationTypeId', typeNumber);
     formData.append('file', selectedFile as File);
     formData.append('cep', data.cep);
+    formData.append('endereco', data.endereco);
     const save = saveLocation(accessToken, formData);
     save
       .then(() => {
-        setHasError(false);
-        setShowSubmitModal(true);
+        listRefetch();
       })
-      .catch(() => {
-        setHasError(true);
-        setShowSubmitModal(true);
+      .catch((err) => {
+        throw new Error(err.message);
+      })
+      .finally(() => {
+        setShowModal(false);
+        reset();
+        setSelectedFile(null);
       });
-    setTimeout(() => {
-      setShowSubmitModal(false);
-      setShowModal(false);
-    }, 2000);
-    clearHide();
   };
 
   const types: Option[] = [
@@ -113,7 +121,7 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
           </TitleContainer>
           <CloseIcon
             data-testid="close-modal"
-            onClick={() => clearHide()}
+            onClick={() => clear()}
           ></CloseIcon>
         </>
       }
@@ -167,15 +175,17 @@ const AddLocationModal = ({ showmodal, setShowModal }: IAddLocationModal) => {
               style={{ width: '100%' }}
             />
           </Frame>
+          <Input
+            label="Endereço"
+            {...register('endereco', {})}
+            data-testid="input-endereco"
+            error={errors.endereco}
+          />
           <Frame data-testid="img" direction="row" gap={'0px'}>
             <ModalImg src="" onFileChange={handleFileChange} />
           </Frame>
           <Frame direction="row" gap={'18px'}>
-            <Button
-              grow
-              onClick={() => clearHide()}
-              data-testid="button-cancel"
-            >
+            <Button grow onClick={() => clear()} data-testid="button-cancel">
               CANCELAR
             </Button>
             <Button grow type="submit" primary data-testid="button-send">

@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { useAuth } from '../../context/auth/AuthProvider';
-import { useEffect, useState } from 'react'; // Importe apenas o useEffect e useState do 'react'.
+import { useEffect, useState } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import { getLoggedUser } from '../../services/get-logged-user/get-logged-user-service';
 import { ReactComponent as Downicons } from '../../assets/Icons/Downicons.svg';

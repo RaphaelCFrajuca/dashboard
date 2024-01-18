@@ -11,6 +11,9 @@ jest.mock('../../utils/ baseUrl.ts', () => ({ someUrl: 'http://www.url.com' }));
 jest.mock('../../assets/Icons/Downicons.svg', () => ({
   ReactComponent: () => <div data-testid="down-icon" />,
 }));
+jest.mock('../../assets/Icons/Upicons.svg', () => ({
+  ReactComponent: () => <div data-testid="up-icon" />,
+}));
 jest.mock('../../assets/profile.png', () => 'src/assets/profile.png');
 
 interface User {

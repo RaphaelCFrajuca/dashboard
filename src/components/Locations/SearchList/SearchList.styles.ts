@@ -9,11 +9,19 @@ export const Container = styled.div`
   margin: 0 37px;
   height: 65px;
   border-bottom: 1px solid #efecfd;
-  margin-top: 39px;
 `;
 
 export const Content = styled.div`
   display: flex;
+`;
+
+export const SearchInputContainer = styled.div`
+  position: relative;
+`;
+
+export const IconContainer = styled.div`
+  position: absolute;
+  top: 15%;
 `;
 export const Title = styled.h1`
   color: var(--primrias-900, #241b5e);
@@ -28,10 +36,9 @@ export const Title = styled.h1`
 export const SearchInput = styled.input`
   width: 408px;
   height: 34px;
-  padding: 12.5px 12px;
+  padding: 12.5px 28px;
   justify-content: center;
   align-items: center;
-  gap: 15px;
   border-radius: 4px;
   border: 1px solid var(--neutros-200, #efecfd);
 `;

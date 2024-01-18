@@ -1,51 +1,57 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { ImageContainer, ModalImageContainer } from './ModalImg.style';
-import { ReactComponent as CloseIcon } from '../../assets/Icons/Closeicons.svg';
-import { set } from 'react-hook-form';
-import { ErrorMessage } from '../Input/Input.style';
+import { ReactComponent as CloseIcon } from './../../../assets/Icons/Closeicons.svg';
+import { ErrorMessage } from '../../Input/Input.style';
 
 interface ModalImgProps {
   src: string;
-  onFileChange: (file: File) => void;
+  onFileChange: (file: File | null) => void;
 }
 
 const ModalImg: React.FC<ModalImgProps> = ({ src, onFileChange }) => {
-  const [srcImg, setSrcImg] = useState<string>('');
-  const [InputErrorMessage, setInputErrorMessage] = useState<string>('');
+  const [srcImg, setSrcImg] = useState<string>(src);
+  const [inputErrorMessage, setInputErrorMessage] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const hasError = !!InputErrorMessage;
+  const hasError = !!inputErrorMessage;
+
+  const handleRemoveImage = () => {
+    setSrcImg('');
+    setInputErrorMessage('');
+    onFileChange(null);
+  };
+
+  const handleSelectImage = (file: File) => {
+    setInputErrorMessage('');
+    onFileChange(file);
+    setSrcImg(URL.createObjectURL(file));
+  };
+
+  const handleValidation = (file: File) => {
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    const maxSize = 5242880; // 5MB in bytes
+    if (!allowedTypes.includes(file.type)) {
+      setInputErrorMessage('Tipo de arquivo não permitido');
+      return false;
+    }
+    if (file.size > maxSize) {
+      setInputErrorMessage('Arquivo muito grande');
+      return false;
+    }
+    return true;
+  };
+
   const handleFileInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const selectedFile = event.target.files && event.target.files[0];
-    if (selectedFile) {
-      const allowedTypes = [
-        'image/jpeg',
-        'image/jpg',
-        'image/png',
-        'image/webp',
-      ];
-      const maxSize = 5242880; // 5MB in bytes
-      if (!allowedTypes.includes(selectedFile.type)) {
-        setInputErrorMessage('Tipo de arquivo não permitido');
-      } else if (selectedFile.size > maxSize) {
-        setInputErrorMessage('Arquivo muito grande');
-      } else if (event.target.files && event.target.files.length > 1)
-        setInputErrorMessage('Selecione apenas uma imagem');
-      else {
-        setInputErrorMessage('');
-        onFileChange(selectedFile);
-        setSrcImg(URL.createObjectURL(selectedFile));
-      }
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile && handleValidation(selectedFile)) {
+      handleSelectImage(selectedFile);
     }
   };
 
-  useEffect(() => {
-    src ? setSrcImg(src) : setSrcImg('');
-  }, [src]);
   return (
-    <ModalImageContainer>
-      <ImageContainer hasError={hasError} srcImg={srcImg}>
+    <ModalImageContainer data-testid="modal-image-container">
+      <ImageContainer hasError={!!inputErrorMessage} srcImg={srcImg}>
         {srcImg ? (
           <div>
             <CloseIcon
@@ -57,7 +63,7 @@ const ModalImg: React.FC<ModalImgProps> = ({ src, onFileChange }) => {
                 padding: '5px',
                 borderRadius: '50%',
               }}
-              onClick={() => setSrcImg('')}
+              onClick={() => handleRemoveImage()}
             ></CloseIcon>
             <img src={srcImg} alt="Image" />
           </div>
@@ -69,6 +75,7 @@ const ModalImg: React.FC<ModalImgProps> = ({ src, onFileChange }) => {
               accept=".jpg, .jpeg, .png, .webp"
               multiple={false}
               onChange={handleFileInputChange}
+              data-testid="file-input"
             />
             <CloseIcon
               style={{
@@ -83,9 +90,9 @@ const ModalImg: React.FC<ModalImgProps> = ({ src, onFileChange }) => {
           </>
         )}
       </ImageContainer>
-      {hasError && (
+      {inputErrorMessage && (
         <ErrorMessage data-testid="input-error">
-          {InputErrorMessage}
+          {inputErrorMessage}
         </ErrorMessage>
       )}
     </ModalImageContainer>

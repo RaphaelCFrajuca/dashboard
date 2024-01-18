@@ -7,7 +7,7 @@ export const PaginationContainer = styled.div`
   padding-bottom: 46px;
   background-color: #fdfcff;
   border-top: 0.7px solid var(--neutros-200, #efecfd);
-  margin: 0 48px;
+  /* margin: 0 48px; */
   padding-top: 14px;
   padding-bottom: 8px;
   align-items: center;

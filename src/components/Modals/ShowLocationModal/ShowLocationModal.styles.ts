@@ -26,10 +26,21 @@ export const EditDelete = styled.div`
   color: #b9b3da;
 `;
 
-export const Title = styled.h4`
+export const Title = styled.div`
   font-size: 1.2em;
   font-weight: 700;
   color: #241b5e;
+  overflow: hidden;
+  width: 90%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: keep-all;
+  letter-spacing: 0.15px;
+  :hover {
+    overflow: visible;
+    white-space: normal;
+    word-break: break-all;
+  }
 `;
 
 export const CloseIcon = styled.div`
@@ -53,12 +64,15 @@ export const PropertyValue = styled.span`
   line-height: 18px;
   letter-spacing: 0em;
   text-align: left;
+  overflow: hidden;
+  min-width: 100%;
+  text-overflow: ellipsis;
   white-space: nowrap;
-  width: 80%;
+  word-break: keep-all;
+  letter-spacing: 0.15px;
   :hover {
     overflow: visible;
     white-space: normal;
-    -webkit-mask-image: 'linear-gradient(90deg, #000,  100%, transparent)';
   }
 `;
 
@@ -118,4 +132,11 @@ export const Id = styled.span`
   letter-spacing: 0em;
   text-align: left;
   color: #190a33;
+`;
+
+export const LoadingContainer = styled.div`
+  position: absolute;
+  background-color: transparent;
+  top: 48%;
+  left: 48%;
 `;

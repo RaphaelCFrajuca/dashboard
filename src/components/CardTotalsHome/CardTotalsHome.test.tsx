@@ -1,8 +1,13 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { CardTotalsHome } from './CardTotalsHome';
 
-jest.mock('../../assets/Icons/Up.svg', () => 'Up');
-jest.mock('../../assets/Icons/PilNed.svg', () => 'PilNed');
+jest.mock('../../assets/Icons/Up.svg', () => ({
+  ReactComponent: () => <svg data-testid="up" />,
+}));
+
+jest.mock('../../assets/Icons/PilNed.svg', () => ({
+  ReactComponent: () => <svg data-testid="pil-ned" />,
+}));
 
 jest.mock('../../context/auth/AuthProvider', () => ({
   useAuth: () => ({ accessToken: 'mock-access-token' }),

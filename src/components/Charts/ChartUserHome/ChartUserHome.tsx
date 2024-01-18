@@ -9,7 +9,7 @@ import { ReactComponent as Righticons } from '../../../assets/Icons/Righticons.s
 import { ReactComponent as Lefticons } from '../../../assets/Icons/Lefticons.svg';
 import { ReactComponent as Downicons } from '../../../assets/Icons/Downicons.svg';
 import * as Styled from './ChartUserHome.styles';
-import { Loading } from '../../Loading/Loading';
+import Loading from '../../Loading/Loading';
 
 enum UserChartMode {
   Month = 'month',
@@ -155,7 +155,7 @@ export function ChartUserHome() {
           },
           options: {
             interaction: {
-              mode: 'index',
+              mode: 'nearest',
               intersect: false,
             },
             scales: {
@@ -175,7 +175,7 @@ export function ChartUserHome() {
                   stepSize: 1,
                   crossAlign: 'far',
                   maxTicksLimit: 5,
-                  callback: (value) => value + 'k',
+                  callback: (value) => value,
                   font: {
                     size: 8,
                     family: 'Poppins',

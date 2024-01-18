@@ -17,5 +17,6 @@ export const updateLocation = async (
     .catch((err: AxiosError) => {
       throw new Error(err.message);
     });
+  console.log(response);
   return response;
 };

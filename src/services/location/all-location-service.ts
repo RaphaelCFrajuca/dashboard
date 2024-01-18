@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { baseUrl } from '../../utils/ baseUrl';
 
-export interface LocationListItem {
+export interface ILocationListItemResponse {
   id: number;
   name: string;
   endereco: string;
@@ -11,8 +11,8 @@ export interface LocationListItem {
   isActive: boolean;
 }
 
-export interface LocationList {
-  content: LocationListItem[];
+export interface ILocationListResponse {
+  content: ILocationListItemResponse[];
 }
 
 export const getAllLocations = async (token: string | null) => {
@@ -24,7 +24,7 @@ export const getAllLocations = async (token: string | null) => {
       size: 2000,
     },
   };
-  const locationListData: LocationList = await axios
+  const locationListData: ILocationListResponse = await axios
     .get(`${baseUrl}/is-it-safe/location/dashboard/find-all`, config)
     .then((res) => res.data)
     .catch((err: AxiosError) => {

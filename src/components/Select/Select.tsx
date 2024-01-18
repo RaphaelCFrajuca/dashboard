@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode, useState } from 'react';
 import { BasicSelect, ErrorMessage, LabelSelect } from './styled';
-import { useEffect } from 'react';
 import { FieldError, set } from 'react-hook-form';
 import Select from 'react-select';
-import StateManagedSelect from 'react-select';
+
 
 export type Option = { label: string; value: string };
 
@@ -33,6 +33,39 @@ const SelectComponent = ({
       onChange(value);
     }
   };
+  const customStyles = {
+    control: (base: any, state: any) => {
+      let fontWeight = 400;
+      let borderColor = '#9D8DF4';
+      let borderWidth = '1px';
+      if (state.isFocused && !hasError) {
+        borderColor = '#6200EE';
+        fontWeight = 600;
+        borderWidth = '0.2px';
+      }
+      if (hasError) {
+        borderColor = '#eb3d3d';
+      }
+      return {
+        ...base,
+        borderColor,
+        fontWeight,
+        borderWidth,
+        '&:hover': {
+          borderColor: '#6200EE',
+        },
+      };
+    },
+    option: (base: any) => ({
+      ...base,
+      backgroundColor: 'white',
+      color: 'black',
+      '&:hover': {
+        backgroundColor: '#9D8DF4',
+        color: 'white',
+      },
+    }),
+  };
 
   return (
     <BasicSelect data-testid={dataTestid}>
@@ -44,34 +77,7 @@ const SelectComponent = ({
         isMulti={false}
         isSearchable={false}
         styles={{
-          control: (base, state) => {
-            let fontWeight = 400;
-            let borderColor = '#9D8DF4';
-            let borderWidth = '1px';
-            if (state.isFocused && !hasError) {
-              borderColor = '#6200EE';
-              fontWeight = 600;
-              borderWidth = '0.2px';
-            }
-            if (hasError) {
-              borderColor = '#eb3d3d';
-            }
-            return {
-              ...base,
-              borderColor,
-              fontWeight,
-              borderWidth,
-            };
-          },
-          option: (base) => ({
-            ...base,
-            backgroundColor: 'white',
-            color: 'black',
-            '&:hover': {
-              backgroundColor: '#9D8DF4',
-              color: 'white',
-            },
-          }),
+          ...customStyles,
         }}
       />
       {hasError && (

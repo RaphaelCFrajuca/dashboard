@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { editLocationFormSchema } from '../../../zodSchemas/EditLocationSchema';
 import { ReactComponent as CloseIcon } from '../../../assets/Icons/Closeicons.svg';
-import ModalImg from '../../ModalImg/ModalImg';
+import ModalImg from '../ModalImg/ModalImg';
 import { Button } from '../../Button/Button';
 import { Input } from '../../Input/Input';
 import { Form } from '../../Form/Form';
@@ -28,18 +28,20 @@ import { Id } from '../ShowLocationModal/ShowLocationModal.styles';
 import {
   LocationStatusIcon,
   LocationStatusText,
-} from '../../../pages/Locations/components/ListLocation/ListLocation.styles';
+} from './../../Locations/LocationListItem/LocationListItem.styles';
 
 type IEditLocationModal = {
   showmodal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   id: number | undefined;
+  listRefetch: () => void;
 };
 
 const EditLocationModal = ({
   showmodal,
   setShowModal,
   id,
+  listRefetch,
 }: IEditLocationModal) => {
   const { accessToken } = useAuth();
 
@@ -71,6 +73,14 @@ const EditLocationModal = ({
 
   const handleFileChange = (file: File | null) => {
     setSelectedFile(file);
+  };
+
+  const clear = () => {
+    setHasError(false);
+    setShowSubmitModal(false);
+    setSelectedFile(null);
+    reset();
+    setShowModal(false);
   };
 
   function convertValue(value: string) {
@@ -134,6 +144,7 @@ const EditLocationModal = ({
       .then(() => {
         setHasError(false);
         setShowSubmitModal(true);
+        listRefetch();
       })
       .catch(() => {
         setHasError(true);
@@ -312,11 +323,7 @@ const EditLocationModal = ({
             <ModalImg src={src} onFileChange={handleFileChange} />
           </Frame>
           <Frame direction="row" gap={'18px'}>
-            <Button
-              grow
-              onClick={() => setShowModal(false)}
-              data-testid="button-cancel"
-            >
+            <Button grow onClick={() => clear()} data-testid="button-cancel">
               CANCELAR
             </Button>
             <Button grow type="submit" primary data-testid="button-send">

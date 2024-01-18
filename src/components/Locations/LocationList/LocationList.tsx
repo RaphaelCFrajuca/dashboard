@@ -1,30 +1,29 @@
 import React, { useState } from 'react';
-import { Loading } from '../../../../components/Loading/Loading';
-import { LocationList } from '../../../../services/location/all-location-service';
+import Loading from './../../Loading/Loading';
+import { ILocationListResponse } from '../../../services/location/all-location-service';
 import { UseQueryResult } from 'react-query';
 import { Pagination } from '../Pagination/Pagination';
-import { ReactComponent as BinIcon } from '../../../../assets/Icons/Bin.svg';
-import { ReactComponent as TeamIcon } from '../../../../assets/Icons/Team.svg';
-import imageList from '../../../../assets/imageList.png';
-import * as Styled from './ListLocation.styles';
+import * as Styled from './LocationList.styles';
+import LocationListItem, {
+  ILocationListItemProps,
+} from '../LocationListItem/LocationListItem';
 
 interface Props {
   setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedId: React.Dispatch<React.SetStateAction<number>>;
-  locationList: UseQueryResult<LocationList, unknown>;
+  locationList: UseQueryResult<ILocationListResponse, unknown>;
   searchTerm: string;
 }
-
-export function ListLocation({
+const LocationList: React.FC<Props> = ({
   setSelectedId,
   setShowDeleteModal,
   setShowEditModal,
   setShowShowModal,
   locationList,
   searchTerm,
-}: Props) {
+}) => {
   const [selectedLetter, setSelectedLetter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(12);
@@ -87,6 +86,13 @@ export function ListLocation({
                 onClick={() =>
                   handleLetterChange(String.fromCharCode(65 + index))
                 }
+                onKeyDown={(event) => {
+                  // Trigger the change on 'Enter' or 'Space' key press
+                  if (event.key === 'Enter' || event.key === 'Space') {
+                    handleLetterChange(String.fromCharCode(65 + index));
+                  }
+                }}
+                tabIndex={0} // Makes the element focusable
               >
                 {String.fromCharCode(65 + index)}
               </li>
@@ -96,44 +102,26 @@ export function ListLocation({
         <Styled.Content>
           <Styled.LocationListContainer>
             <Styled.LocationHeader>Local</Styled.LocationHeader>
-            {visibleLocations?.map((location, index) => (
-              <div
-                key={location.id}
-                onClick={() => handleOpenShowModal(location.id)}
-              >
-                {index === 0 ||
-                location.name.charAt(0).toUpperCase() !==
-                  (
-                    visibleLocations[index - 1]?.name.charAt(0) || ''
-                  ).toUpperCase() ? (
-                  <Styled.LocationTitle>
-                    {location.name.charAt(0).toUpperCase()}
-                  </Styled.LocationTitle>
-                ) : null}
-                <Styled.LocationItemContainer>
-                  <Styled.LocationImage
-                    src={location.imgUrl ? location.imgUrl : imageList}
+            <ul>
+              {visibleLocations?.map((location, index) => {
+                const isFirstItem =
+                  index === 0 ||
+                  location.name.charAt(0).toUpperCase() !==
+                    (
+                      visibleLocations[index - 1]?.name.charAt(0) || ''
+                    ).toUpperCase();
+                return (
+                  <LocationListItem
+                    key={location.id}
+                    location={location as ILocationListItemProps['location']}
+                    onEdit={handleOpenEditModal}
+                    onDelete={handleOpenDeleteModal}
+                    onShow={handleOpenShowModal}
+                    isFirstItem={isFirstItem}
                   />
-                  <Styled.LocationName>{location.name}</Styled.LocationName>
-                  <Styled.LocationStatusText>
-                    {location.pendingValidation ? 'Pendente' : ' Aprovado'}
-                  </Styled.LocationStatusText>
-                  <Styled.LocationStatusIcon
-                    approved={!location.pendingValidation}
-                  />
-                  <Styled.EditButton
-                    onClick={(e) => handleOpenEditModal(location.id, e)}
-                  >
-                    <TeamIcon />
-                  </Styled.EditButton>
-                  <Styled.DeleteButton
-                    onClick={(e) => handleOpenDeleteModal(location.id, e)}
-                  >
-                    <BinIcon />
-                  </Styled.DeleteButton>
-                </Styled.LocationItemContainer>
-              </div>
-            ))}
+                );
+              })}
+            </ul>
           </Styled.LocationListContainer>
         </Styled.Content>
       </Styled.ContentContainer>
@@ -144,4 +132,6 @@ export function ListLocation({
       />
     </Styled.Container>
   );
-}
+};
+
+export default LocationList;

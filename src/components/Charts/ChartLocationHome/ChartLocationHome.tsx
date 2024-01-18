@@ -6,7 +6,7 @@ import { Chart } from 'chart.js/auto';
 import { ReactComponent as Righticons } from '../../../assets/Icons/Righticons.svg';
 import { ReactComponent as Lefticons } from '../../../assets/Icons/Lefticons.svg';
 import * as Styled from './ChartLocationHome.styles';
-import { Loading } from '../../Loading/Loading';
+import Loading from '../../Loading/Loading';
 
 enum LocationChartMode {
   Month = 'month',

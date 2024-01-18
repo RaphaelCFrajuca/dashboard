@@ -1,6 +1,6 @@
 import React from 'react';
-import { ReactComponent as LeftIcon } from '../../../../assets/Icons/Left.svg';
-import { ReactComponent as RightIcon } from '../../../../assets/Icons/Right.svg';
+import { ReactComponent as LeftIcon } from '../../../assets/Icons/Left.svg';
+import { ReactComponent as RightIcon } from '../../../assets/Icons/Right.svg';
 import * as Styled from './Pagination.styles';
 
 interface PaginationProps {

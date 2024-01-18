@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import {
   render,
   screen,
@@ -35,6 +36,7 @@ describe('EditLocationModal', () => {
         <AuthProvider>
           <EditLocationModal
             id={1}
+            listRefetch={() => {}}
             showmodal={true}
             setShowModal={setShowModalMock}
           />

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode, RefObject } from 'react';
 import { UseFormHandleSubmit } from 'react-hook-form';
 import { FormContainer } from './Form.styles';

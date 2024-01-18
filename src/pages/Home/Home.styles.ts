@@ -14,7 +14,7 @@ export const Content = styled.div`
   padding-left: 42px;
   padding-right: 52px;
   padding-bottom: 46px;
-  padding-top: 116px;
+  padding-top: 36px;
   box-sizing: border-box;
   background-color: #faf9ff;
   display: grid;

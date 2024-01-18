@@ -6,7 +6,7 @@ import { ReactComponent as Righticons } from '../../../assets/Icons/Righticons.s
 import { ReactComponent as Lefticons } from '../../../assets/Icons/Lefticons.svg';
 import { reviewNumberRequest } from '../../../services/review-number/review-number-service';
 import * as Styled from './ChartReviewHome.styles';
-import { Loading } from '../../Loading/Loading';
+import Loading from '../../Loading/Loading';
 
 enum ReviewChartMode {
   Month = 'month',

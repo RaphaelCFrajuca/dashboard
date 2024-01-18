@@ -9,7 +9,7 @@ import { ReactComponent as Righticons } from '../../../assets/Icons/Righticons.s
 import { ReactComponent as Lefticons } from '../../../assets/Icons/Lefticons.svg';
 import { ReactComponent as Downicons } from '../../../assets/Icons/Downicons.svg';
 import * as Styled from './ChartUserHome.styles';
-import { Loading } from '../../Loading/Loading';
+import Loading from '../../Loading/Loading';
 
 enum UserChartMode {
   Month = 'month',

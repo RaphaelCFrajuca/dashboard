@@ -1,6 +1,6 @@
-import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import Home from '../pages/Home/Home';
-import Reviews from '../pages/reviews/Reviews';
+import Reviews from '../pages/Reviews/Reviews';
 import { Login } from '../pages/Login/Login';
 import Locations from '../pages/Locations/Locations';
 import PersistLogin from '../components/PersistLogin/PersistLogin';

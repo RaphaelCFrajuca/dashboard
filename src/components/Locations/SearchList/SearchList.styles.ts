@@ -9,7 +9,6 @@ export const Container = styled.div`
   margin: 0 37px;
   height: 65px;
   border-bottom: 1px solid #efecfd;
-  margin-top: 39px;
 `;
 
 export const Content = styled.div`

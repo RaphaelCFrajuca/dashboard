@@ -74,3 +74,19 @@ test('calls setShowAddModal when Add button is clicked', () => {
 
   expect(mockSetShowAddModal).toHaveBeenCalled();
 });
+
+test('should render the filter component correctly', () => {
+  const { getByText } = render(
+    <SearchList
+      setShowAddModal={mockSetShowAddModal}
+      setSearchTerm={mockSetSearchTerm}
+      pendingValidationFilter={false}
+      setPendingValidationFilter={mockSetPendingValidationFilter}
+      isFilteringByPendingValidation={false}
+      setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
+    />
+  );
+
+  const filterElement = getByText('Filtro');
+  expect(filterElement).toBeInTheDocument();
+});

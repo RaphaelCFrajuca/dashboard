@@ -1,14 +1,17 @@
 import { render, fireEvent } from '@testing-library/react';
 import { SearchList } from './SearchList';
 
-jest.mock('../../../../assets/Icons/Filtericons.svg', () => ({
-  ReactComponent: 'FilterIcon',
+jest.mock('../../../assets/Icons/Closeicons.svg', () => ({
+  ReactComponent: () => <div data-testid="close-icon" />,
 }));
-jest.mock('../../../../assets/Icons/Downicons.svg', () => ({
-  ReactComponent: 'DownIcon',
+jest.mock('../../../assets/Icons/Filtericons.svg', () => ({
+  ReactComponent: () => <div data-testid="filter-icon" />,
 }));
-jest.mock('../../../../assets/Icons/SearchIcon.svg', () => ({
-  ReactComponent: 'SearchIcon',
+jest.mock('../../../assets/Icons/Downicons.svg', () => ({
+  ReactComponent: () => <div data-testid="down-icon" />,
+}));
+jest.mock('../../../assets/Icons/SearchIcon.svg', () => ({
+  ReactComponent: () => <div data-testid="search-icon" />,
 }));
 
 const mockSetSearchTerm = jest.fn();

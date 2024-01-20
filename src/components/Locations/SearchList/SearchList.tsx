@@ -87,11 +87,13 @@ export function SearchList({
             <Styled.DropdownMenu>
               <Styled.DropdownButtonItem
                 onClick={handlePendingValidationFilter}
+                data-testid="aproved-filter"
               >
                 Aprovado
               </Styled.DropdownButtonItem>
               <Styled.DropdownButtonItem
                 onClick={handlePendingValidationFilter}
+                data-testid="pending-filter"
               >
                 Pendente
               </Styled.DropdownButtonItem>

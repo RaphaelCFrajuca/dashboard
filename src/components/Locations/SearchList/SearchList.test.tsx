@@ -90,3 +90,52 @@ test('should render the filter component correctly', () => {
   const filterElement = getByText('Filtro');
   expect(filterElement).toBeInTheDocument();
 });
+
+test('should display the dropdown menu with the filter options, when click on the filter component', () => {
+  const { getByText } = render(
+    <SearchList
+      setShowAddModal={mockSetShowAddModal}
+      setSearchTerm={mockSetSearchTerm}
+      pendingValidationFilter={false}
+      setPendingValidationFilter={mockSetPendingValidationFilter}
+      isFilteringByPendingValidation={false}
+      setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
+    />
+  );
+
+  const filterElement = getByText('Filtro');
+  fireEvent.click(filterElement);
+
+  const filterAprovedOption = getByText('Aprovado');
+  const filterPendingOption = getByText('Pendente');
+
+  expect(filterAprovedOption).toBeInTheDocument();
+  expect(filterPendingOption).toBeInTheDocument();
+});
+
+test('should remove the dropdown menu with the filter options, when click on the filter component', () => {
+  const { getByText } = render(
+    <SearchList
+      setShowAddModal={mockSetShowAddModal}
+      setSearchTerm={mockSetSearchTerm}
+      pendingValidationFilter={false}
+      setPendingValidationFilter={mockSetPendingValidationFilter}
+      isFilteringByPendingValidation={false}
+      setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
+    />
+  );
+
+  const filterElement = getByText('Filtro');
+  fireEvent.click(filterElement);
+
+  const filterAprovedOption = getByText('Aprovado');
+  const filterPendingOption = getByText('Pendente');
+
+  expect(filterAprovedOption).toBeInTheDocument();
+  expect(filterPendingOption).toBeInTheDocument();
+
+  fireEvent.click(filterElement);
+
+  expect(filterAprovedOption).not.toBeInTheDocument();
+  expect(filterPendingOption).not.toBeInTheDocument();
+});

@@ -35,7 +35,10 @@ export function SearchList({
     setSearchTerm(event.target.value);
   };
 
-  const handlePendingValidationFilter = () => {
+  const handlePendingValidationFilter = (type: string) => {
+    if (filterName === 'Aprovado' && type === 'aproved') return;
+    if (filterName === 'Pendente' && type === 'pending') return;
+
     const newFilterValue = !pendingValidationFilter;
     setPendingValidationFilter(newFilterValue);
 
@@ -88,13 +91,13 @@ export function SearchList({
           {isDropdownOpen && (
             <Styled.DropdownMenu>
               <Styled.DropdownButtonItem
-                onClick={handlePendingValidationFilter}
+                onClick={() => handlePendingValidationFilter('aproved')}
                 data-testid="aproved-filter"
               >
                 Aprovado
               </Styled.DropdownButtonItem>
               <Styled.DropdownButtonItem
-                onClick={handlePendingValidationFilter}
+                onClick={() => handlePendingValidationFilter('pending')}
                 data-testid="pending-filter"
               >
                 Pendente

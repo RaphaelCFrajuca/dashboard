@@ -30,7 +30,6 @@ test('renders SearchList component correctly', () => {
       setSearchTerm={mockSetSearchTerm}
       pendingValidationFilter={false}
       setPendingValidationFilter={mockSetPendingValidationFilter}
-      isFilteringByPendingValidation={false}
       setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
     />
   );
@@ -49,7 +48,6 @@ test('calls setSearchTerm when search input changes', () => {
       setSearchTerm={mockSetSearchTerm}
       pendingValidationFilter={false}
       setPendingValidationFilter={mockSetPendingValidationFilter}
-      isFilteringByPendingValidation={false}
       setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
     />
   );
@@ -68,7 +66,6 @@ test('calls setShowAddModal when Add button is clicked', () => {
       setSearchTerm={mockSetSearchTerm}
       pendingValidationFilter={false}
       setPendingValidationFilter={mockSetPendingValidationFilter}
-      isFilteringByPendingValidation={false}
       setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
     />
   );
@@ -86,7 +83,6 @@ test('should render the filter component correctly', () => {
       setSearchTerm={mockSetSearchTerm}
       pendingValidationFilter={false}
       setPendingValidationFilter={mockSetPendingValidationFilter}
-      isFilteringByPendingValidation={false}
       setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
     />
   );
@@ -102,7 +98,6 @@ test('should togle the dropdown menu with the filter options, when click on the 
       setSearchTerm={mockSetSearchTerm}
       pendingValidationFilter={false}
       setPendingValidationFilter={mockSetPendingValidationFilter}
-      isFilteringByPendingValidation={false}
       setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
     />
   );
@@ -124,7 +119,6 @@ test('should remove the dropdown menu with the filter options, when click on the
       setSearchTerm={mockSetSearchTerm}
       pendingValidationFilter={false}
       setPendingValidationFilter={mockSetPendingValidationFilter}
-      isFilteringByPendingValidation={false}
       setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
     />
   );
@@ -151,7 +145,6 @@ test('should select the aproved option in the filter component', () => {
       setSearchTerm={mockSetSearchTerm}
       pendingValidationFilter={true}
       setPendingValidationFilter={mockSetPendingValidationFilter}
-      isFilteringByPendingValidation={true}
       setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
     />
   );
@@ -178,7 +171,6 @@ test('should select the pending option in the filter component', () => {
       setSearchTerm={mockSetSearchTerm}
       pendingValidationFilter={false}
       setPendingValidationFilter={mockSetPendingValidationFilter}
-      isFilteringByPendingValidation={true}
       setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
     />
   );
@@ -205,7 +197,6 @@ test('should change the selection from aproved to pending by clicking in other f
       setSearchTerm={mockSetSearchTerm}
       pendingValidationFilter={false}
       setPendingValidationFilter={mockSetPendingValidationFilter}
-      isFilteringByPendingValidation={true}
       setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
     />
   );
@@ -242,7 +233,6 @@ test('should change the selection from pending to aproved by clicking in other f
       setSearchTerm={mockSetSearchTerm}
       pendingValidationFilter={true}
       setPendingValidationFilter={mockSetPendingValidationFilter}
-      isFilteringByPendingValidation={true}
       setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
     />
   );
@@ -270,4 +260,122 @@ test('should change the selection from pending to aproved by clicking in other f
   expect(filterPendingOption).not.toBeInTheDocument();
   expect(filterAprovedOption2).not.toBeInTheDocument();
   expect(filterPendingOption2).not.toBeInTheDocument();
+});
+
+test('should diplay a "x" button should appear after selecting the approved filter option', () => {
+  const { getByText, getByTestId, queryByText } = render(
+    <SearchList
+      setShowAddModal={mockSetShowAddModal}
+      setSearchTerm={mockSetSearchTerm}
+      pendingValidationFilter={true}
+      setPendingValidationFilter={mockSetPendingValidationFilter}
+      setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
+    />
+  );
+
+  const filterElement = getByText('Filtro');
+  fireEvent.click(filterElement);
+
+  const filterAprovedOption = getByTestId('aproved-filter');
+  const filterPendingOption = getByTestId('pending-filter');
+
+  fireEvent.click(filterAprovedOption);
+
+  const removeFilterElement = getByTestId('remove-filter');
+
+  expect(removeFilterElement).toBeInTheDocument();
+  expect(queryByText('Filtro')).not.toBeInTheDocument();
+  expect(queryByText('Aprovado')).toBeInTheDocument();
+  expect(queryByText('Pendente')).not.toBeInTheDocument();
+  expect(filterAprovedOption).not.toBeInTheDocument();
+  expect(filterPendingOption).not.toBeInTheDocument();
+});
+
+test('should diplay a "x" button should appear after selecting the pending filter option', () => {
+  const { getByText, getByTestId, queryByText } = render(
+    <SearchList
+      setShowAddModal={mockSetShowAddModal}
+      setSearchTerm={mockSetSearchTerm}
+      pendingValidationFilter={false}
+      setPendingValidationFilter={mockSetPendingValidationFilter}
+      setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
+    />
+  );
+
+  const filterElement = getByText('Filtro');
+  fireEvent.click(filterElement);
+
+  const filterAprovedOption = getByTestId('aproved-filter');
+  const filterPendingOption = getByTestId('pending-filter');
+
+  fireEvent.click(filterPendingOption);
+
+  const removeFilterElement = getByTestId('remove-filter');
+
+  expect(removeFilterElement).toBeInTheDocument();
+  expect(queryByText('Filtro')).not.toBeInTheDocument();
+  expect(queryByText('Aprovado')).not.toBeInTheDocument();
+  expect(queryByText('Pendente')).toBeInTheDocument();
+  expect(filterAprovedOption).not.toBeInTheDocument();
+  expect(filterPendingOption).not.toBeInTheDocument();
+});
+
+test('should remove the approved filter option after clicking in the "x" button', () => {
+  const { getByText, getByTestId, queryByText } = render(
+    <SearchList
+      setShowAddModal={mockSetShowAddModal}
+      setSearchTerm={mockSetSearchTerm}
+      pendingValidationFilter={true}
+      setPendingValidationFilter={mockSetPendingValidationFilter}
+      setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
+    />
+  );
+
+  const filterElement = getByText('Filtro');
+  fireEvent.click(filterElement);
+
+  const filterAprovedOption = getByTestId('aproved-filter');
+  const filterPendingOption = getByTestId('pending-filter');
+
+  fireEvent.click(filterAprovedOption);
+
+  const removeFilterElement = getByTestId('remove-filter');
+  fireEvent.click(removeFilterElement);
+
+  expect(removeFilterElement).not.toBeInTheDocument();
+  expect(queryByText('Filtro')).toBeInTheDocument();
+  expect(queryByText('Aprovado')).not.toBeInTheDocument();
+  expect(filterAprovedOption).not.toBeInTheDocument();
+  expect(filterPendingOption).not.toBeInTheDocument();
+  expect(mockSetIsFilteringByPendingValidation).toBeCalledWith(false);
+});
+
+test('should remove the pending filter option after clicking in the "x" button', () => {
+  const { getByText, getByTestId, queryByText } = render(
+    <SearchList
+      setShowAddModal={mockSetShowAddModal}
+      setSearchTerm={mockSetSearchTerm}
+      pendingValidationFilter={false}
+      setPendingValidationFilter={mockSetPendingValidationFilter}
+      setIsFilteringByPendingValidation={mockSetIsFilteringByPendingValidation}
+    />
+  );
+
+  const filterElement = getByText('Filtro');
+  fireEvent.click(filterElement);
+
+  const filterAprovedOption = getByTestId('aproved-filter');
+  const filterPendingOption = getByTestId('pending-filter');
+
+  fireEvent.click(filterPendingOption);
+
+  const removeFilterElement = getByTestId('remove-filter');
+  fireEvent.click(removeFilterElement);
+
+  expect(removeFilterElement).not.toBeInTheDocument();
+  expect(queryByText('Filtro')).toBeInTheDocument();
+  expect(queryByText('Pendente')).not.toBeInTheDocument();
+  expect(filterAprovedOption).not.toBeInTheDocument();
+  expect(filterPendingOption).not.toBeInTheDocument();
+  expect(mockSetIsFilteringByPendingValidation).toBeCalledWith(false);
 });

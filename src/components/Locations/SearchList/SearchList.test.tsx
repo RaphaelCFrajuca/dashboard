@@ -188,6 +188,7 @@ test('should select the pending option in the filter component', () => {
   expect(queryByText('Pendente')).toBeInTheDocument();
   expect(filterAprovedOption).not.toBeInTheDocument();
   expect(filterPendingOption).not.toBeInTheDocument();
+  expect(mockSetPendingValidationFilter).toHaveBeenCalled();
 });
 
 test('should change the selection from aproved to pending by clicking in other filter option', () => {
@@ -224,6 +225,7 @@ test('should change the selection from aproved to pending by clicking in other f
   expect(filterPendingOption).not.toBeInTheDocument();
   expect(filterAprovedOption2).not.toBeInTheDocument();
   expect(filterPendingOption2).not.toBeInTheDocument();
+  expect(mockSetPendingValidationFilter).toHaveBeenCalled();
 });
 
 test('should change the selection from pending to aproved by clicking in other filter option', () => {
@@ -260,6 +262,7 @@ test('should change the selection from pending to aproved by clicking in other f
   expect(filterPendingOption).not.toBeInTheDocument();
   expect(filterAprovedOption2).not.toBeInTheDocument();
   expect(filterPendingOption2).not.toBeInTheDocument();
+  expect(mockSetPendingValidationFilter).toHaveBeenCalled();
 });
 
 test('should diplay a "x" button should appear after selecting the approved filter option', () => {
@@ -289,6 +292,7 @@ test('should diplay a "x" button should appear after selecting the approved filt
   expect(queryByText('Pendente')).not.toBeInTheDocument();
   expect(filterAprovedOption).not.toBeInTheDocument();
   expect(filterPendingOption).not.toBeInTheDocument();
+  expect(mockSetPendingValidationFilter).toHaveBeenCalled();
 });
 
 test('should diplay a "x" button should appear after selecting the pending filter option', () => {
@@ -318,6 +322,7 @@ test('should diplay a "x" button should appear after selecting the pending filte
   expect(queryByText('Pendente')).toBeInTheDocument();
   expect(filterAprovedOption).not.toBeInTheDocument();
   expect(filterPendingOption).not.toBeInTheDocument();
+  expect(mockSetPendingValidationFilter).toHaveBeenCalled();
 });
 
 test('should remove the approved filter option after clicking in the "x" button', () => {

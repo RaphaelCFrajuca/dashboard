@@ -44,7 +44,6 @@ const Locations = () => {
             setSearchTerm={setSearchTerm}
             pendingValidationFilter={pendingValidationFilter}
             setPendingValidationFilter={setPendingValidationFilter}
-            isFilteringByPendingValidation={isFilteringByPendingValidation}
             setIsFilteringByPendingValidation={
               setIsFilteringByPendingValidation
             }

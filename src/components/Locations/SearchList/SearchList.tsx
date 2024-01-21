@@ -10,7 +10,6 @@ interface Props {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   pendingValidationFilter: boolean;
   setPendingValidationFilter: React.Dispatch<React.SetStateAction<boolean>>;
-  isFilteringByPendingValidation: boolean;
   setIsFilteringByPendingValidation: React.Dispatch<
     React.SetStateAction<boolean>
   >;
@@ -21,9 +20,8 @@ export function SearchList({
   setSearchTerm,
   pendingValidationFilter,
   setPendingValidationFilter,
-  isFilteringByPendingValidation,
   setIsFilteringByPendingValidation,
-}: Props) {
+}: Readonly<Props>) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [filterName, setFilterName] = useState('Filtro');
 
@@ -52,6 +50,8 @@ export function SearchList({
     setIsFilteringByPendingValidation(false);
   };
 
+  const isFilteringByPendingValidation = filterName !== 'Filtro';
+
   return (
     <Styled.Container>
       <Styled.Title>Locais</Styled.Title>
@@ -75,6 +75,7 @@ export function SearchList({
             {isFilteringByPendingValidation && (
               <Styled.CloseiconsContainer
                 onClick={removePendingValidationFilter}
+                data-testid="remove-filter"
               >
                 <CLoseIcon width={18} height={18} />
               </Styled.CloseiconsContainer>

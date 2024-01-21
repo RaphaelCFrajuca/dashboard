@@ -21,7 +21,7 @@ const Locations = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedId, setSelectedId] = useState<number>(0);
   const [searchTerm, setSearchTerm] = useState('');
-  const [pendingValidationFilter, setPendingValidationFilter] = useState(false);
+  const [pendingValidationFilter, setPendingValidationFilter] = useState(true);
   const [isFilteringByPendingValidation, setIsFilteringByPendingValidation] =
     useState(false);
   const { accessToken } = useAuth();

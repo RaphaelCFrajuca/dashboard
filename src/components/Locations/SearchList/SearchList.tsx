@@ -36,7 +36,8 @@ export function SearchList({
   };
 
   const handlePendingValidationFilter = () => {
-    setPendingValidationFilter((prevState) => !prevState);
+    const newFilterValue = !pendingValidationFilter;
+    setPendingValidationFilter(newFilterValue);
 
     if (pendingValidationFilter) setFilterName('Aprovado');
     else setFilterName('Pendente');

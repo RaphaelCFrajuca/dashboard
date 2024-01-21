@@ -81,7 +81,7 @@ export function SearchList({
                 <CLoseIcon width={18} height={18} />
               </Styled.CloseiconsContainer>
             )}
-            <Styled.DowniconsContainer isOpen={false}>
+            <Styled.DowniconsContainer isOpen={isDropdownOpen}>
               <DownIcon width={24} height={24} />
             </Styled.DowniconsContainer>
           </Styled.DropdownButton>

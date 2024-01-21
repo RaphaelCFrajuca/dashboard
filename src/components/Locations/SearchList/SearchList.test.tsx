@@ -1,5 +1,6 @@
 import { render, fireEvent } from '@testing-library/react';
 import { SearchList } from './SearchList';
+import { DowniconsContainer } from './SearchList.styles';
 
 jest.mock('../../../assets/Icons/Closeicons.svg', () => ({
   ReactComponent: () => <div data-testid="close-icon" />,
@@ -383,4 +384,30 @@ test('should remove the pending filter option after clicking in the "x" button',
   expect(filterAprovedOption).not.toBeInTheDocument();
   expect(filterPendingOption).not.toBeInTheDocument();
   expect(mockSetIsFilteringByPendingValidation).toBeCalledWith(false);
+});
+
+test('should check that the rotation of the icon is 0deg when the dropdown menu is closed', () => {
+  const { getByTestId } = render(
+    <DowniconsContainer isOpen={false} data-testid="downicons-container" />
+  );
+  const containerClosed = getByTestId('downicons-container');
+  expect(containerClosed).toHaveStyle(`
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s;
+    transform: rotate(0deg);
+  `);
+});
+
+test('should check that the rotation of the icon is 180deg when the dropdown menu is open', () => {
+  const { getByTestId } = render(
+    <DowniconsContainer isOpen={true} data-testid="downicons-container" />
+  );
+  const containerOpen = getByTestId('downicons-container');
+  expect(containerOpen).toHaveStyle(`
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s;
+    transform: rotate(180deg);
+  `);
 });

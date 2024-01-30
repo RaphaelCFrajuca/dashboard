@@ -7,6 +7,7 @@ import { ReactComponent as Righticons } from '../../../assets/Icons/Righticons.s
 import { ReactComponent as Lefticons } from '../../../assets/Icons/Lefticons.svg';
 import * as Styled from './ChartLocationHome.styles';
 import Loading from '../../Loading/Loading';
+import { MonthDropdown } from '../MonthDropdown/MonthDropdown';
 
 enum LocationChartMode {
   Month = 'month',
@@ -38,7 +39,8 @@ export function ChartLocationHome() {
   const [chartMode, setChartMode] = useState<LocationChartMode>(
     LocationChartMode.Month
   );
-  const [selectedYear, setSelectedYear] = useState<string>('2023');
+  const [selectedYear, setSelectedYear] = useState<string | null>();
+  const [selectedMonth, setSelectedMonth] = useState<number>(0);
 
   const handleTooltipRadius = (context: any) => {
     if (context.tooltipActive) {
@@ -47,7 +49,16 @@ export function ChartLocationHome() {
     return 0;
   };
 
+  const currentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear().toString();
+    const month = today.getMonth();
+    setSelectedMonth(month);
+    setSelectedYear(year);
+  };
+
   useEffect(() => {
+    currentDate();
     if (!isLoading && data && chartRef.current) {
       let chartData: { label: string; value: number }[] = [];
 
@@ -218,6 +229,13 @@ export function ChartLocationHome() {
               Ano
             </Styled.ButtonYear>
           </Styled.SubHeader>
+
+          {chartMode === LocationChartMode.Month && (
+            <MonthDropdown
+              selectedMonth={selectedMonth}
+              setSelectedMonth={setSelectedMonth}
+            />
+          )}
           {chartMode === LocationChartMode.Year && (
             <Styled.ButtonContainer>
               <Styled.ArrowButton

@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 jest.mock('../../../assets/Icons/Righticons.svg', () => 'RightIcon');
 jest.mock('../../../assets/Icons/Lefticons.svg', () => 'LeftIcon');
+jest.mock('../../../assets/Icons/Downicons.svg', () => 'DownIcon');
 jest.mock('../../../utils/ baseUrl.ts', () => ({
   someUrl: 'http://www.url.com',
 }));

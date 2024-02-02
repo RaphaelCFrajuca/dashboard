@@ -42,17 +42,18 @@ export function MonthDropdown({
         <Styled.DropdownButtonTitle>
           {MONTHS[selectedMonth].label}
         </Styled.DropdownButtonTitle>
-        <Styled.DowniconsContainer isOpen={false}>
+        <Styled.DowniconsContainer isOpen={isDropdownOpen}>
           <DownIcon width={24} height={24} />
         </Styled.DowniconsContainer>
       </Styled.DropdownButton>
       {isDropdownOpen && (
-        <Styled.DropdownMenu>
+        <Styled.DropdownMenu data-testid="dropdown-menu">
           {MONTHS.map((month) => {
             return (
               <Styled.DropdownButtonItem
                 key={month.id}
                 onClick={() => handleMonthSelection(month.id)}
+                data-testid={`month-${month.id}`}
               >
                 {month.label}
               </Styled.DropdownButtonItem>

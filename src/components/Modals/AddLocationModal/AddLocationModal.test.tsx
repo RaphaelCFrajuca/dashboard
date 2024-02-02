@@ -57,18 +57,20 @@ describe('AddLocationModal', () => {
     const nameInput = await screen.findByTestId('input-name');
     const typeInput = await screen.findByTestId('type-select');
     const cepInput = await screen.findByTestId('input-cep');
+    const addressInput = await screen.findByTestId('input-address');
     const imgInput = await screen.findByTestId('img');
     const sendButton = screen.getByText('ENVIAR');
 
     expect(nameInput).toBeInTheDocument();
     expect(typeInput).toBeInTheDocument();
     expect(cepInput).toBeInTheDocument();
+    expect(addressInput).toBeInTheDocument();
     expect(imgInput).toBeInTheDocument();
     expect(sendButton).toBeInTheDocument();
 
     fireEvent.click(sendButton);
 
     const allErrors = await screen.findAllByTestId('input-error');
-    expect(allErrors).toHaveLength(3);
+    expect(allErrors).toHaveLength(4);
   });
 });

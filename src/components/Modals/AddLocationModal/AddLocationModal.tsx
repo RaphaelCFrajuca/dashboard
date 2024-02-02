@@ -177,7 +177,7 @@ const AddLocationModal = ({
           <Input
             label="Endereço"
             {...register('endereco', {})}
-            data-testid="input-endereco"
+            data-testid="input-address"
             error={errors.endereco}
           />
           <Frame data-testid="img" direction="row" gap={'0px'}>

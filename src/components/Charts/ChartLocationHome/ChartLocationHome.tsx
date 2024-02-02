@@ -9,6 +9,8 @@ import * as Styled from './ChartLocationHome.styles';
 import Loading from '../../Loading/Loading';
 import { MonthDropdown } from '../MonthDropdown/MonthDropdown';
 
+import { data } from '../../../mocks/chartsMock';
+
 enum LocationChartMode {
   Month = 'month',
   Year = 'year',
@@ -17,20 +19,31 @@ enum LocationChartMode {
 interface CountByMonthData {
   count: number;
   month: string;
+  days: CountByDayData[];
+}
+
+export interface CountByDayData {
+  count: number;
+  day: string;
+}
+
+interface ChartData {
+  count_by_month: CountByMonthData[];
+  count_by_year: number;
+  year: string;
 }
 
 export interface LocationChartData {
-  chart: {
-    count_by_month: CountByMonthData[];
-    count_by_year: number;
-    year: string;
-  }[];
+  chart: ChartData[];
   total_locations: number;
 }
 
 export function ChartLocationHome() {
   const { accessToken } = useAuth();
-  const { data, isLoading } = useQuery<LocationChartData>('location', () =>
+  // const { data, isLoading } = useQuery<LocationChartData>('location', () =>
+  //   locationRequest(accessToken)
+  // );
+  const { isLoading } = useQuery<LocationChartData>('location', () =>
     locationRequest(accessToken)
   );
 
@@ -39,7 +52,7 @@ export function ChartLocationHome() {
   const [chartMode, setChartMode] = useState<LocationChartMode>(
     LocationChartMode.Month
   );
-  const [selectedYear, setSelectedYear] = useState<string | null>();
+  const [selectedYear, setSelectedYear] = useState<string>('2024');
   const [selectedMonth, setSelectedMonth] = useState<number>(0);
 
   const handleTooltipRadius = (context: any) => {
@@ -49,25 +62,21 @@ export function ChartLocationHome() {
     return 0;
   };
 
-  const currentDate = () => {
-    const today = new Date();
-    const year = today.getFullYear().toString();
-    const month = today.getMonth();
-    setSelectedMonth(month);
-    setSelectedYear(year);
-  };
-
   useEffect(() => {
-    currentDate();
     if (!isLoading && data && chartRef.current) {
       let chartData: { label: string; value: number }[] = [];
+      let chartYearData: ChartData;
 
       if (chartMode === LocationChartMode.Month) {
-        chartData = data.chart.flatMap((item) =>
-          item.count_by_month.map((monthData) => ({
-            label: monthData.month,
-            value: monthData.count,
-          }))
+        chartYearData = data.chart.find(
+          (item) => item.year === selectedYear
+        ) as ChartData;
+
+        chartData = chartYearData.count_by_month[selectedMonth].days.map(
+          (item) => ({
+            label: item.day,
+            value: item.count,
+          })
         );
       } else if (chartMode === LocationChartMode.Year) {
         const selectedYearData = data.chart.find(
@@ -194,7 +203,7 @@ export function ChartLocationHome() {
         });
       }
     }
-  }, [isLoading, data, chartMode, selectedYear]);
+  }, [isLoading, data, chartMode, selectedYear, selectedMonth]);
 
   const handleYearChange = (increment: number) => {
     const currentYear = Number(selectedYear);

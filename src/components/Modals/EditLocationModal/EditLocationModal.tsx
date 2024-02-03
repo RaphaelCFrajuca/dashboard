@@ -51,14 +51,16 @@ const EditLocationModal = ({
     {
       enabled: !!id && showmodal,
       onSuccess: (data) => {
-        reset({
-          name: data.name,
-          endereco: data.endereco,
-          type: convertValue(data.type),
-          cep: data.cep,
-          latitude: data.latitude,
-          longitude: data.longitude,
-        });
+        if (data) {
+          reset({
+            name: data.name,
+            endereco: data.endereco,
+            type: convertValue(data.type),
+            cep: data.cep,
+            latitude: data.latitude,
+            longitude: data.longitude,
+          });
+        }
       },
     }
   );

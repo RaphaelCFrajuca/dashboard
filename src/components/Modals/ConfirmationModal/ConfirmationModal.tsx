@@ -1,19 +1,12 @@
-import { useEffect } from 'react';
 import { Modal } from '../Modal/Modal';
 import { ErrorMessage, SuccessMessage } from './ConfirmationModal.styles';
-import { set } from 'react-hook-form';
 
 type IConfirmationModal = {
   showmodal: boolean;
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   hasError?: boolean;
 };
 
-const ConfirmationModal = ({
-  showmodal,
-  setShowModal,
-  hasError,
-}: IConfirmationModal) => {
+const ConfirmationModal = ({ showmodal, hasError }: IConfirmationModal) => {
   return (
     <Modal showModal={showmodal}>
       {hasError ? (

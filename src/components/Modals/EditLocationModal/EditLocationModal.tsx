@@ -1,4 +1,4 @@
-import { Controller, useForm, FieldError, set } from 'react-hook-form';
+import { Controller, useForm, FieldError } from 'react-hook-form';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { editLocationFormSchema } from '../../../zodSchemas/EditLocationSchema';
@@ -31,16 +31,16 @@ import {
 } from './../../Locations/LocationListItem/LocationListItem.styles';
 
 type IEditLocationModal = {
+  id: number;
   showmodal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  id: number | undefined;
   listRefetch: () => void;
 };
 
 const EditLocationModal = ({
+  id,
   showmodal,
   setShowModal,
-  id,
   listRefetch,
 }: IEditLocationModal) => {
   const { accessToken } = useAuth();
@@ -62,7 +62,7 @@ const EditLocationModal = ({
       },
     }
   );
-  const src = locationQuery.data?.imgUrl || '';
+  const src = locationQuery.data?.imgUrl ?? '';
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [typeNumber, setTypeNumber] = useState<string>('');
@@ -187,7 +187,6 @@ const EditLocationModal = ({
     >
       <ConfirmationModal
         hasError={hasError}
-        setShowModal={setShowSubmitModal}
         showmodal={showSubmitModal}
       ></ConfirmationModal>
       <Frame

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.dialog`
   width: 100%;
   min-height: 100vh;
   position: fixed;

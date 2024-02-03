@@ -15,7 +15,7 @@ const ConfirmationModal = ({
   hasError,
 }: IConfirmationModal) => {
   return (
-    <Modal showModal={showmodal} setShowModal={setShowModal}>
+    <Modal showModal={showmodal}>
       {hasError ? (
         <ErrorMessage>
           Ocorreu um erro ao atualizar o local. Por favor, tente novamente.

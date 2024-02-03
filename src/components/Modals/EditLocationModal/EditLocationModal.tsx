@@ -184,7 +184,6 @@ const EditLocationModal = ({
         </>
       }
       showModal={showmodal}
-      setShowModal={setShowModal}
     >
       <ConfirmationModal
         hasError={hasError}

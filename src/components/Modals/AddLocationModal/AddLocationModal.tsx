@@ -125,7 +125,6 @@ const AddLocationModal = ({
         </>
       }
       showModal={showmodal}
-      setShowModal={setShowModal}
     >
       <ConfirmationModal
         hasError={hasError}

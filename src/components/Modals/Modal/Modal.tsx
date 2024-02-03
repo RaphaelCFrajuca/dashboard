@@ -11,7 +11,7 @@ const Modal = ({ header, children, showModal }: IModal) => {
   return (
     <>
       {showModal && (
-        <Container data-testid="modal-container">
+        <Container data-testid="modal-container" aria-modal role="dialog">
           <Content>
             <Header>{header}</Header>
             {children}

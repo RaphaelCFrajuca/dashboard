@@ -1,16 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import {
-  render,
-  screen,
-  fireEvent,
-  findAllByTestId,
-} from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { EditLocationModal } from './EditLocationModal';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { AuthProvider } from '../../../context/auth/AuthProvider';
-import React from 'react';
-import * as ReactQuery from 'react-query';
-import { Input } from '../../Input/Input';
 
 jest.mock('../../../services/get-logged-user/get-logged-user-service');
 jest.mock('../../../utils/ baseUrl.ts', () => ({
@@ -18,15 +10,14 @@ jest.mock('../../../utils/ baseUrl.ts', () => ({
 }));
 jest.mock('../../../services/refresh-token/refresh-token-service');
 jest.mock('../../../services/location/location-by-id-service');
-
 jest.mock('../../../services/location/save-location-service.ts');
 jest.mock('../../../services/location/all-location-service.ts');
-
 jest.mock('../../../assets/Icons/Closeicons.svg', () => ({
   ReactComponent: () => <div data-testid="close-icon" />,
 }));
 
 describe('EditLocationModal', () => {
+  const setShowModalMock = jest.fn();
   let queryClient: QueryClient;
 
   beforeEach(() => {
@@ -50,17 +41,15 @@ describe('EditLocationModal', () => {
     queryClient.clear();
   });
 
-  const setShowModalMock = jest.fn();
-  const locationsRefreshMock = jest.fn();
-
-  it('renders the modal header correctly', () => {
+  it('renders the modal header correctly', async () => {
     const titleText = 'Editar';
+    const titleElement = await screen.findByText(titleText);
 
-    expect(screen.getByText(titleText)).toBeInTheDocument();
+    expect(titleElement).toBeInTheDocument();
   });
 
-  it('triggers the setShowModal function when cancel button is clicked', () => {
-    const cancelButton = screen.getByText('CANCELAR');
+  it('triggers the setShowModal function when cancel button is clicked', async () => {
+    const cancelButton = await screen.findByText('CANCELAR');
     fireEvent.click(cancelButton);
 
     expect(setShowModalMock).toHaveBeenCalledWith(false);
